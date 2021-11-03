@@ -1,4 +1,0 @@
-!# Sample test file
-
-load_module("fileio");
-printfile("sample.diddi");
