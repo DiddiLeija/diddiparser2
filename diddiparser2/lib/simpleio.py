@@ -8,7 +8,7 @@ import sys
 
 from diddiparser2.messages import run_error, show_warning
 
-DIDDISCRIPT_FUNCTIONS = ("exit", "print_text", "store_input", "print_input")
+DIDDISCRIPT_FUNCTIONS = ("program_exit", "print_text", "store_input", "print_input")
 
 
 class TextContainer:

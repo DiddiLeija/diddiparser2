@@ -2,14 +2,16 @@
 DiddiScript main parser.
 """
 
+import importlib
 import io
+import sys
 
 from diddiparser2.messages import compile_error, show_warning, success_message
 
 __version__ = "1.0.0"
 
 TOOL_FUNCTIONS = ["load_module"]
-MODULE_FUNCTIONS = []
+MODULE_FUNCTIONS = dict()
 
 
 class DiddiParser:
@@ -56,16 +58,13 @@ class DiddiParser:
         line = line.replace("')", ")")
         parsed_line = line.replace(");", "")
         call, arg = parsed_line.split("(")[0], parsed_line.split("(")[1]
-        found = False
         if call == "load_module":
-            found = True
-            mod = __import__(f"diddiparser2.lib.{arg}.DIDDISCRIPT_FUNCTIONS")
-            for item in mod:
-                MODULE_FUNCTIONS.append(__import__(f"diddiparser2.lib.{arg}.{item}"))
-        if call in MODULE_FUNCTIONS:
-            found = True
+            mod = importlib.import_module(f"diddiparser2.lib.{arg}")
+            mod_list = mod.DIDDISCRIPT_FUNCTIONS
+            for item in mod_list:
+                exec(f"from diddiparser2.lib.{arg} import {item} as element; MODULE_FUNCTIONS['{item}'] = element", locals(), globals())
+        elif call in MODULE_FUNCTIONS.keys():
             func = MODULE_FUNCTIONS[call]
             func(arg)
-        if not found:
+        else:
             compile_error(f"No such function '{call}'")
-        return None
