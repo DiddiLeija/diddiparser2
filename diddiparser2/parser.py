@@ -62,7 +62,11 @@ class DiddiParser:
             mod = importlib.import_module(f"diddiparser2.lib.{arg}")
             mod_list = mod.DIDDISCRIPT_FUNCTIONS
             for item in mod_list:
-                exec(f"from diddiparser2.lib.{arg} import {item} as element; MODULE_FUNCTIONS['{item}'] = element", locals(), globals())
+                exec(
+                    f"from diddiparser2.lib.{arg} import {item} as element; MODULE_FUNCTIONS['{item}'] = element",
+                    locals(),
+                    globals(),
+                )
         elif call in MODULE_FUNCTIONS.keys():
             func = MODULE_FUNCTIONS[call]
             func(arg)
