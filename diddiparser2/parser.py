@@ -4,7 +4,6 @@ DiddiScript main parser.
 
 import importlib
 import io
-import sys
 
 from diddiparser2.messages import compile_error, show_warning, success_message
 
