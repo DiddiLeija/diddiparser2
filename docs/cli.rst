@@ -1,4 +1,4 @@
-.. cli-guide:
+.. _cli-guide:
 
 Command-line usage
 ==================

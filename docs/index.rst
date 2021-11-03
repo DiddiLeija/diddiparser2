@@ -1,3 +1,5 @@
+.. _main-index:
+
 DiddiParser 2 documentation
 ===========================
 

@@ -1,4 +1,4 @@
-.. lib-simpleio:
+.. _lib-simpleio:
 
 ``simpleio`` -- Common I/O interactions
 =======================================
