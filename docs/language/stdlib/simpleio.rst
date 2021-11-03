@@ -1,3 +1,5 @@
+.. lib-simpleio:
+
 ``simpleio`` -- Common I/O interactions
 =======================================
 

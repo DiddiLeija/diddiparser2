@@ -1,3 +1,5 @@
+.. lang-comments:
+
 DiddiScript comments
 ====================
 

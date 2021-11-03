@@ -1,3 +1,5 @@
+.. lang-functions:
+
 Functions
 =========
 

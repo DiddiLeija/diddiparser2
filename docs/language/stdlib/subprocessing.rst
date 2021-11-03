@@ -1,3 +1,5 @@
+.. lib-subprocessing:
+
 ``subprocessing`` -- Make subprocesses as DiddiScript functions
 ===============================================================
 
