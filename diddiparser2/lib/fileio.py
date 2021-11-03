@@ -5,8 +5,6 @@ FileIO: DiddiScript library for handling files.
 import io
 import os
 
-from colorama import Fore
-
 from diddiparser2.messages import run_error
 
 DIDDISCRIPT_FUNCTIONS = ("printfile", "ensurefile")

@@ -3,9 +3,8 @@ DiddiScript main parser.
 """
 
 import io
-import re
 
-from diddiparser2.messages import *
+from diddiparser2.messages import compile_error, show_warning, success_message
 
 __version__ = "1.0.0"
 
@@ -23,7 +22,10 @@ class DiddiParser:
         "Constructor method."
         if not file.endswith(".diddi") and not ignore_suffix:
             show_warning(
-                f"The invocation file '{file}' is not recognized as a DiddiScript file ('*.diddi'). This may cause conflicts. To override this warning, use 'ignore_suffix' (on Python code) or add the --ignore-suffix flag to the CLI."
+                f"The invocation file '{file}' is not recognized as"
+                "a DiddiScript file ('*.diddi'). This may cause conflicts."
+                " To override this warning, use 'ignore_suffix' (on Python"
+                " code) or add the --ignore-suffix flag to the CLI."
             )
         self.script = strategy(file)
         self.commands = self.get_commands()

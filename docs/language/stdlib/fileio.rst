@@ -1,3 +1,5 @@
+.. lib-fileio:
+
 ``fileio`` -- Regular file interactions
 ======================================
 

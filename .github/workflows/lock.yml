@@ -1,0 +1,21 @@
+name: Lock Threads
+
+on: [pull_request, issues]
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  lock_threads:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Lock stale threads
+        uses: dessant/lock-threads@v3
+        with:
+          # Issue specific options
+          issue-inactive-days: 30
+          # PR specific options
+          pr-inactive-days: 60 # wait 2 months aprox.
+      - name: Post-workflow message
+        run: echo "Workflow completed!"

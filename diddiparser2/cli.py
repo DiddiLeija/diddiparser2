@@ -2,6 +2,7 @@
 
 import argparse
 
+from diddiparser2.parser import DiddiParser
 from diddiparser2.parser import __version__ as parser_version
 
 

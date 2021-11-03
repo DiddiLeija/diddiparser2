@@ -1,3 +1,5 @@
+.. cli-guide:
+
 Command-line usage
 ==================
 
