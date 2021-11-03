@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.6, 3.7, 3.8, 3.9, "3.10"] # all the versions intended for text-formatter
+        python-version: [3.6, 3.7, 3.8, 3.9, "3.10"]
 
     steps:
     - uses: actions/checkout@v2
@@ -27,6 +27,6 @@ jobs:
         python -m pip install --upgrade pip setuptools nox
     - name: Run Nox
       run: |
-        nox --non-interactive -s test
+        nox --non-interactive -s lint
     - name: Finalize the test
       run: echo 'Process completed succesfully!'
