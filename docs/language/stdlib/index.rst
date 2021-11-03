@@ -1,4 +1,4 @@
-.. lib-guide:
+.. _lib-guide:
 
 Standard DiddiScript libraries
 ==============================

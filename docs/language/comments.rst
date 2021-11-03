@@ -1,4 +1,4 @@
-.. lang-comments:
+.. _lang-comments:
 
 DiddiScript comments
 ====================

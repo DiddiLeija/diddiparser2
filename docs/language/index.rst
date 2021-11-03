@@ -1,4 +1,4 @@
-.. lang-guide:
+.. _lang-guide:
 
 The DiddiScript language reference
 ==================================
