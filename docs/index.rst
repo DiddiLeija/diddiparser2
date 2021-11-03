@@ -23,5 +23,4 @@ Table of Contents
 .. seealso::
 
    `DiddiParser2 GitHub repository <https://github.com/DiddiLeija/diddiparser2>`_
-
      The GitHub repository for this project.
