@@ -15,6 +15,7 @@ Table of Contents
 
   * :ref:`lang-comments`
   * :ref:`lang-functions`
+  * :ref:`lang-modules`
 
   * :ref:`lib-guide`
 
