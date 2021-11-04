@@ -9,7 +9,7 @@ from diddiparser2.messages import compile_error, show_warning, success_message
 
 __version__ = "1.0.0"
 
-TOOL_FUNCTIONS = ["load_module"]
+TOOL_FUNCTIONS = ["load_module", "load_extension"]
 MODULE_FUNCTIONS = dict()
 
 
@@ -57,6 +57,8 @@ class DiddiParser:
         line = line.replace("')", ")")
         parsed_line = line.replace(");", "")
         call, arg = parsed_line.split("(")[0], parsed_line.split("(")[1]
+        if call not in MODULE_FUNCTIONS and call not in TOOL_FUNCTIONS:
+            compile_error(f"No such function '{call}'")
         if call == "load_module":
             mod = importlib.import_module(f"diddiparser2.lib.{arg}")
             mod_list = mod.DIDDISCRIPT_FUNCTIONS
@@ -66,8 +68,20 @@ class DiddiParser:
                     locals(),
                     globals(),
                 )
-        elif call in MODULE_FUNCTIONS.keys():
+        if call == "load_extension":
+            # Two things are allowed here:
+            # 1. A Python-like import: "pkg.module" | "module"
+            # 2. A rough Python file: "module.py"
+            if arg.endswith(".py"):
+                arg = arg.replace(".py", "")
+            ext = importlib.import_module(f"{arg}")
+            ext_list = ext.DIDDISCRIPT_FUNCTIONS
+            for item in ext_list:
+                exec(
+                    f"from {arg} import {item} as element; MODULE_FUNCTIONS['{item}'] = element",
+                    locals(),
+                    globals(),
+                )
+        if call in MODULE_FUNCTIONS.keys():
             func = MODULE_FUNCTIONS[call]
             func(arg)
-        else:
-            compile_error(f"No such function '{call}'")
