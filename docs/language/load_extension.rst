@@ -1,6 +1,6 @@
 .. _lang-extensions:
 
-Extending the DiddiScript library via `load_extension`
+Extending the DiddiScript library via ``load_extension``
 ======================================================
 
 In addition to the standard library, DiddiScript can load
@@ -48,8 +48,8 @@ imagine a file ``extension.py`` with these contents:
 
 .. code-block:: python
 
-    !# You can import some things from DiddiParser2
-    !# (excluding "parser" and "cli"):
+    # You can import some things from DiddiParser2
+    # (excluding "parser" and "cli"):
     from diddiparser2.messages import show_warning
 
     DIDDISCRIPT_FUNCTIONS = ("my_func", "my_func2")
