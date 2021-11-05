@@ -11,6 +11,7 @@ Table of Contents
 
 * :ref:`cli-guide`
 
+* :ref:`api-reference`
 * :ref:`lang-guide`
 
   * :ref:`lang-comments`
