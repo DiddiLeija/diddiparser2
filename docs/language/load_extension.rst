@@ -19,8 +19,8 @@ with the special ``load_extension`` function.
 
 .. _load-extension-function:
 
-Usage of ``load_module``
-------------------------
+Usage of ``load_extension``
+---------------------------
 
 ::
 
