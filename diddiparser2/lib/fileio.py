@@ -18,9 +18,10 @@ DIDDISCRIPT_FUNCTIONS = (
 class StoredFile:
     "A space to store files."
     file = None
-    
+
     def store(self, stream):
         self.file = stream
+
 
 STORED_FILE = StoredFile()
 
