@@ -60,9 +60,9 @@ def open_database(path):
 
 def close_database(arg):
    "Close everything."
-    if not arg:
-        show_warning("No such args expected on this function")
-    DATABASE_STORAGE.clear_database()
+   if not arg:
+       show_warning("No such args expected on this function")
+   DATABASE_STORAGE.clear_database()
 
 def commit_changes(arg):
     "Commit the unsaved changes."
