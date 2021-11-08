@@ -37,7 +37,7 @@ def run_python_code(cmd):
         exec(cmd, PYTHON_GLOBALS, PYTHON_LOCALS)
     except KeyboardInterrupt:
         run_error("Operation interrupted by user")
-    except Exception as exc:
+    except Exception:
         # Simulate an exception, but using fancy
         # DiddiParser functions.
         exc_type, value, tb = sys.exc_info()
