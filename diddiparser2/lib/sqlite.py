@@ -21,7 +21,7 @@ class DatabaseStorage:
     all_fetches = None
     last_fetch = None
 
-    def clear_database():
+    def clear_database(self):
         "Clear everything: database connection, cursor and memories"
         if self.connection.in_transaction:
             # some changes will be lost, warn about it
@@ -34,7 +34,7 @@ class DatabaseStorage:
         self.last_fetch = None
         self.all_fetches = None
 
-    def connect_with_db(path):
+    def connect_with_db(self, path):
         "Connect with a SQLite database"
         if self.connection is not None:
             # something's living there, so let's
@@ -42,8 +42,8 @@ class DatabaseStorage:
             self.clear_database()
         self.connection = sqlite3.connect(path)
         self.cursor = self.connection.cursor()
- 
-    def execute_command(cmd):
+
+    def execute_command(self, cmd):
         "Execute an SQL command."
         self.cursor.execute(cmd)
         self.last_fetch = self.cursor.fetchone()[0]
@@ -59,10 +59,11 @@ def open_database(path):
 
 
 def close_database(arg):
-   "Close everything."
-   if not arg:
-       show_warning("No such args expected on this function")
-   DATABASE_STORAGE.clear_database()
+    "Close everything."
+    if not arg:
+        show_warning("No such args expected on this function")
+    DATABASE_STORAGE.clear_database()
+
 
 def commit_changes(arg):
     "Commit the unsaved changes."
