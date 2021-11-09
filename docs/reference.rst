@@ -13,6 +13,21 @@ some useful variables.
 
 .. py:module:: diddiparser2.parser
 
+.. py:data:: TOOL_FUNCTIONS
+
+   :type: tuple
+   :value: ("load_module", "load_extension")
+
+   A tuple of special DiddiScript functions.
+
+.. py:data:: MODULE_FUNCTIONS
+
+   :type: dict
+   :value: {}
+
+   A ``name: callable`` dictionary of loaded modules and extensions.
+   It works to define the function name, and its interpretation.
+
 .. py:class:: DiddiParser
 
    This class is the main DiddiScript parser.
@@ -22,45 +37,50 @@ some useful variables.
 
       :param str file: The DiddiScript file to be parsed.
       :param bool ignore_suffix: If ``True``, tells DiddiParser to ignore the suffix mismatch.
-   
+
       The constructor method. It reads the selected filename, and gets the commands via
       :py:meth:`diddiparser2.parser.DiddiParser.get_commands`.
-   
+
    .. py:method:: get_commands(self)
-   
+
       :return: A list of prepared commands.
       :rtype: list
       :raises diddiparser2.messages.error: When a syntax error is found.
-      
+
       This function returns a list of DiddiScript commands, without comments. It can raise
       a compile error if there are missing semicolons (;).
-   
+
    .. py:method:: executeline(self, line)
-   
+
       :param str line: A line of DiddiScript code.
       :raises diddiparser2.messages.error: If the execution fails.
-      
+
       Run a single line of code.
-      
+
    .. py:method:: runfile(self)
-      
+
       Runs :py:meth:`diddiparser2.parser.DiddiParser.executeline` for each line, and
       then prints a success message.
 
-.. py:data:: TOOL_FUNCTIONS
-   
-   :type: tuple
-   :value: ("load_module", "load_extension")
-   
-   A tuple of special DiddiScript functions.
+   .. py:method: print_command(self, cmd)
 
-.. py:data:: MODULE_FUNCTIONS
+      :param str cmd: A formatted command.
 
-   :type: dict
-   :value: {}
-   
-   A ``name: callable`` dictionary of loaded modules and extensions.
-   It works to define the function name, and its interpretation.
+      Prints the command as fancy as possible. By default, it
+      only runs :py:func:`diddiparser2.messages.show_command`.
+
+.. py:class:: InteractiveDiddiParser(DiddiParser)
+
+   This is a subclass of :py:class:`diddiparser2.parser.DiddiParser`, which
+   generates an interactive console to execute commands on real time. It
+   left unchanged the methods from his ancestor (it only modified the ``__init__``
+   and ``print_command``). However, it added some other methods, described below.
+
+   .. py:method:: loop(self)
+
+      Generates a "DiddiScript console" which calls
+      :py:meth:`diddiparser2.parser.DiddiParser.executeline` for each line
+      of input.
 
 ``diddiparser.messages`` -- Tools for user/parser interactions
 --------------------------------------------------------------
@@ -75,11 +95,11 @@ functions in your extensions.
 
    An exception (which is a direct subclass of ``Exception``) raised when
    a function decided to stop the program.
-   
+
 .. py:function:: run_error(msg)
-   
+
    :raises error: at the end of the function.
-   
+
    Prints a "run error" in red, and stop the executions. This
    function is used when something in the execution failed. In
    most of the cases, this function is used by libraries.
@@ -87,12 +107,16 @@ functions in your extensions.
 .. py:function:: compile_error(msg)
 
    :raises error: at the end of the function.
-   
+
    This function prints a "compile error" in red, and stop
    all the executions. This is commonly raised by the parser
    when a syntax error appears, a missing function is called,
    etc.
-   
+
+.. py:function: show_command(cmd)
+
+   Prints the command *cmd* on a fancy color.
+
 .. py:function:: show_warning(msg)
 
    This function prints a warning in yellow. It does not

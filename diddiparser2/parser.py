@@ -99,18 +99,30 @@ class DiddiParser:
 
 class InteractiveDiddiParser(DiddiParser):
     "A fancy console, to run DiddiScript commands."
+    intro = f"""
+Welcome to the interactive DiddiParser console.
+Parser version: {__version__}
+{'='*60}
+"""
 
     def __init__(self):
-        print(self.intro)
-        self.loop()
+        pass
 
     def loop(self):
         "Generate an interactive console."
+        print(self.intro)
         while 1:
-            line = [input("> ")]
-            line = self.get_commands(line)[0]
-            self.executeline(line)
+            self.script = [input("> ")]
+            line = self.get_commands()[0]
+            if line.strip() != "":
+                self.executeline(line)
 
     def print_command(self, cmd):
         "Override this step."
         pass
+
+
+def interactive_console():
+    "Function used to generate the interactive console."
+    console = InteractiveDiddiParser()
+    console.loop()
