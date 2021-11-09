@@ -17,7 +17,7 @@ Functions
    commands and arguments. If something (while parsing or running),
    a run error will be shown.
 
-.. py:function: run_python_code(cmd)
+.. py:function:: run_python_code(cmd)
 
    :param cmd: A line of valid Python code.
 
