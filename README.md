@@ -23,3 +23,7 @@ diddiparser2 [filename]
 ```
 
 Also, you can use `python -m diddiparser2` instead of `diddiparser2`.
+
+## Documentation
+
+The documentation (hosted by ReadTheDocs) is [here](https://diddiparser2.readthedocs.io/en/latest/).
