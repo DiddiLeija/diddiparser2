@@ -15,7 +15,6 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     classifiers=[
         "Development Status :: 1 - Planning",
-        "Intended Audience :: Customer Service",
         "Intended Audience :: Developers",
         "Natural Language :: English",
         "Programming Language :: Python :: 3",
@@ -27,15 +26,16 @@ setuptools.setup(
         "Programming Language :: Python :: 3.10",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
+        "Operating System :: POSIX",
         "Operating System :: MacOS",
         "Operating System :: MacOS :: MacOS X",
         "Operating System :: Microsoft",
         "Operating System :: Microsoft :: Windows",
-        "Operating System :: Microsoft :: Windows :: Windows 7",
-        "Operating System :: Microsoft :: Windows :: Windows 8",
         "Operating System :: Unix",
         "Topic :: Software Development",
-        "Topic :: Text Processing",
+        "Topic :: Software Development :: Compilers",
+        "Topic :: Software Development :: Interpreters",
+        "Topic :: Software Development :: Libraries",
     ],
     keywords="diddiscript python parser",
     python_requires=">=3.6",
@@ -45,5 +45,6 @@ setuptools.setup(
         "Tracker": "http://github.com/DiddiLeija/diddiparser2/issues",  # GitHub issues page
         "Source": "http://github.com/DiddiLeija/diddiparser2",  # source code on GitHub
     },
+    install_requires=["colorama>=0.4.0"],
     zip_safe=False,
 )
