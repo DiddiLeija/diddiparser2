@@ -5,7 +5,12 @@ DiddiScript main parser.
 import importlib
 import io
 
-from diddiparser2.messages import compile_error, show_warning, success_message
+from diddiparser2.messages import (
+    compile_error,
+    show_command,
+    show_warning,
+    success_message
+)
 
 __version__ = "1.0.0"
 
@@ -49,6 +54,10 @@ class DiddiParser:
             print("=" * 60)
         success_message()
 
+    def print_command(self, cmd):
+        "By default, we use the fancy `messages.show_command`"
+        show_command(cmd)
+
     def executeline(self, line):
         "Parse, read and run a single line of code."
         line = line.replace('("', "(")
@@ -57,6 +66,7 @@ class DiddiParser:
         line = line.replace("')", ")")
         parsed_line = line.replace(");", "")
         call, arg = parsed_line.split("(")[0], parsed_line.split("(")[1]
+        self.print_command(f"{call}({arg})")
         if call not in MODULE_FUNCTIONS and call not in TOOL_FUNCTIONS:
             compile_error(f"No such function '{call}'")
         if call == "load_module":
@@ -85,3 +95,22 @@ class DiddiParser:
         if call in MODULE_FUNCTIONS.keys():
             func = MODULE_FUNCTIONS[call]
             func(arg)
+
+
+class InteractiveDiddiParser(DiddiParser):
+    "A fancy console, to run DiddiScript commands."
+
+    def __init__(self):
+        print(self.intro)
+        self.loop()
+
+    def loop(self):
+        "Generate an interactive console."
+        while 1:
+            line = [input("> ")]
+            line = self.get_commands(line)[0]
+            self.executeline(line)
+
+    def print_command(self, cmd):
+        "Override this step."
+        pass
