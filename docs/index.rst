@@ -23,6 +23,7 @@ Table of Contents
 
     * :ref:`lib-fileio`
     * :ref:`lib-simpleio`
+    * :ref:`lib-sqlite`
     * :ref:`lib-subprocessing`
 
 .. seealso::
