@@ -28,4 +28,4 @@ def success_message():
 
 
 def show_command(cmd):
-    print(Fore.BLUE + f"-> {cmd}\n{"="*60}")
+    print(Fore.BLUE + f"-> {cmd}\n{'='*60}")
