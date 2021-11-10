@@ -6,13 +6,9 @@ import importlib
 import io
 import sys
 
-from diddiparser2.messages import (
-compile_error,
-show_warning,
-success_message,
-error as messages_error,
-show_command,
-)
+from diddiparser2.messages import compile_error
+from diddiparser2.messages import error as messages_error
+from diddiparser2.messages import show_command, show_warning, success_message
 
 __version__ = "1.0.0"
 
@@ -58,10 +54,6 @@ class DiddiParser:
 
     def print_command(self, cmd):
         "By default, we use the fancy `messages.show_command`"
-        # The following line is just to fix a black <--> isort
-        # conflict:
-        from diddiparser2.messages import show_command
-
         # Show the command
         show_command(cmd)
 
@@ -131,7 +123,7 @@ Parser version: {__version__}
             try:
                 line = self.get_commands()[0]
                 if line.strip() != "":
-                     self.executeline(line)
+                    self.executeline(line)
             except messages_error as exc:
                 # someone raised a DiddiParser
                 # error... just don't crash!
