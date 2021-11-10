@@ -6,7 +6,7 @@ import sqlite3
 
 from diddiparser2.messages import run_error, show_warning
 
-DIDDISCRIPT_VARIABLES = (
+DIDDISCRIPT_FUNCTIONS = (
   "open_database",
   "close_database",
   "commit_changes",
