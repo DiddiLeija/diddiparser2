@@ -4,8 +4,15 @@ DiddiScript main parser.
 
 import importlib
 import io
+import sys
 
-from diddiparser2.messages import compile_error, show_warning, success_message
+from diddiparser2.messages import (
+compile_error,
+show_warning,
+success_message,
+error as messages_error,
+show_command,
+)
 
 __version__ = "1.0.0"
 
@@ -112,10 +119,23 @@ Parser version: {__version__}
         "Generate an interactive console."
         print(self.intro)
         while 1:
-            self.script = [input("> ")]
-            line = self.get_commands()[0]
-            if line.strip() != "":
-                self.executeline(line)
+            # get the "command"
+            try:
+                self.script = [input("> ")]
+            except EOFError:
+                sys.exit(0)
+            except KeyboardInterrupt:
+                print("\nKeyboardInterrupt")
+                continue
+            # compile and run
+            try:
+                line = self.get_commands()[0]
+                if line.strip() != "":
+                     self.executeline(line)
+            except messages_error as exc:
+                # someone raised a DiddiParser
+                # error... just don't crash!
+                print(f"Error: {str(exc)}\n")
 
     def print_command(self, cmd):
         "Override this step."

@@ -7,7 +7,7 @@ import subprocess
 import sys
 import traceback
 
-from diddiparser2.exceptions import run_error
+from diddiparser2.messages import run_error
 
 DIDDISCRIPT_FUNCTIONS = ("run_command", "run_python_code")
 
