@@ -39,7 +39,12 @@ setuptools.setup(
     ],
     keywords="diddiscript python parser",
     python_requires=">=3.6",
-    entry_points={"console_scripts": ["diddiparser2=diddiparser2.cli:main"]},
+    entry_points={
+        "console_scripts": [
+            "diddiparser2=diddiparser2.cli:main",
+            "diddiscript-console=diddiparser2.parser:interactive_console",
+        ],
+    },
     project_urls={
         "Documentation": "http://diddiparser2.readthedocs.io",  # ReadTheDocs site
         "Tracker": "http://github.com/DiddiLeija/diddiparser2/issues",  # GitHub issues page

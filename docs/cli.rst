@@ -34,3 +34,20 @@ Print the parser version.
 
 Ignore the warnings caused when the script does not end with the standard
 ``.diddi`` prefix.
+
+Interactive console
+-------------------
+
+DiddiParser has provided an interactive console to run command-by-command,
+via the ``diddiscript-console`` command:
+
+::
+
+    C:> diddiscript-console
+
+    Welcome to the interactive DiddiParser console.
+    Parser version: 1.0.0
+    ============================================================
+
+    >
+```

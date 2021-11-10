@@ -4,8 +4,11 @@ DiddiScript main parser.
 
 import importlib
 import io
+import sys
 
-from diddiparser2.messages import compile_error, show_warning, success_message
+from diddiparser2.messages import compile_error
+from diddiparser2.messages import error as messages_error
+from diddiparser2.messages import show_command, show_warning, success_message
 
 __version__ = "1.0.0"
 
@@ -49,6 +52,11 @@ class DiddiParser:
             print("=" * 60)
         success_message()
 
+    def print_command(self, cmd):
+        "By default, we use the fancy `messages.show_command`"
+        # Show the command
+        show_command(cmd)
+
     def executeline(self, line):
         "Parse, read and run a single line of code."
         line = line.replace('("', "(")
@@ -57,6 +65,7 @@ class DiddiParser:
         line = line.replace("')", ")")
         parsed_line = line.replace(");", "")
         call, arg = parsed_line.split("(")[0], parsed_line.split("(")[1]
+        self.print_command(f"{call}({arg})")
         if call not in MODULE_FUNCTIONS and call not in TOOL_FUNCTIONS:
             compile_error(f"No such function '{call}'")
         if call == "load_module":
@@ -85,3 +94,47 @@ class DiddiParser:
         if call in MODULE_FUNCTIONS.keys():
             func = MODULE_FUNCTIONS[call]
             func(arg)
+
+
+class InteractiveDiddiParser(DiddiParser):
+    "A fancy console, to run DiddiScript commands."
+    intro = f"""
+Welcome to the interactive DiddiParser console.
+Parser version: {__version__}
+{'='*60}
+"""
+
+    def __init__(self):
+        pass
+
+    def loop(self):
+        "Generate an interactive console."
+        print(self.intro)
+        while 1:
+            # get the "command"
+            try:
+                self.script = [input("> ")]
+            except EOFError:
+                sys.exit(0)
+            except KeyboardInterrupt:
+                print("\nKeyboardInterrupt")
+                continue
+            # compile and run
+            try:
+                line = self.get_commands()[0]
+                if line.strip() != "":
+                    self.executeline(line)
+            except messages_error as exc:
+                # someone raised a DiddiParser
+                # error... just don't crash!
+                print(f"Error: {str(exc)}\n")
+
+    def print_command(self, cmd):
+        "Override this step."
+        pass
+
+
+def interactive_console():
+    "Function used to generate the interactive console."
+    console = InteractiveDiddiParser()
+    console.loop()
