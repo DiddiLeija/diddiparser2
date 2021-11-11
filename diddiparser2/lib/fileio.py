@@ -32,8 +32,8 @@ def printfile(path):
         run_error(f"File '{path}' does not exists")
     try:
         file = io.open(path)
-        for line in file:
-            print(file)
+        for line in file.readlines():
+            print(line)
     except Exception as e:
         run_error(f"'{type(e).__name__}: {str(e)}'")
     del(file)
@@ -42,24 +42,30 @@ def printfile(path):
 def ensurefile(path):
     "Just find a file, and print the results."
     if os.path.exists(path):
-        if os.access(path):
+        # The use of os.access is harmless here, because
+        # we don't want to use the file by ourselves.
+        # However, a user can get confused when
+        if os.access(path, os.X_OK):
+            # We can read, write and modify the path.
             print(f"You can access to '{path}'")
         else:
-            print(f"'{path}' exists, but it is forbidden")
+            # Some restrictions apply for the path
+            print(f"'{path}' exists, but it has modification restrictions")
     else:
         print(f"The '{path}' file does not exists")
 
 
 def store_file(path):
-    if not os.access(path):
-        run_error("File is not accessible")
-    STORED_FILE.store(io.open(path))
+    try:
+        STORED_FILE.store(io.open(path).readlines())
+    except PermissionError:
+        run_error(f"File '{path}' is restricted")
 
 
 def print_stored(arg):
     if arg:
         show_warning("No arguments were required, but one argument was specified")
-    if STORED_FILE.file is None:
+    if not STORED_FILE.file:
         run_error("No such file stored")
     for line in STORED_FILE.file:
         print(line)

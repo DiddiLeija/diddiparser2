@@ -19,11 +19,15 @@ Usage of ``load_module``
 ``load_module`` is a special function that load functions from the standard library. It looks for
 the name provided inside ``diddiparser2.lib``. Then, all their functions will be available.
 
-::
+.. admonition:: Example
 
-    !# Load the "simpleio" library
-    load_module("simpleio");
-    
-    !# Now we can call a function
-    !# defined in "simpleio":
-    print_text("Hello world!");
+   Let's use the standard library ``simpleio`` as an example:
+
+   ::
+
+       !# Load the "simpleio" library
+       load_module("simpleio");
+
+       !# Now we can call a function
+       !# defined in "simpleio":
+       print_text("Hello world!");
