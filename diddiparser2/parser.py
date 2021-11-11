@@ -12,7 +12,7 @@ from diddiparser2.messages import show_command, show_warning, success_message
 
 __version__ = "1.0.0"
 
-TOOL_FUNCTIONS = ["load_module", "load_extension"]
+TOOL_FUNCTIONS = ["load_module", "load_extension", "print_functions"]
 MODULE_FUNCTIONS = dict()
 
 
@@ -26,10 +26,10 @@ class DiddiParser:
         "Constructor method."
         if not file.endswith(".diddi") and not ignore_suffix:
             show_warning(
-                f"The invocation file '{file}' is not recognized as"
-                "a DiddiScript file ('*.diddi'). This may cause conflicts."
-                " To override this warning, use 'ignore_suffix' (on Python"
-                " code) or add the --ignore-suffix flag to the CLI."
+                f"The invocation file '{file}' is not recognized as "
+                "a DiddiScript file ('*.diddi'). This may cause conflicts. "
+                "To override this warning, use 'ignore_suffix' (on Python "
+                "code) or add the --ignore-suffix flag to the CLI. "
             )
         self.script = strategy(file)
         self.commands = self.get_commands()
@@ -71,10 +71,18 @@ class DiddiParser:
         self.print_command(f"{call}({arg})")
         if call not in MODULE_FUNCTIONS and call not in TOOL_FUNCTIONS:
             compile_error(f"No such function '{call}'")
+        if call in MODULE_FUNCTIONS.keys():
+            func = MODULE_FUNCTIONS[call]
+            func(arg)
         if call == "load_module":
             mod = importlib.import_module(f"diddiparser2.lib.{arg}")
             mod_list = mod.DIDDISCRIPT_FUNCTIONS
             for item in mod_list:
+                if item in TOOL_FUNCTIONS:
+                    show_warning(
+                        f"The '{item}' special function is being overridden. "
+                        "This may cause issues, or even make the parser to be useless."
+                    )
                 exec(
                     f"from diddiparser2.lib.{arg} import {item} as element; MODULE_FUNCTIONS['{item}'] = element",
                     locals(),
@@ -89,14 +97,26 @@ class DiddiParser:
             ext = importlib.import_module(f"{arg}")
             ext_list = ext.DIDDISCRIPT_FUNCTIONS
             for item in ext_list:
+                if item in TOOL_FUNCTIONS:
+                    show_warning(
+                        f"The '{item}' special function is being overridden. "
+                        "This may cause issues, or even make the parser to be useless."
+                    )
                 exec(
                     f"from {arg} import {item} as element; MODULE_FUNCTIONS['{item}'] = element",
                     locals(),
                     globals(),
                 )
-        if call in MODULE_FUNCTIONS.keys():
-            func = MODULE_FUNCTIONS[call]
-            func(arg)
+        if call == "print_available_functions":
+            # Print the available functions
+            if arg:
+                show_warning("This function is not currently accepting arguments.")
+            print("---- Special functions ----")
+            for item in TOOL_FUNCTIONS:
+                print(f"  {item}")
+            print("---- Loaded functions ----")
+            for item in MODULE_FUNCTIONS:
+                print(f"  {item}")
 
 
 class InteractiveDiddiParser(DiddiParser):
