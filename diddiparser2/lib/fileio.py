@@ -33,7 +33,7 @@ def printfile(path):
     try:
         file = io.open(path)
         for line in file.readlines():
-            print(file)
+            print(line)
     except Exception as e:
         run_error(f"'{type(e).__name__}: {str(e)}'")
     del(file)
