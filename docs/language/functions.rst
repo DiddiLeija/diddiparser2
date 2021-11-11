@@ -45,3 +45,38 @@ Usage with arguments
 
 In most of the cases, the functions need one argument. They can
 be quoted ("") or not (DiddiParser will treat them as the same).
+
+.. _tool-functions:
+
+Special functions
+-----------------
+
+We have saved special functions, to handle and load DiddiScript
+stuff.
+
+``load_module(module)``
+  This function loads functions from the DiddiScript standard
+  library, for its usage on the code. If a new function has the
+  same name than an existing function, the old function will be
+  overwritten and replaced by the new one.
+
+``load_extension(extension)``
+  This function loads functions from a custom Python file. Its
+  rules are the same than those related to ``load_module``.
+
+``print_available_functions``
+  This function prints both the special functions and the loaded
+  libraries.
+
+.. warning::
+
+   If you load a function that replaces one of the special functions
+   listed above, you may harm the functionality of the parser.
+
+.. seealso::
+
+   :ref:`lang-modules`
+     A detailed description of ``load_module``.
+
+   :ref:`lang-extensions`
+     A detailed description of ``load_extension``.

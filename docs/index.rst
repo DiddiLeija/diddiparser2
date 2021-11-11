@@ -16,6 +16,9 @@ Table of Contents
 
   * :ref:`lang-comments`
   * :ref:`lang-functions`
+
+    * :ref:`tool-functions`
+
   * :ref:`lang-modules`
   * :ref:`lang-extensions`
 
