@@ -61,7 +61,7 @@ class DiddiParser:
         "Parse, read and run a single line of code."
         parsed_line = line.replace(");", "")
         call = parsed_line.split("(")[0]
-        arg = parsed_line[len(f"{call}("):]
+        arg = parsed_line[len(f"{call}(") :]
         if arg.startswith("'") or arg.startswith('"'):
             arg = arg[1:]
         if arg.endswith("'") or arg.endswith('"'):
