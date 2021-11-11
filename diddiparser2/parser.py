@@ -59,12 +59,12 @@ class DiddiParser:
 
     def executeline(self, line):
         "Parse, read and run a single line of code."
-        line = line.replace('("', "(")
-        line = line.replace("('", "(")
-        line = line.replace('")', ")")
-        line = line.replace("')", ")")
         parsed_line = line.replace(");", "")
-        call, arg = parsed_line.split("(")[0], parsed_line.split("(")[1]
+        call, arg = parsed_line.split("(")[0], parsed_line[len(f"{call}("):]
+        if arg.startswith("'") or arg.startswith('"'):
+            arg = arg[1:]
+        if arg.endswith("'") or arg.endswith('"'):
+            arg = arg[:-1]
         self.print_command(f"{call}({arg})")
         if call not in MODULE_FUNCTIONS and call not in TOOL_FUNCTIONS:
             compile_error(f"No such function '{call}'")
