@@ -60,7 +60,8 @@ class DiddiParser:
     def executeline(self, line):
         "Parse, read and run a single line of code."
         parsed_line = line.replace(");", "")
-        call, arg = parsed_line.split("(")[0], parsed_line[len(f"{call}("):]
+        call = parsed_line.split("(")[0]
+        arg = parsed_line[len(f"{call}("):]
         if arg.startswith("'") or arg.startswith('"'):
             arg = arg[1:]
         if arg.endswith("'") or arg.endswith('"'):
