@@ -12,7 +12,7 @@ from diddiparser2.messages import show_command, show_warning, success_message
 
 __version__ = "1.0.0"
 
-TOOL_FUNCTIONS = ["load_module", "load_extension", "print_functions"]
+TOOL_FUNCTIONS = ["load_module", "load_extension", "print_available_functions"]
 MODULE_FUNCTIONS = dict()
 
 
