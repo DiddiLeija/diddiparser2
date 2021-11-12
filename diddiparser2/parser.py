@@ -89,11 +89,8 @@ class DiddiParser:
                     globals(),
                 )
         if call == "load_extension":
-            # Two things are allowed here:
-            # 1. A Python-like import: "pkg.module" | "module"
-            # 2. A rough Python file: "module.py"
-            if arg.endswith(".py"):
-                arg = arg.replace(".py", "")
+            # A Python-like import is expected. For
+            # example: "module", "pkg.module"
             ext = importlib.import_module(f"{arg}")
             ext_list = ext.DIDDISCRIPT_FUNCTIONS
             for item in ext_list:
