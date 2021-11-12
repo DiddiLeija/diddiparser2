@@ -54,6 +54,9 @@ Special functions
 We have saved special functions, to handle and load DiddiScript
 stuff.
 
+``cd`` | ``chdir``
+  Change the current working directory (*cwd*), if possible.
+
 ``load_module(module)``
   This function loads functions from the DiddiScript standard
   library, for its usage on the code. If a new function has the
@@ -62,7 +65,8 @@ stuff.
 
 ``load_extension(extension)``
   This function loads functions from a custom Python file. Its
-  rules are the same than those related to ``load_module``.
+  rules are the same than those related to ``load_module``, with a
+  few other specific rules.
 
 ``print_available_functions``
   This function prints both the special functions and the loaded
