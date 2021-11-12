@@ -4,6 +4,7 @@ DiddiScript main parser.
 
 import importlib
 import io
+import os
 import sys
 
 from diddiparser2.messages import compile_error
@@ -12,7 +13,7 @@ from diddiparser2.messages import show_command, show_warning, success_message
 
 __version__ = "1.0.0"
 
-TOOL_FUNCTIONS = ["load_module", "load_extension", "print_available_functions"]
+TOOL_FUNCTIONS = ["load_module", "load_extension", "print_available_functions", "chdir", "cd"]
 MODULE_FUNCTIONS = dict()
 
 
@@ -74,6 +75,11 @@ class DiddiParser:
         if call in MODULE_FUNCTIONS.keys():
             func = MODULE_FUNCTIONS[call]
             func(arg)
+        if call == "cd" or call == "chdir":
+            try:
+                os.chdir(arg)
+            except Exception as exc:
+                run_error(str(exc))
         if call == "load_module":
             mod = importlib.import_module(f"diddiparser2.lib.{arg}")
             mod_list = mod.DIDDISCRIPT_FUNCTIONS
