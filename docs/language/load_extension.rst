@@ -24,21 +24,15 @@ Usage of ``load_extension``
 
 ::
 
-    !# These both arguments passed to
-    !# "load_extension" are correct
+    !# A Python file/module that is in the same directory than us
+    load_extension("my_extension");
     
-    load_extension("my_extension.py");
+    !# A Python module that lives in a package
     load_extension("some_pkg.my_extension");
 
-The ``load_extension`` can handle two kinds of "extension routes":
-
-Python files (``*.py``)
-  If the argument ends with ``.py``, that suffix will be removed, and
-  ``load_module`` will get the contents living on the file.
-
-Python-like import (``pkg.module``)
-  It is possible to import from packages and modules. The whole string is
-  interpreted to be imported and load the contents.
+The ``load_extension`` can load functions from Python files, like a
+standard module. The whole string is interpreted to be passed to an
+import statement and the contents are loaded.
 
 The extension file
 ------------------
@@ -68,6 +62,14 @@ imagine a file ``extension.py`` with these contents:
         if len(arg) > 0:
             show_warning("We don't want args here!")
         print("I don't need args, I can stand by myself!")
+
+Your file should have two requirements:
+
+#. A ``DIDDISCRIPT_FUNCTIONS`` variable, which is taken by
+   the parser to find the functions.
+#. Each function should have *one positional argument*. If
+   there are more or less arguments, the function won't be
+   accessible by DiddiScript.
 
 Then, in the DiddiScript file, you can run:
 
