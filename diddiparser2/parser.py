@@ -9,7 +9,7 @@ import sys
 
 from diddiparser2.messages import compile_error
 from diddiparser2.messages import error as messages_error
-from diddiparser2.messages import show_command, show_warning, success_message
+from diddiparser2.messages import run_error, show_command, show_warning, success_message
 
 __version__ = "1.0.0"
 
