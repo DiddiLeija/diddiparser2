@@ -7,13 +7,19 @@ import io
 import os
 import sys
 
-from diddiparser2.messages import compile_error
-from diddiparser2.messages import error as messages_error
-from diddiparser2.messages import run_error, show_command, show_warning, success_message
+from diddiparser import messages
+
+from diddiparser2.messages import compile_error, show_warning, success_message
 
 __version__ = "1.0.0"
 
-TOOL_FUNCTIONS = ["load_module", "load_extension", "print_available_functions", "chdir", "cd"]
+TOOL_FUNCTIONS = [
+    "load_module",
+    "load_extension",
+    "print_available_functions",
+    "chdir",
+    "cd",
+]
 MODULE_FUNCTIONS = dict()
 
 
@@ -56,6 +62,8 @@ class DiddiParser:
     def print_command(self, cmd):
         "By default, we use the fancy `messages.show_command`"
         # Show the command
+        from diddiparser2.messages import show_command
+
         show_command(cmd)
 
     def executeline(self, line):
@@ -76,10 +84,7 @@ class DiddiParser:
             func = MODULE_FUNCTIONS[call]
             func(arg)
         if call == "cd" or call == "chdir":
-            try:
-                os.chdir(arg)
-            except Exception as exc:
-                run_error(str(exc))
+            os.chdir(arg)
         if call == "load_module":
             mod = importlib.import_module(f"diddiparser2.lib.{arg}")
             mod_list = mod.DIDDISCRIPT_FUNCTIONS
@@ -150,7 +155,7 @@ Parser version: {__version__}
                 line = self.get_commands()[0]
                 if line.strip() != "":
                     self.executeline(line)
-            except messages_error as exc:
+            except messages.error as exc:
                 # someone raised a DiddiParser
                 # error... just don't crash!
                 print(f"Error: {str(exc)}\n")
