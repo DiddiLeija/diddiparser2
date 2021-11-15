@@ -51,13 +51,19 @@ be quoted ("") or not (DiddiParser will treat them as the same).
 
 .. _tool-functions:
 
-Special functions
------------------
+Special functions *(tool functions)*
+------------------------------------
 
 We have saved special functions, to handle and load DiddiScript
 stuff.
 
-``cd`` | ``chdir``
+.. warning::
+
+   If you load or create a function that replaces one of the special functions
+   listed here, you will probably harm the functionality of the parser, because
+   the original functions will be overwritten.
+
+``cd(path)`` | ``chdir(path)``
   Change the current working directory (*cwd*), if possible.
 
 ``load_module(module)``
@@ -71,14 +77,9 @@ stuff.
   rules are the same than those related to ``load_module``, with a
   few other specific rules.
 
-``print_available_functions``
+``print_available_functions()``
   This function prints both the special functions and the loaded
   libraries.
-
-.. warning::
-
-   If you load a function that replaces one of the special functions
-   listed above, you may harm the functionality of the parser.
 
 .. seealso::
 
