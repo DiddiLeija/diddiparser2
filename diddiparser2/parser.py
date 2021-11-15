@@ -7,7 +7,7 @@ import io
 import os
 import sys
 
-from diddiparser import messages
+from diddiparser2 import messages
 
 from diddiparser2.messages import compile_error, show_warning, success_message
 
