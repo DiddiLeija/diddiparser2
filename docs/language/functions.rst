@@ -5,12 +5,6 @@ Functions
 
 DiddiScript can handle functions with one argument, or without arguments.
 
-..note::
-
-  DiddiParser2 will warn you if you added an argument to a function that
-  doesn't need arguments. However, it won't raise an error -- it will
-  just ignore the argument.
-
 Usage without arguments
 -----------------------
 
@@ -30,6 +24,15 @@ Usage without arguments
 If the function does not need arguments, you can just use
 an empty function. Also, an empty text (`""`) is interpreted
 like a "missing argument".
+
+.. note::
+
+   DiddiParser2 standard functions will warn you if you added an
+   argument to a function that doesn't need arguments. However, it won't
+   raise an error -- it will just ignore the argument.
+   
+   Also, you can tell your custom functions (loaded as extensions) to
+   warn if they don't need arguments.
 
 Usage with arguments
 --------------------
