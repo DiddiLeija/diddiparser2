@@ -35,3 +35,22 @@ def generate_console(session):
     session.install("-e", ".")
     session.log("Generating a DiddiScript console...")
     session.run("diddiscript-console")
+
+
+@nox.session
+def release(session):
+    """
+    Just for maintainers: cut a release and publish to PyPI
+    using Setuptools, Wheel and Twine
+    """
+    # install deps
+    session.install("-r", "release-requirements.txt")
+    # install the source on editable mode to catch a "build error"
+    # before publishing
+    session.log("Installing on the virtualenv to test compatibility...")
+    session.install("-e", ".")
+    # if this hasn't failed, we can just go ahead and
+    # build the distributions, and then release
+    session.log("Done. Now, we will cut and publish a release...")
+    session.run("setup.py", "sdist", "bdist_wheel")
+    session.run("python", "-m", "twine", "upload", "dist/*")
