@@ -1,0 +1,8 @@
+# A list of requirements that we use to cut a release.
+# Since we have pinned the deps to their latest versions,
+# it may be useful to run "nox -s release" on a compatible
+# Python version.
+
+setuptools==59.1.1
+wheel==0.37.0
+twine==3.6.0
