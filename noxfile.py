@@ -35,3 +35,14 @@ def generate_console(session):
     session.install("-e", ".")
     session.log("Generating a DiddiScript console...")
     session.run("diddiscript-console")
+
+
+@nox.session
+def release(session):
+    """
+    Just for maintainers: cut a release and publish to PyPI
+    using Setuptools, Wheel and Twine
+    """
+    session.install("-r", "release-requirements.txt")
+    session.run("setup.py", "sdist", "bdist_wheel")
+    session.run("python", "-m", "twine", "upload", "dist/*")
