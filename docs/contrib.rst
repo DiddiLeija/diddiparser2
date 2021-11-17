@@ -101,7 +101,7 @@ DiddiScript language!
 .. seealso::
 
     `DSGP 0 <https://github.com/DiddiLeija/diddiparser2/blob/main/dsgp/dsgp-0.md>`_
-      This DGSP describes the scheme that all the DSGPs should follow.
+      This DSGP describes the scheme that all the DSGPs should follow.
 
     `Tree of DSGPs <https://github.com/DiddiLeija/diddiparser2/tree/main/dsgp/>`_
       This tree contains the complete list of DSGPs.
