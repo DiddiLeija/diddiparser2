@@ -12,6 +12,10 @@ Table of Contents
 * :ref:`cli-guide`
 
 * :ref:`api-reference`
+* :ref:`contrib-guide`
+  
+  * :ref:`dsgp-guide`
+
 * :ref:`lang-guide`
 
   * :ref:`lang-comments`
