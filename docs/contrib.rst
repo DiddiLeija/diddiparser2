@@ -108,3 +108,6 @@ DiddiScript language!
 
     `Search in-progress DSGPs <https://github.com/DiddiLeija/diddiparser2/pulls?q=is%3Apr+is%3Aopen+label%3A%22diddiscript%3A+DSGP%22>`_
       Pull requests of DSGPs that aren't on the official list, and are not ready yet.
+    
+    `DSGPs Project Board <https://github.com/DiddiLeija/diddiparser2/projects/2>`_
+      See the statuses of the DSGPs, according to their PRs.
