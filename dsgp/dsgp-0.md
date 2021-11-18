@@ -42,13 +42,34 @@ rejected:
 or any other required information.
 
 - **Pending:** The decision (or the discussion behind accepting the DSGP) hasn't finished yet,
-but the document is ready to be considered.
+but the document is ready to be considered, or even merged.
 
 - **Approved:** The proposal has been accepted, and it has been applied (or will be applied in the
-near future). The related pull requests can be merged into the main repository.
+near future).
 
-- **Rejected:** The DSGP can't be applied, or the general idea has been rejected. Any related pull
-request is closed. New proposals to the same idea should belong to a new DSGP.
+- **Rejected:** The DSGP can't be applied, or the general idea has been rejected. New proposals to the same
+idea should belong to a new DSGP, referencing to the rejected one.
+
+#### Reasons for rejecting a DSGP
+
+A DSGP can be rejected for several reasons:
+
+- It does not follow DSGP 0, and it cannot be fixed.
+- If the proposal can't be applied because of technical reasons.
+- If the author of the maintainers want to abort the DSGP.
+- If the DSGP is abusive, or is considered as spam.
+
+In the case 4, the DSGP's pull request will be closed with unmerged commits, and it may be reported
+to the repository site owner (example: in the case of the DiddiParser2 repository, it would be reported at GitHub).
+
+### Relationship with pull requests
+
+A PR that creates a DSGP should only contain changes **to that DSGP** (unless it is absolutely necessary to
+modify other documents). However, **it should not change code.** If the DSGP is not on _Draft_ status, it can be
+merged, if the maintainers and the author agree of doing that.
+
+When a DSGP is accepted, a new PR that applies the new syntax can be opened, and it can make a reference to the
+DSGP pull request.
 
 ## Markup language of DSGPs
 
