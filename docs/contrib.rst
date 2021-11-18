@@ -68,6 +68,12 @@ To run linters, run:
 
     nox -s lint
 
+Also, you can run both things together with another session:
+
+::
+
+    nox -s format-and-lint
+
 To test your code with a DiddiScript console and the
 latest code:
 
