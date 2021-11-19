@@ -26,9 +26,27 @@ The variables should be stored on a sequence of type `name: value`, separated fr
 - **Integers:** Natural and real numbers, positive or negative.
 - **Floats:** Floating, real numbers.
 - **Text:** Quoted text, encoded.
+- **Boolean:** True or False.
+- **Null:** Nothing to store. Defined by default, if the variable has no "value".
 
 The parser should have trouble to understand which type is each variable, so it would not
 be necessary to say which type is stored.
+
+
+## Saving last value returned by a function into a variable
+
+This DSGP introduces the `store_last_value` special function. The design of the function will let
+to create a variable (or overwrite an existing one) with the last value returned by a function.
+
+```
+var result;  !# An empty variable
+
+some_func_with_return_value("...");
+
+store_last_value("result");  !# Its argument should be a string refering to the variable
+
+other_function("${result}");  !# Use the variable
+```
 
 ## Usage as function arguments
 
@@ -42,9 +60,11 @@ This DSGP proposes two ideas:
 To define a variable:
 
 ```
-var x = "Hello world!";  // text
-var y = 123;             // integer
-var z = 123.456;         // float
+var v;                   !# null
+var w = True;            !# boolean
+var x = "Hello world!";  !# text
+var y = 123;             !# integer
+var z = 123.456;         !# float
 ```
 
 Using them under functions:
@@ -52,8 +72,8 @@ Using them under functions:
 ```
 var x = "pizza";
 
-func(x);              // idea 1
-func("I love !{x}");  // idea 2
+func(x);              !# idea 1
+func("I love ${x}");  !# idea 2
 ```
 
 ## Considerations
