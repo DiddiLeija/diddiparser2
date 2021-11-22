@@ -18,6 +18,7 @@ TOOL_FUNCTIONS = [
     "print_available_functions",
     "chdir",
     "cd",
+    "store_last_value",
 ]
 MODULE_FUNCTIONS = dict()
 EXECUTION_VARIABLES = dict()
@@ -69,6 +70,8 @@ class DiddiParser:
     Main class of the DiddiScript
     parser.
     """
+    any_value = False
+    last_value = None
 
     def __init__(self, file, strategy=io.open, ignore_suffix=False):
         "Constructor method."
@@ -159,7 +162,11 @@ class DiddiParser:
                 index = (index[0], "")
             if index[0] not in EXECUTION_VARIABLES.keys():
                 compile_error(f"Could not resolve variable reference: {index[0]}")
-            final_line = f"{final_line}{EXECUTION_VARIABLES[index[0]]}{index[1]}"
+            true_value = EXECUTION_VARIABLES[index[0]]
+            if true_value is None:
+                # According to the DSGP 1 spec.
+                true_value = "Null"
+            final_line = f"{final_line}{true_value}{index[1]}"
         return final_line
 
     def execute_func(self, line):
@@ -175,14 +182,16 @@ class DiddiParser:
             arg = arg[:-1]
         arg = self.parse_string_indexing(arg)
         self.print_command(f"{call}({arg})")
-        if call not in MODULE_FUNCTIONS and call not in TOOL_FUNCTIONS:
-            compile_error(f"No such function '{call}'")
         if call in MODULE_FUNCTIONS.keys():
             func = MODULE_FUNCTIONS[call]
-            func(arg)
-        if call == "cd" or call == "chdir":
+            try:
+                self.last_value = func(arg)
+            except Exception:
+                self.last_value = None
+        elif call == "cd" or call == "chdir":
             os.chdir(arg)
-        if call == "load_module":
+            self.last_value = arg
+        elif call == "load_module":
             mod = importlib.import_module(f"diddiparser2.lib.{arg}")
             mod_list = mod.DIDDISCRIPT_FUNCTIONS
             for item in mod_list:
@@ -196,7 +205,8 @@ class DiddiParser:
                     locals(),
                     globals(),
                 )
-        if call == "load_extension":
+            self.last_value = None
+        elif call == "load_extension":
             # A Python-like import is expected. For
             # example: "module", "pkg.module"
             ext = importlib.import_module(f"{arg}")
@@ -212,7 +222,8 @@ class DiddiParser:
                     locals(),
                     globals(),
                 )
-        if call == "print_available_functions":
+            self.last_value = None
+        elif call == "print_available_functions":
             # Print the available functions
             if arg:
                 show_warning("This function is not currently accepting arguments.")
@@ -222,6 +233,15 @@ class DiddiParser:
             print("---- Loaded functions ----")
             for item in MODULE_FUNCTIONS:
                 print(f"  {item}")
+            self.last_value = None
+        elif call == "store_last_value":
+            if not self.any_value:
+                run_error("No such value stored to save")
+            EXECUTION_VARIABLES[arg] = self.last_value
+            self.last_value = None
+        else:
+            compile_error(f"No such function '{call}'")
+        if not self.any_value: self.any_value = True
 
 
 class InteractiveDiddiParser(DiddiParser):
