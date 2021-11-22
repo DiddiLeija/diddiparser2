@@ -8,7 +8,7 @@ import sys
 
 from diddiparser2.messages import run_error, show_warning
 
-DIDDISCRIPT_FUNCTIONS = ("program_exit", "print_text", "store_input", "print_input")
+DIDDISCRIPT_FUNCTIONS = ("program_exit", "print_text", "store_input", "print_input", "get_text")
 
 
 class TextContainer:
@@ -58,3 +58,10 @@ def print_input(arg):
     if stored is None:
         run_error("There's no input stored!")
     print(stored)
+
+
+def get_input(arg):
+    "Just return the stored input."
+    if len(arg) >= 1:
+        show_warning(f"No arguments are accepted here, but we got '{arg}'.")
+    return INPUTS.get_text()

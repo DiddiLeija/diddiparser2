@@ -16,7 +16,7 @@ some useful variables.
 .. py:data:: TOOL_FUNCTIONS
 
    :type: tuple
-   :value: ("cd", "chdir", "load_module", "load_extension", "print_available_functions")
+   :value: ("cd", "chdir", "load_module", "load_extension", "print_available_functions", "store_last_value")
 
    A tuple of special DiddiScript functions.
 

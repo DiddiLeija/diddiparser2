@@ -70,6 +70,7 @@ class DiddiParser:
     Main class of the DiddiScript
     parser.
     """
+
     any_value = False
     last_value = None
 
@@ -236,12 +237,13 @@ class DiddiParser:
             self.last_value = None
         elif call == "store_last_value":
             if not self.any_value:
-                run_error("No such value stored to save")
+                messages.run_error("No such value stored to save")
             EXECUTION_VARIABLES[arg] = self.last_value
             self.last_value = None
         else:
             compile_error(f"No such function '{call}'")
-        if not self.any_value: self.any_value = True
+        if not self.any_value:
+            self.any_value = True
 
 
 class InteractiveDiddiParser(DiddiParser):
