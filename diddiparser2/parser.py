@@ -20,6 +20,48 @@ TOOL_FUNCTIONS = [
     "cd",
 ]
 MODULE_FUNCTIONS = dict()
+EXECUTION_VARIABLES = dict()
+
+
+def remove_item_from_dict(seq, item):
+    "Remove `item` from dictionary `seq`."
+    copy = dict()
+    for k, v in seq.items():
+        if k == item:
+            continue
+        copy[k] = v
+    return copy
+
+
+def identify_value(value):
+    "Identify the true value of a variable."
+    if not isinstance(value, str):
+        # We need strings to modify this
+        compile_error(
+            f"fatal: expected string as initial value, but got {value}"
+        )
+    value = value.strip()
+    if "'" in value or '"' in value:
+        # A piece of text, just return
+        return value
+    elif value in ("True", "False"):
+        # A boolean
+        return bool(value)
+    elif value == "Null":
+        # An empty space
+        return None
+    else:
+        # The last possible values are
+        # floats and integers
+        try:
+            if "." in value:
+                # A floating number
+                return float(value)
+            # Maybe an integer?
+            return int(value)
+        except Exception as exc:
+            # It failed, so we raise an error
+            compile_error(f"Could not identify value: {value}")
 
 
 class DiddiParser:
@@ -66,7 +108,40 @@ class DiddiParser:
         show_command(cmd)
 
     def executeline(self, line):
-        "Parse, read and run a single line of code."
+        "Execute something on each line."
+        if line.lstrip().startswith("var "):
+            self.execute_def(line)
+        else:
+            self.execute_func(line)
+
+    def execute_def(self, line):
+        "Define a variable."
+        line = line[4:]
+        if "=" not in line:
+            # A single-line variable, default to None
+            EXECUTION_VARIABLES[line.strip()] = None
+            self.print_command(f"var {line.strip()} = Null")
+        parsed_line = line.split("=")
+        name = parsed_line[0].lstrip()
+        value = parsed_line[1].rstrip()
+        if name in TOOL_FUNCTIONS:
+            show_warning(
+                f"The variable name '{name}' is overwriting an existing tool "
+                "function. Since now, that function will be unavailable."
+            )
+            TOOL_FUNCTIONS.remove(name)
+        elif name in MODULE_FUNCTIONS.keys():
+            show_warning(
+                f"You are overwriting a function named '{name}' with a variable. "
+                "Now, that function is unavailable."
+            )
+            remove_item_from_dict(MODULE_FUNCTIONS, name)
+        value = identify_value(value)
+        self.print_command(f"var {name} = {value}")
+        EXECUTION_VARIABLES[name] = value
+
+    def execute_func(self, line):
+        "Run a call(argument) function."
         parsed_line = line.replace(");", "")
         call = parsed_line.split("(")[0]
         pos = len(f"{call}(")  # use this to avoid conflicts
