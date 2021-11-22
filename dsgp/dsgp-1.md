@@ -53,7 +53,7 @@ other_function("${result}");  !# Use the variable
 This DSGP proposes two ideas:
 
 1. **Using the variables as independent arguments.** Something like `func(x)`.
-2. **Using _string indexing_ only.** To do that kind of markup, this DSGP proposes `func("I have !{x}")` (like other languages' indexes)
+2. **Using _string indexing_ only.** To do that kind of markup, this DSGP proposes `func("I have ${x}")` (like other languages' indexes)
 
 ## Examples
 
