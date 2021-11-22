@@ -41,7 +41,9 @@ def identify_value(value):
     value = value.strip()
     if "'" in value or '"' in value:
         # A piece of text, just return
-        return value
+        if value == "''" or value == '""':
+            return ""
+        return value[1:-1]
     elif value in ("True", "False"):
         # A boolean
         return bool(value)
@@ -54,9 +56,9 @@ def identify_value(value):
         try:
             if "." in value:
                 # A floating number
-                return float(value)
+                return float(value.strip())
             # Maybe an integer?
-            return int(value)
+            return int(value.strip())
         except Exception:
             # It failed, so we raise an error
             compile_error(f"Could not identify value: {value}")
@@ -86,6 +88,8 @@ class DiddiParser:
         for line in self.script:
             # remove inline comments
             line = line.split("!#")[0].strip()
+            if len(line) < 1:
+                return [""]
             if not line.endswith(";"):
                 compile_error("Missing semicolon (;) at the end of the line")
             seq.append(line)
@@ -107,21 +111,24 @@ class DiddiParser:
 
     def executeline(self, line):
         "Execute something on each line."
-        if line.lstrip().startswith("var "):
+        if not line:
+            # Nothing to do here
+            pass
+        elif line.lstrip().startswith("var "):
             self.execute_def(line)
         else:
             self.execute_func(line)
 
     def execute_def(self, line):
         "Define a variable."
-        line = line[4:]
+        line = line.lstrip()[4:-1]
         if "=" not in line:
             # A single-line variable, default to None
             EXECUTION_VARIABLES[line.strip()] = None
             self.print_command(f"var {line.strip()} = Null")
         parsed_line = line.split("=")
-        name = parsed_line[0].lstrip()
-        value = parsed_line[1].rstrip()
+        name = parsed_line[0].rstrip()
+        value = parsed_line[1].lstrip()
         if name in TOOL_FUNCTIONS:
             show_warning(
                 f"The variable name '{name}' is overwriting an existing tool "
@@ -138,6 +145,23 @@ class DiddiParser:
         self.print_command(f"var {name} = {value}")
         EXECUTION_VARIABLES[name] = value
 
+    def parse_string_indexing(self, text):
+        """
+        Replace indexes in text with true variables.
+        By default, this uses the DSGP 1 specification
+        (`${variable}`).
+        """
+        aux = text.split("${")
+        final_line = text.split("${")[0] if not text.startswith("${") else ""
+        for piece in aux[1:]:
+            index = piece.split("}")
+            if len(index) != 2:
+                index = (index[0], "")
+            if index[0] not in EXECUTION_VARIABLES.keys():
+                compile_error(f"Could not resolve variable reference: {index[0]}")
+            final_line = f"{final_line}{EXECUTION_VARIABLES[index[0]]}{index[1]}"
+        return final_line
+
     def execute_func(self, line):
         "Run a call(argument) function."
         parsed_line = line.replace(");", "")
@@ -149,6 +173,7 @@ class DiddiParser:
             arg = arg[1:]
         if arg.endswith("'") or arg.endswith('"'):
             arg = arg[:-1]
+        arg = self.parse_string_indexing(arg)
         self.print_command(f"{call}({arg})")
         if call not in MODULE_FUNCTIONS and call not in TOOL_FUNCTIONS:
             compile_error(f"No such function '{call}'")
