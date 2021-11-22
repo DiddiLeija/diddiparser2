@@ -37,9 +37,7 @@ def identify_value(value):
     "Identify the true value of a variable."
     if not isinstance(value, str):
         # We need strings to modify this
-        compile_error(
-            f"fatal: expected string as initial value, but got {value}"
-        )
+        compile_error(f"fatal: expected string as initial value, but got {value}")
     value = value.strip()
     if "'" in value or '"' in value:
         # A piece of text, just return
@@ -59,7 +57,7 @@ def identify_value(value):
                 return float(value)
             # Maybe an integer?
             return int(value)
-        except Exception as exc:
+        except Exception:
             # It failed, so we raise an error
             compile_error(f"Could not identify value: {value}")
 
