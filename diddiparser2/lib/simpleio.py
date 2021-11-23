@@ -6,7 +6,7 @@ SimpleIO: Common Python I/O interactions
 
 import sys
 
-from diddiparser2.messages import run_error, show_warning
+from diddiparser2.messages import run_error
 
 DIDDISCRIPT_FUNCTIONS = ("program_exit", "print_text", "store_input")
 
