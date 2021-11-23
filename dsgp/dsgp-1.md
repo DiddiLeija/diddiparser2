@@ -2,7 +2,7 @@
 
 | Author        | Author email         | Status   |
 |---------------|----------------------|----------|
-| Diego Ramirez | dr01191115@gmail.com | Pending  |
+| Diego Ramirez | dr01191115@gmail.com | Approved |
 
 ## Overview
 
