@@ -6,20 +6,21 @@ load_module("simpleio");
 print_text("We can load functions!");
 
 !# ---- load_extension ----
-load_extension("test_extension");
+load_extension("tests.my_extension");
 my_func("abcdef");
 
 !# ---- print_available_functions ----
 print_available_functions();
 
 !# ---- chdir | cd ----
-cd("..");
 chdir("tests");
+cd("..");
 
 !# ---- store_last_value ----
 !# (This will also test some DSGP 1 features)
 var result = "?";
 load_module("fileio");
-store_file("requirements.txt");
+store_file("LICENSE.txt");
 store_last_value("result");
-print_text("Stored text: \n${result}");
+print_text("Stored text:");
+print_text("${result}");

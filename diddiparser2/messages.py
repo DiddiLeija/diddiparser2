@@ -24,8 +24,8 @@ def show_warning(msg):
 
 
 def success_message():
-    print(Fore.CYAN + "The execution finished succesfully!")
+    print(Fore.GREEN + "The execution finished succesfully!")
 
 
 def show_command(cmd):
-    print(Fore.BLUE + f"-> {cmd}\n{'='*60}")
+    print(Fore.MAGENTA + f"> {cmd}")

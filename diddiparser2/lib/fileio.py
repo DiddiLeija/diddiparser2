@@ -12,7 +12,6 @@ DIDDISCRIPT_FUNCTIONS = (
     "ensurefile",
     "store_file",
     "print_stored",
-    "open_and_get_file",
 )
 
 
@@ -21,7 +20,7 @@ class StoredFile:
     file = None
 
     def store(self, stream):
-        self.file = stream
+        self.file = stream.read()
 
 
 STORED_FILE = StoredFile()
@@ -58,16 +57,10 @@ def ensurefile(path):
 
 def store_file(path):
     try:
-        STORED_FILE.store(io.open(path).readlines())
+        STORED_FILE.store(io.open(path))
     except PermissionError:
         run_error(f"File '{path}' is restricted")
-
-
-def open_and_get_file(path):
-    try:
-        return io.open(path).read()
-    except Exception as e:
-        run_error(f"{type(e).__name__}: {str(e)}")
+    return STORED_FILE.file
 
 
 def print_stored(arg):
@@ -75,5 +68,5 @@ def print_stored(arg):
         show_warning("No arguments were required, but one argument was specified")
     if not STORED_FILE.file:
         run_error("No such file stored")
-    for line in STORED_FILE.file:
+    for line in STORED_FILE.file.splitlines():
         print(line)

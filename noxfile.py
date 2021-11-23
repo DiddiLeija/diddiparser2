@@ -1,4 +1,5 @@
 import os
+import time
 
 import nox
 
@@ -52,11 +53,10 @@ def tests(session):
     session.install("-r", "tests/requirements.txt")
     session.install("-e", ".")
     session.log("Starting tests. See the logs to analyze.")
-    session.cd("tests")
-    for file in os.listdir("."):
+    for file in os.listdir("tests"):
         if file.endswith(".diddi"):
-            session.run("diddiparser2", file)
-    session.cd("..")
+            session.run("diddiparser2", f"tests/{file}")
+            time.sleep(1)
 
 
 @nox.session(name="generate-console")

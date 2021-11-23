@@ -71,7 +71,6 @@ class DiddiParser:
     parser.
     """
 
-    any_value = False
     last_value = None
 
     def __init__(self, file, strategy=io.open, ignore_suffix=False):
@@ -93,7 +92,7 @@ class DiddiParser:
             # remove inline comments
             line = line.split("!#")[0].strip()
             if len(line) < 1:
-                return [""]
+                continue
             if not line.endswith(";"):
                 compile_error("Missing semicolon (;) at the end of the line")
             seq.append(line)
@@ -102,8 +101,8 @@ class DiddiParser:
     def runfile(self):
         "Run the parsed file."
         for line in self.commands:
+            self.print_command(line)
             self.executeline(line)
-            print("=" * 60)
         success_message()
 
     def print_command(self, cmd):
@@ -115,10 +114,7 @@ class DiddiParser:
 
     def executeline(self, line):
         "Execute something on each line."
-        if not line:
-            # Nothing to do here
-            pass
-        elif line.lstrip().startswith("var "):
+        if line.lstrip().startswith("var "):
             self.execute_def(line)
         else:
             self.execute_func(line)
@@ -129,7 +125,7 @@ class DiddiParser:
         if "=" not in line:
             # A single-line variable, default to None
             EXECUTION_VARIABLES[line.strip()] = None
-            self.print_command(f"var {line.strip()} = Null")
+            return None  # cut before anything else
         parsed_line = line.split("=")
         name = parsed_line[0].rstrip()
         value = parsed_line[1].lstrip()
@@ -146,7 +142,6 @@ class DiddiParser:
             )
             remove_item_from_dict(MODULE_FUNCTIONS, name)
         value = identify_value(value)
-        self.print_command(f"var {name} = {value}")
         EXECUTION_VARIABLES[name] = value
 
     def parse_string_indexing(self, text):
@@ -182,11 +177,11 @@ class DiddiParser:
         if arg.endswith("'") or arg.endswith('"'):
             arg = arg[:-1]
         arg = self.parse_string_indexing(arg)
-        self.print_command(f"{call}({arg})")
         if call in MODULE_FUNCTIONS.keys():
             func = MODULE_FUNCTIONS[call]
             try:
                 self.last_value = func(arg)
+                return None
             except Exception:
                 self.last_value = None
         elif call == "cd" or call == "chdir":
@@ -236,14 +231,9 @@ class DiddiParser:
                 print(f"  {item}")
             self.last_value = None
         elif call == "store_last_value":
-            if not self.any_value:
-                messages.run_error("No such value stored to save")
             EXECUTION_VARIABLES[arg] = self.last_value
-            self.last_value = None
         else:
             compile_error(f"No such function '{call}'")
-        if not self.any_value:
-            self.any_value = True
 
 
 class InteractiveDiddiParser(DiddiParser):
