@@ -1,0 +1,4 @@
+This is a sample text, used by DiddiScript.
+As you can see, it contains many lines.
+
+Ah, DiddiScript is so cool...
