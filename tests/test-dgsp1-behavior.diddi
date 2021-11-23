@@ -1,0 +1,18 @@
+!# Test the DSGP 1 specs, applied by DiddiParser 2.
+
+load_module("simpleio");  !# library used for output
+
+!# ---- TEST 1: VARIABLE DEFINITION ----
+
+var int_type = 100;           !# Integer type
+var float_type = 1.0;         !# Floating type
+var text_type = "Some text";  !# Text type
+var bool_type = True;         !# Boolean type
+var null_type = Null;         !# Null type
+
+!# ---- TEST 2: VARIABLE FORMATTING ON TEXT ----
+
+print_text("Integer type: ${int_type}");
+print_text("Floating type: ${float_type}");
+print_text("Boolean type: ${bool_type}");
+print_text("Null type: ${null_type}");
