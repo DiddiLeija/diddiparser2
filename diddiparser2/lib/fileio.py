@@ -12,6 +12,7 @@ DIDDISCRIPT_FUNCTIONS = (
     "ensurefile",
     "store_file",
     "print_stored",
+    "open_and_get_file",
 )
 
 
@@ -60,6 +61,13 @@ def store_file(path):
         STORED_FILE.store(io.open(path).readlines())
     except PermissionError:
         run_error(f"File '{path}' is restricted")
+
+
+def open_and_get_file(path):
+    try:
+        return io.open(path).read()
+    except Exception as e:
+        run_error(f"{type(e).__name__}: {str(e)}")
 
 
 def print_stored(arg):

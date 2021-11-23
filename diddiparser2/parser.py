@@ -18,8 +18,51 @@ TOOL_FUNCTIONS = [
     "print_available_functions",
     "chdir",
     "cd",
+    "store_last_value",
 ]
 MODULE_FUNCTIONS = dict()
+EXECUTION_VARIABLES = dict()
+
+
+def remove_item_from_dict(seq, item):
+    "Remove `item` from dictionary `seq`."
+    copy = dict()
+    for k, v in seq.items():
+        if k == item:
+            continue
+        copy[k] = v
+    return copy
+
+
+def identify_value(value):
+    "Identify the true value of a variable."
+    if not isinstance(value, str):
+        # We need strings to modify this
+        compile_error(f"fatal: expected string as initial value, but got {value}")
+    value = value.strip()
+    if "'" in value or '"' in value:
+        # A piece of text, just return
+        if value == "''" or value == '""':
+            return ""
+        return value[1:-1]
+    elif value in ("True", "False"):
+        # A boolean
+        return bool(value)
+    elif value == "Null":
+        # An empty space
+        return None
+    else:
+        # The last possible values are
+        # floats and integers
+        try:
+            if "." in value:
+                # A floating number
+                return float(value.strip())
+            # Maybe an integer?
+            return int(value.strip())
+        except Exception:
+            # It failed, so we raise an error
+            compile_error(f"Could not identify value: {value}")
 
 
 class DiddiParser:
@@ -27,6 +70,9 @@ class DiddiParser:
     Main class of the DiddiScript
     parser.
     """
+
+    any_value = False
+    last_value = None
 
     def __init__(self, file, strategy=io.open, ignore_suffix=False):
         "Constructor method."
@@ -46,6 +92,8 @@ class DiddiParser:
         for line in self.script:
             # remove inline comments
             line = line.split("!#")[0].strip()
+            if len(line) < 1:
+                return [""]
             if not line.endswith(";"):
                 compile_error("Missing semicolon (;) at the end of the line")
             seq.append(line)
@@ -66,7 +114,64 @@ class DiddiParser:
         show_command(cmd)
 
     def executeline(self, line):
-        "Parse, read and run a single line of code."
+        "Execute something on each line."
+        if not line:
+            # Nothing to do here
+            pass
+        elif line.lstrip().startswith("var "):
+            self.execute_def(line)
+        else:
+            self.execute_func(line)
+
+    def execute_def(self, line):
+        "Define a variable."
+        line = line.lstrip()[4:-1]
+        if "=" not in line:
+            # A single-line variable, default to None
+            EXECUTION_VARIABLES[line.strip()] = None
+            self.print_command(f"var {line.strip()} = Null")
+        parsed_line = line.split("=")
+        name = parsed_line[0].rstrip()
+        value = parsed_line[1].lstrip()
+        if name in TOOL_FUNCTIONS:
+            show_warning(
+                f"The variable name '{name}' is overwriting an existing tool "
+                "function. Since now, that function will be unavailable."
+            )
+            TOOL_FUNCTIONS.remove(name)
+        elif name in MODULE_FUNCTIONS.keys():
+            show_warning(
+                f"You are overwriting a function named '{name}' with a variable. "
+                "Now, that function is unavailable."
+            )
+            remove_item_from_dict(MODULE_FUNCTIONS, name)
+        value = identify_value(value)
+        self.print_command(f"var {name} = {value}")
+        EXECUTION_VARIABLES[name] = value
+
+    def parse_string_indexing(self, text):
+        """
+        Replace indexes in text with true variables.
+        By default, this uses the DSGP 1 specification
+        (`${variable}`).
+        """
+        aux = text.split("${")
+        final_line = text.split("${")[0] if not text.startswith("${") else ""
+        for piece in aux[1:]:
+            index = piece.split("}")
+            if len(index) != 2:
+                index = (index[0], "")
+            if index[0] not in EXECUTION_VARIABLES.keys():
+                compile_error(f"Could not resolve variable reference: {index[0]}")
+            true_value = EXECUTION_VARIABLES[index[0]]
+            if true_value is None:
+                # According to the DSGP 1 spec.
+                true_value = "Null"
+            final_line = f"{final_line}{true_value}{index[1]}"
+        return final_line
+
+    def execute_func(self, line):
+        "Run a call(argument) function."
         parsed_line = line.replace(");", "")
         call = parsed_line.split("(")[0]
         pos = len(f"{call}(")  # use this to avoid conflicts
@@ -76,15 +181,18 @@ class DiddiParser:
             arg = arg[1:]
         if arg.endswith("'") or arg.endswith('"'):
             arg = arg[:-1]
+        arg = self.parse_string_indexing(arg)
         self.print_command(f"{call}({arg})")
-        if call not in MODULE_FUNCTIONS and call not in TOOL_FUNCTIONS:
-            compile_error(f"No such function '{call}'")
         if call in MODULE_FUNCTIONS.keys():
             func = MODULE_FUNCTIONS[call]
-            func(arg)
-        if call == "cd" or call == "chdir":
+            try:
+                self.last_value = func(arg)
+            except Exception:
+                self.last_value = None
+        elif call == "cd" or call == "chdir":
             os.chdir(arg)
-        if call == "load_module":
+            self.last_value = arg
+        elif call == "load_module":
             mod = importlib.import_module(f"diddiparser2.lib.{arg}")
             mod_list = mod.DIDDISCRIPT_FUNCTIONS
             for item in mod_list:
@@ -98,7 +206,8 @@ class DiddiParser:
                     locals(),
                     globals(),
                 )
-        if call == "load_extension":
+            self.last_value = None
+        elif call == "load_extension":
             # A Python-like import is expected. For
             # example: "module", "pkg.module"
             ext = importlib.import_module(f"{arg}")
@@ -114,7 +223,8 @@ class DiddiParser:
                     locals(),
                     globals(),
                 )
-        if call == "print_available_functions":
+            self.last_value = None
+        elif call == "print_available_functions":
             # Print the available functions
             if arg:
                 show_warning("This function is not currently accepting arguments.")
@@ -124,6 +234,16 @@ class DiddiParser:
             print("---- Loaded functions ----")
             for item in MODULE_FUNCTIONS:
                 print(f"  {item}")
+            self.last_value = None
+        elif call == "store_last_value":
+            if not self.any_value:
+                messages.run_error("No such value stored to save")
+            EXECUTION_VARIABLES[arg] = self.last_value
+            self.last_value = None
+        else:
+            compile_error(f"No such function '{call}'")
+        if not self.any_value:
+            self.any_value = True
 
 
 class InteractiveDiddiParser(DiddiParser):

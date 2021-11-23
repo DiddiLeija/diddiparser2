@@ -6,9 +6,9 @@ SimpleIO: Common Python I/O interactions
 
 import sys
 
-from diddiparser2.messages import run_error, show_warning
+from diddiparser2.messages import run_error
 
-DIDDISCRIPT_FUNCTIONS = ("program_exit", "print_text", "store_input", "print_input")
+DIDDISCRIPT_FUNCTIONS = ("program_exit", "print_text", "store_input")
 
 
 class TextContainer:
@@ -48,13 +48,4 @@ def store_input(msg):
     except KeyboardInterrupt:
         run_error("Input request was interrupted by user!")
     INPUTS.store_text(text)
-
-
-def print_input(arg):
-    "Print the stored input, if available. Also, enable the usage of indexes."
-    if len(arg) >= 1:
-        show_warning(f"No arguments are accepted here, but we got '{arg}'.")
-    stored = INPUTS.get_text()
-    if stored is None:
-        run_error("There's no input stored!")
-    print(stored)
+    return INPUTS.get_text()

@@ -13,7 +13,7 @@ Table of Contents
 
 * :ref:`api-reference`
 * :ref:`contrib-guide`
-  
+
   * :ref:`dsgp-guide`
 
 * :ref:`lang-guide`
@@ -25,6 +25,7 @@ Table of Contents
 
   * :ref:`lang-modules`
   * :ref:`lang-extensions`
+  * :ref:`lang-variables`
 
   * :ref:`lib-guide`
 

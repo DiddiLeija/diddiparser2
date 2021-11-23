@@ -30,7 +30,7 @@ like a "missing argument".
    DiddiParser2 standard functions will warn you if you added an
    argument to a function that doesn't need arguments. However, it won't
    raise an error -- it will just ignore the argument.
-   
+
    Also, you can tell your custom functions (loaded as extensions) to
    warn if they don't need arguments.
 
@@ -80,6 +80,10 @@ stuff.
 ``print_available_functions()``
   This function prints both the special functions and the loaded
   libraries.
+
+``store_last_value(variable)``
+  Store the last value returned by a function (or Null) on the variable
+  *variable* (with quoted name).
 
 .. seealso::
 

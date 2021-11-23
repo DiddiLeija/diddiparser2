@@ -16,7 +16,7 @@ some useful variables.
 .. py:data:: TOOL_FUNCTIONS
 
    :type: tuple
-   :value: ("load_module", "load_extension")
+   :value: ("cd", "chdir", "load_module", "load_extension", "print_available_functions", "store_last_value")
 
    A tuple of special DiddiScript functions.
 
@@ -27,6 +27,13 @@ some useful variables.
 
    A ``name: callable`` dictionary of loaded modules and extensions.
    It works to define the function name, and its interpretation.
+
+.. py:data:: EXECUTION_VARIABLES
+
+   :type: dict
+   :value: {}
+
+   A ``name: value`` dictionary of defined variables.
 
 .. py:class:: DiddiParser
 
@@ -55,7 +62,41 @@ some useful variables.
       :param str line: A line of DiddiScript code.
       :raises diddiparser2.messages.error: If the execution fails.
 
-      Run a single line of code.
+      Run a single line of code. It runs :py:meth:`diddiparser2.parser.DiddiParser.execute_def`
+      and :py:meth:`diddiparser2.parser.DiddiParser.execute_func` when necessary.
+
+   .. py:method:: execute_def(self, line)
+
+      :param str line: A line of DiddiScript code.
+      :raises diddiparser2.messages.error: If the execution fails.
+
+      Execute a line with a variable definition, according to DSGP 1.
+
+      .. seealso::
+
+         `DSGP 1 <https://github.com/DiddiLeija/diddiparser2/blob/main/dsgp/dsgp-1.md>`_
+           Read the DSGP that specifies the variable standards, and is used by
+           this method.
+
+   .. py:method:: execute_func(self, line)
+
+      :param str line: A line of DiddiScript code.
+      :raises diddiparser2.messages.error: If the execution fails.
+
+      Execute a line with a function. It can be a tool function, or a loaded
+      function.
+
+   .. py:method:: parse_string_indexing(self, line)
+
+      :param str line: A string.
+
+      Format a string with variables, using the DSGP 1 specification.
+
+      .. seealso::
+
+         `DSGP 1 <https://github.com/DiddiLeija/diddiparser2/blob/main/dsgp/dsgp-1.md>`_
+           Read the DSGP that specifies the variable indexing with strings,
+           and is used by this method.
 
    .. py:method:: runfile(self)
 

@@ -13,6 +13,7 @@ used by DiddiParser 2.
 
 * :ref:`lang-modules`
 * :ref:`lang-extensions`
+* :ref:`lang-variables`
 
 .. seealso::
 

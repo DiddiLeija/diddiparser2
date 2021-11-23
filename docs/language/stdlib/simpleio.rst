@@ -35,14 +35,5 @@ Functions
    :param msg: The message to prompt the input.
 
    Store an input, prompted with message *msg*. The input
-   will keep safe until requested.
-
-.. py:function:: print_input()
-
-   Just print the stored input, when available. This function
-   doesn't require arguments.
-
-   .. note::
-
-      If there is no stored text, and this function is called,
-      a run error will be raised.
+   will keep safe until requested, or called for storage in
+   a variable.
