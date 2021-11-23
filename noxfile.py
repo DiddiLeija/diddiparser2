@@ -1,3 +1,5 @@
+import os
+
 import nox
 
 
@@ -42,6 +44,19 @@ def format_and_lint(session):
     session.log("Running linters (this part of the session may cause conflicts).")
     session.run("nox", "-s", "lint")
     session.log("It seems like everything succeeded!")
+
+
+@nox.session
+def tests(session):
+    "Test the DiddiScript features, using our own strategy."
+    session.install("-r", "tests/requirements.txt")
+    session.install("-e", ".")
+    session.log("Starting tests. See the logs to analyze.")
+    session.cd("tests")
+    for file in os.listdir("."):
+        if file.endswith(".diddi"):
+            session.run("diddiparser2", file)
+    session.cd("..")
 
 
 @nox.session(name="generate-console")
