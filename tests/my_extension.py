@@ -2,7 +2,7 @@
 Test extensions file.
 """
 
-DIDDISCRIPT_FUNCTIONS = ("my_func")
+DIDDISCRIPT_FUNCTIONS = ["my_func"]
 
 
 def my_func(arg):
