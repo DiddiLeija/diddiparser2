@@ -20,7 +20,7 @@ def get_parser():
     parser.add_argument(
         "-v",
         "--verbose",
-        default=False
+        default=False,
         action="store_true",
         dest="verbose",
         help="Run the code on verbose mode."
