@@ -73,7 +73,7 @@ class DiddiParser:
 
     last_value = None
 
-    def __init__(self, file, strategy=io.open, ignore_suffix=False):
+    def __init__(self, file, strategy=io.open, ignore_suffix=False, verbose=False):
         "Constructor method."
         if not file.endswith(".diddi") and not ignore_suffix:
             show_warning(
@@ -84,6 +84,7 @@ class DiddiParser:
             )
         self.script = strategy(file)
         self.commands = self.get_commands()
+        self.verbose = verbose
 
     def get_commands(self):
         "Get the commands from our script."
@@ -101,7 +102,10 @@ class DiddiParser:
     def runfile(self):
         "Run the parsed file."
         for line in self.commands:
-            self.print_command(line)
+            if self.verbose:
+                # Verbose mode, so we should
+                # print the command introduced
+                self.print_command(line)
             self.executeline(line)
         success_message()
 
