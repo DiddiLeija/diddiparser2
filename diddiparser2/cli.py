@@ -17,6 +17,14 @@ def get_parser():
         dest="ignore_suffix",
         help="Ignore the suffix warnings from the parser.",
     )
+    parser.add_argument(
+        "-v",
+        "--verbose",
+        default=False
+        action="store_true",
+        dest="verbose",
+        help="Run the code on verbose mode."
+    )
     return parser
 
 
@@ -25,7 +33,11 @@ def main():
     options = parser.parse_args()
     if not options.file:
         parser.error("No such 'file' specified to run")
-    script = DiddiParser(options.file, ignore_suffix=options.ignore_suffix)
+    script = DiddiParser(
+        options.file,
+        ignore_suffix=options.ignore_suffix,
+        verbose=options.verbose,
+    )
     script.runfile()
 
 
