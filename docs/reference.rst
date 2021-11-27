@@ -13,6 +13,12 @@ some useful variables.
 
 .. py:module:: diddiparser2.parser
 
+.. py:data:: __version__
+
+   :type: str
+
+   A string that represents the parser's version.
+
 .. py:data:: TOOL_FUNCTIONS
 
    :type: tuple
@@ -39,11 +45,12 @@ some useful variables.
 
    This class is the main DiddiScript parser.
 
-   .. py:method:: __init__(self, file)
-                  __init__(self, file, ignore_suffix=False)
+   .. py:method:: __init__(self, file, ignore_suffix=False, verbose=False)
 
       :param str file: The DiddiScript file to be parsed.
-      :param bool ignore_suffix: If ``True``, tells DiddiParser to ignore the suffix mismatch.
+      :param bool ignore_suffix: If True, tells DiddiParser to ignore the suffix mismatch.
+      :param bool verbose: If True, the parser will echo all the commands
+                           executed by :py:meth:`diddiparser2.parser.DiddiParser.runfile`.
 
       The constructor method. It reads the selected filename, and gets the commands via
       :py:meth:`diddiparser2.parser.DiddiParser.get_commands`.
