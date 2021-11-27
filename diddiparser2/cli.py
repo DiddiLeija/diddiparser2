@@ -23,7 +23,7 @@ def get_parser():
         default=False,
         action="store_true",
         dest="verbose",
-        help="Run the code on verbose mode."
+        help="Run the code on verbose mode.",
     )
     return parser
 
