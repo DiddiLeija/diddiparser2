@@ -3,14 +3,15 @@
 DiddiScript variables
 =====================
 
-.. seealso:
-   `DSGP 1 <https://github.com/DiddiLeija/diddiparser2/blob/main/dsgp/dsgp-1.md>`_
-     Read the DSGP that specifies the variable standards, and the concept of
-     DiddiScript variables.
-
 Variables help us to store and use data. You can use it on functions,
 or by their own. This document explains how to define and use them on
 your DiddiScript code.
+
+.. seealso::
+
+   `DSGP 1 <https://github.com/DiddiLeija/diddiparser2/blob/main/dsgp/dsgp-1.md>`_
+     Read the DSGP that specifies the variable standards, and the concept of
+     DiddiScript variables.
 
 Definition syntax
 -----------------
