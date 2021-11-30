@@ -79,7 +79,7 @@ class DiddiParser:
         strategy=io.open,
         ignore_suffix=False,
         verbose=False,
-        compile_only=True,
+        compile_only=False,
     ):
         "Constructor method."
         if not file.endswith(".diddi") and not ignore_suffix:
