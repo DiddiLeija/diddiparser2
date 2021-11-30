@@ -25,6 +25,14 @@ def get_parser():
         dest="verbose",
         help="Run the code on verbose mode.",
     )
+    parser.add_argument(
+        "-c",
+        "--compile-only",
+        default=False,
+        action="store_true",
+        dest="compile_only",
+        help="Just compile the code, with minimal executions.",
+    )
     return parser
 
 
@@ -37,6 +45,7 @@ def main():
         options.file,
         ignore_suffix=options.ignore_suffix,
         verbose=options.verbose,
+        compile_only=options.compile_only,
     )
     script.runfile()
 
