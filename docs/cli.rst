@@ -36,8 +36,8 @@ Ignore the warnings caused when the script does not end with the standard
 ``.diddi`` prefix. This passes ``ignore_suffix=True`` to
 :py:meth:`diddiparser2.parser.DiddiParser.__init__`.
 
-``--verbose``
-^^^^^^^^^^^^^
+``--verbose`` / ``-v``
+^^^^^^^^^^^^^^^^^^^^^^
 
 ::
 
@@ -45,6 +45,17 @@ Ignore the warnings caused when the script does not end with the standard
 
 Pass ``verbose=True`` to :py:meth:`diddiparser2.parser.DiddiParser.__init__`. The
 parser will echo all the commands found in the file.
+
+``--compile-only`` / ``-c``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+::
+
+    diddiparser2 some_file.diddi --compile-only
+
+Pass ``compile_only=True`` to :py:meth:`diddiparser2.parser.DiddiParser.__init__`.
+The parser will just run what is necessary, and will compile and identify potential
+errors.
 
 ``diddiscript-console`` -- Interactive console
 ----------------------------------------------

@@ -45,12 +45,16 @@ some useful variables.
 
    This class is the main DiddiScript parser.
 
-   .. py:method:: __init__(self, file, ignore_suffix=False, verbose=False)
+   .. py:method:: __init__(self, file, ignore_suffix=False, verbose=False, compile_only=False)
 
       :param str file: The DiddiScript file to be parsed.
       :param bool ignore_suffix: If True, tells DiddiParser to ignore the suffix mismatch.
       :param bool verbose: If True, the parser will echo all the commands
                            executed by :py:meth:`diddiparser2.parser.DiddiParser.runfile`.
+      :param bool compile_only: If True, the parser will just run what is necessary for
+                                compiling (like library loaders and variable definitions),
+                                and will try to find potential errors (unresolved references,
+                                invalid code, etc.).
 
       The constructor method. It reads the selected filename, and gets the commands via
       :py:meth:`diddiparser2.parser.DiddiParser.get_commands`.
