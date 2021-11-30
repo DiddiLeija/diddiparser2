@@ -73,7 +73,14 @@ class DiddiParser:
 
     last_value = None
 
-    def __init__(self, file, strategy=io.open, ignore_suffix=False, verbose=False):
+    def __init__(
+        self,
+        file,
+        strategy=io.open,
+        ignore_suffix=False,
+        verbose=False,
+        compile_only=False,
+    ):
         "Constructor method."
         if not file.endswith(".diddi") and not ignore_suffix:
             show_warning(
@@ -85,6 +92,7 @@ class DiddiParser:
         self.script = strategy(file)
         self.commands = self.get_commands()
         self.verbose = verbose
+        self.compile_only = compile_only
 
     def get_commands(self):
         "Get the commands from our script."
@@ -184,11 +192,14 @@ class DiddiParser:
         if call in MODULE_FUNCTIONS.keys():
             func = MODULE_FUNCTIONS[call]
             try:
-                self.last_value = func(arg)
+                if not self.compile_only:
+                    self.last_value = func(arg)
                 return None
             except Exception:
                 self.last_value = None
         elif call == "cd" or call == "chdir":
+            if self.compile_only:
+                return None
             os.chdir(arg)
             self.last_value = arg
         elif call == "load_module":
@@ -225,6 +236,8 @@ class DiddiParser:
             self.last_value = None
         elif call == "print_available_functions":
             # Print the available functions
+            if self.compile_only:
+                return None
             if arg:
                 show_warning("This function is not currently accepting arguments.")
             print("---- Special functions ----")
