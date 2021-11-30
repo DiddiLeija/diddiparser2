@@ -6,9 +6,12 @@ DiddiParser 2 documentation
 Welcome! This documentation explains the functions of the
 DiddiScript parser, and the language itself.
 
+If you are new here, you can start by readin the :ref:`quickstart-tutorial`.
+
 Table of Contents
 -----------------
 
+* :ref:`quickstart-tutorial`
 * :ref:`cli-guide`
 
 * :ref:`api-reference`
