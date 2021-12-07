@@ -1,4 +1,4 @@
-# DSGP 1 -- Variable definition
+# DSGP 1 -- Variable definitions
 
 | Author        | Author email         | Status   |
 |---------------|----------------------|----------|
