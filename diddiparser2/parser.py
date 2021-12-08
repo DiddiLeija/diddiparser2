@@ -262,7 +262,7 @@ Parser version: {__version__}
 """
 
     def __init__(self):
-        pass
+        self.compile_only = False
 
     def loop(self):
         "Generate an interactive console."
