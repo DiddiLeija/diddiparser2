@@ -4,7 +4,7 @@ Collector for the "standard variables" described by DSGP 1.
 
 from diddiparser2.messages import show_warning
 
-__all__ = ("diddiscript_types_list")
+__all__ = "diddiscript_types_list"
 
 
 class DiddiScriptType:
@@ -49,8 +49,8 @@ class Boolean(DiddiScriptType):
             # This weird expression will help us to
             # identify a "boolean value", even when it is incorrect.
             show_warning(
-              f"No valid DiddiScript boolean values were found for '{value_text}'. "
-              "A truthy-falsy result will be stored instead."
+                f"No valid DiddiScript boolean values were found for '{value_text}'. "
+                "A truthy-falsy result will be stored instead."
             )
             self.value = (not self.value) is False
 
@@ -64,5 +64,6 @@ class Null(DiddiScriptType):
 
     def __str__(self):
         return "Null"
+
 
 diddiscript_types_list = (Integer, Floating, Text, Boolean, Null)
