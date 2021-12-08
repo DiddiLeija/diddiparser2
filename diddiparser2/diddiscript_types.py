@@ -4,7 +4,7 @@ Collector for the "standard variables" described by DSGP 1.
 
 from diddiparser2.messages import show_warning
 
-__all__ = "diddiscript_types_list"
+__all__ = ["diddiscript_types_list"]
 
 
 class DiddiScriptType:
@@ -58,7 +58,7 @@ class Boolean(DiddiScriptType):
 class Null(DiddiScriptType):
     "Nothing to store here!"
 
-    def __init__(self, value_text):
+    def __init__(self, value_text=None):
         # we won't care for 'value_text' now.
         self.value = None
 
@@ -66,4 +66,13 @@ class Null(DiddiScriptType):
         return "Null"
 
 
-diddiscript_types_list = (Integer, Floating, Text, Boolean, Null)
+diddiscript_types_list = {
+    "int": Integer,
+    "float": Floating,
+    "str": Text,
+    "bool": Boolean,
+    "None": Null,
+}
+
+for ds_type in diddiscript_types_list.values():
+    __all__.append(ds_type)
