@@ -8,7 +8,13 @@ import os
 import sys
 
 from diddiparser2 import messages
-from diddiparser2.messages import compile_error, show_warning, success_message
+from diddiparser2.diddiscript_types import Boolean, Floating, Integer, Null, Text
+from diddiparser2.messages import (
+    compile_error,
+    show_command,
+    show_warning,
+    success_message,
+)
 
 __version__ = "1.0.0"
 
@@ -43,23 +49,23 @@ def identify_value(value):
     if "'" in value or '"' in value:
         # A piece of text, just return
         if value == "''" or value == '""':
-            return ""
-        return value[1:-1]
+            return Text("")
+        return Text(value[1:-1])
     elif value in ("True", "False"):
         # A boolean
-        return bool(value)
+        return Boolean(value)
     elif value == "Null":
         # An empty space
-        return None
+        return Null()
     else:
         # The last possible values are
         # floats and integers
         try:
             if "." in value:
                 # A floating number
-                return float(value.strip())
+                return Floating(value.strip())
             # Maybe an integer?
-            return int(value.strip())
+            return Integer(value.strip())
         except Exception:
             # It failed, so we raise an error
             compile_error(f"Could not identify value: {value}")
@@ -120,8 +126,6 @@ class DiddiParser:
     def print_command(self, cmd):
         "By default, we use the fancy `messages.show_command`"
         # Show the command
-        from diddiparser2.messages import show_command
-
         show_command(cmd)
 
     def executeline(self, line):

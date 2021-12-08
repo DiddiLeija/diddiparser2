@@ -24,7 +24,6 @@ def format(session):
     session.install("-r", "tests/requirements.txt")
     session.run("isort", ".")
     session.run("black", ".")
-    session.log("To get sure both formatters are happy, run 'nox -s lint'.")
 
 
 @nox.session(name="format-and-lint")
@@ -35,14 +34,11 @@ def format_and_lint(session):
     linters have a conflict with another
     linter.
     """
-    session.warn(
-        "We'll run formatters and linters together. "
-        "However, conflicts between linters may be caused by this session."
-    )
+    session.log("Running formatters...")
     session.install("--upgrade", "nox")
     session.log("Formatting...")
     session.run("nox", "-s", "format")
-    session.log("Running linters (this part of the session may cause conflicts).")
+    session.log("Running linters...")
     session.run("nox", "-s", "lint")
     session.log("It seems like everything succeeded!")
 
