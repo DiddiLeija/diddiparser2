@@ -9,7 +9,12 @@ import sys
 
 from diddiparser2 import messages
 from diddiparser2.diddiscript_types import Boolean, Floating, Integer, Null, Text
-from diddiparser2.messages import compile_error, show_warning, success_message
+from diddiparser2.messages import (
+    compile_error,
+    show_command,
+    show_warning,
+    success_message,
+)
 
 __version__ = "1.0.0"
 
@@ -121,8 +126,6 @@ class DiddiParser:
     def print_command(self, cmd):
         "By default, we use the fancy `messages.show_command`"
         # Show the command
-        from diddiparser2.messages import show_command
-
         show_command(cmd)
 
     def executeline(self, line):
