@@ -175,9 +175,6 @@ class DiddiParser:
             if index[0] not in EXECUTION_VARIABLES.keys():
                 compile_error(f"Could not resolve variable reference: {index[0]}")
             true_value = EXECUTION_VARIABLES[index[0]]
-            if true_value is None:
-                # According to the DSGP 1 spec.
-                true_value = "Null"
             final_line = f"{final_line}{true_value}{index[1]}"
         return final_line
 
