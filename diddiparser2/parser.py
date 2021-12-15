@@ -183,28 +183,31 @@ class DiddiParser:
         parsed_line = line.replace(");", "")
         call = parsed_line.split("(")[0]
         pos = len(f"{call}(")  # use this to avoid conflicts
-        arg = parsed_line[pos:]
+        args = parsed_line[pos:].split(",")
+        fixed_args = []
         del pos  # delete the aux
-        if arg.startswith("'") or arg.startswith('"'):
-            arg = arg[1:]
-        if arg.endswith("'") or arg.endswith('"'):
-            arg = arg[:-1]
-        arg = self.parse_string_indexing(arg)
+        for arg in args:
+            if arg.startswith("'") or arg.startswith('"'):
+                arg = arg[1:]
+            if arg.endswith("'") or arg.endswith('"'):
+                arg = arg[:-1]
+            arg = self.parse_string_indexing(arg)
+            fixed_args.append(arg)
         if call in MODULE_FUNCTIONS.keys():
             func = MODULE_FUNCTIONS[call]
             try:
                 if not self.compile_only:
-                    self.last_value = func(arg)
+                    self.last_value = func(*fixed_args)
                 return None
             except Exception:
                 self.last_value = None
         elif call == "cd" or call == "chdir":
             if self.compile_only:
                 return None
-            os.chdir(arg)
-            self.last_value = arg
+            os.chdir(fixed_args[0])
+            self.last_value = fixed_args[0]
         elif call == "load_module":
-            mod = importlib.import_module(f"diddiparser2.lib.{arg}")
+            mod = importlib.import_module(f"diddiparser2.lib.{fixed_args[0]}")
             mod_list = mod.DIDDISCRIPT_FUNCTIONS
             for item in mod_list:
                 if item in TOOL_FUNCTIONS:
@@ -213,7 +216,7 @@ class DiddiParser:
                         "This may cause issues, or even make the parser to be useless."
                     )
                 exec(
-                    f"from diddiparser2.lib.{arg} import {item} as element; MODULE_FUNCTIONS['{item}'] = element",
+                    f"from diddiparser2.lib.{fixed_args[0]} import {item} as element; MODULE_FUNCTIONS['{item}'] = element",
                     locals(),
                     globals(),
                 )
@@ -221,7 +224,7 @@ class DiddiParser:
         elif call == "load_extension":
             # A Python-like import is expected. For
             # example: "module", "pkg.module"
-            ext = importlib.import_module(f"{arg}")
+            ext = importlib.import_module(f"{fixed_args[0]}")
             ext_list = ext.DIDDISCRIPT_FUNCTIONS
             for item in ext_list:
                 if item in TOOL_FUNCTIONS:
@@ -230,7 +233,7 @@ class DiddiParser:
                         "This may cause issues, or even make the parser to be useless."
                     )
                 exec(
-                    f"from {arg} import {item} as element; MODULE_FUNCTIONS['{item}'] = element",
+                    f"from {fixed_args[0]} import {item} as element; MODULE_FUNCTIONS['{item}'] = element",
                     locals(),
                     globals(),
                 )
@@ -249,7 +252,7 @@ class DiddiParser:
                 print(f"  {item}")
             self.last_value = None
         elif call == "store_last_value":
-            EXECUTION_VARIABLES[arg] = self.last_value
+            EXECUTION_VARIABLES[fixed_args[0]] = self.last_value
         else:
             compile_error(f"No such function '{call}'")
 
