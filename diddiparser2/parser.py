@@ -216,8 +216,9 @@ class DiddiParser:
         fixed_args = []
         del pos, args_aux, last_piece  # delete the aux
         for arg in args:
-            arg = self.resolve_value_or_variable(arg)
-            fixed_args.append(arg)
+            if arg != "":
+                arg = self.resolve_value_or_variable(arg)
+                fixed_args.append(arg)
         if call in MODULE_FUNCTIONS.keys():
             func = MODULE_FUNCTIONS[call]
             try:
@@ -229,7 +230,7 @@ class DiddiParser:
         elif call == "cd" or call == "chdir":
             if self.compile_only:
                 return None
-            os.chdir(fixed_args[0])
+            os.chdir(str(fixed_args[0]))
             self.last_value = fixed_args[0]
         elif call == "load_module":
             mod = importlib.import_module(f"diddiparser2.lib.{fixed_args[0]}")
