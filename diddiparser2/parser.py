@@ -40,37 +40,6 @@ def remove_item_from_dict(seq, item):
     return copy
 
 
-def identify_value(value):
-    "Identify the true value of a variable."
-    if not isinstance(value, str):
-        # We need strings to modify this
-        compile_error(f"fatal: expected string as initial value, but got {value}")
-    value = value.strip()
-    if "'" in value or '"' in value:
-        # A piece of text, just return
-        if value == "''" or value == '""':
-            return Text("")
-        return Text(value[1:-1])
-    elif value in ("True", "False"):
-        # A boolean
-        return Boolean(value)
-    elif value == "Null":
-        # An empty space
-        return Null()
-    else:
-        # The last possible values are
-        # floats and integers
-        try:
-            if "." in value:
-                # A floating number
-                return Floating(value.strip())
-            # Maybe an integer?
-            return Integer(value.strip())
-        except Exception:
-            # It failed, so we raise an error
-            compile_error(f"Could not identify value: {value}")
-
-
 class DiddiParser:
     """
     Main class of the DiddiScript
@@ -99,6 +68,36 @@ class DiddiParser:
         self.commands = self.get_commands()
         self.verbose = verbose
         self.compile_only = compile_only
+
+    def identify_value(self, value):
+        "Identify the true value of a variable."
+        if not isinstance(value, str):
+            # We need strings to modify this
+            compile_error(f"fatal: expected string as initial value, but got {value}")
+        value = value.strip()
+        if "'" in value or '"' in value:
+            # A piece of text, just return
+            if value == "''" or value == '""':
+                return Text("")
+            return Text(self.parse_string_indexing(value[1:-1]))
+        elif value in ("True", "False"):
+            # A boolean
+            return Boolean(value)
+        elif value == "Null":
+            # An empty space
+            return Null()
+        else:
+            # The last possible values are
+            # floats and integers
+            try:
+                if "." in value:
+                    # A floating number
+                    return Floating(value.strip())
+                # Maybe an integer?
+                return Integer(value.strip())
+            except Exception:
+                # It failed, so we raise an error
+                compile_error(f"Could not identify value: {value}")
 
     def get_commands(self):
         "Get the commands from our script."
@@ -157,7 +156,7 @@ class DiddiParser:
                 "Now, that function is unavailable."
             )
             remove_item_from_dict(MODULE_FUNCTIONS, name)
-        value = identify_value(value)
+        value = self.identify_value(value)
         EXECUTION_VARIABLES[name] = value
 
     def parse_string_indexing(self, text):
@@ -177,6 +176,15 @@ class DiddiParser:
             true_value = EXECUTION_VARIABLES[index[0]]
             final_line = f"{final_line}{true_value}{index[1]}"
         return final_line
+
+    def resolve_value_or_variable(self, arg):
+        """
+        This resolves between direct values or variables
+        using the DSGP 2 specification.
+        """
+        if arg in EXECUTION_VARIABLES.keys():
+            return EXECUTION_VARIABLES[arg]
+        return self.identify_value(arg)
 
     def execute_func(self, line):
         "Run a call(argument) function."
@@ -208,12 +216,7 @@ class DiddiParser:
         fixed_args = []
         del pos, args_aux, last_piece  # delete the aux
         for arg in args:
-            arg = arg.strip()
-            if arg.startswith("'") or arg.startswith('"'):
-                arg = arg[1:]
-            if arg.endswith("'") or arg.endswith('"'):
-                arg = arg[:-1]
-            arg = self.parse_string_indexing(arg)
+            arg = self.resolve_value_or_variable(arg)
             fixed_args.append(arg)
         if call in MODULE_FUNCTIONS.keys():
             func = MODULE_FUNCTIONS[call]
