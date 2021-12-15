@@ -183,10 +183,32 @@ class DiddiParser:
         parsed_line = line.replace(");", "")
         call = parsed_line.split("(")[0]
         pos = len(f"{call}(")  # use this to avoid conflicts
-        args = parsed_line[pos:].split(",")
+        args_aux = parsed_line[pos:]
+        args_aux = args_aux.split(",")
+        last_piece = ""
+        args = []
+        for piece in args_aux:
+            counter = None
+            if "'" in piece:
+                counter = 0
+                for char in piece:
+                    counter += 1 if char == "'" else 0
+            if '"' in piece:
+                counter = 0
+                for char in piece:
+                    counter += 1 if char == '"' else 0
+            if counter is not None:
+                if counter < 2 and (
+                    piece.strip().endswith("'") or piece.strip().endswith('"')
+                ):
+                    piece = last_piece + "," + piece
+                    args.pop()
+            last_piece = piece
+            args.append(piece)
         fixed_args = []
-        del pos  # delete the aux
+        del pos, args_aux, last_piece  # delete the aux
         for arg in args:
+            arg = arg.strip()
             if arg.startswith("'") or arg.startswith('"'):
                 arg = arg[1:]
             if arg.endswith("'") or arg.endswith('"'):
