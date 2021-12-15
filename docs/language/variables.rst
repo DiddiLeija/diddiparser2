@@ -25,19 +25,16 @@ To define a variable, type the keyword ``var``, then the variable name. If
 you want to preset the value, type ``=`` and then a valid value to store. If you
 don't preset a value, a default :ref:`type-null` will be stored.
 
-Usage under functions (indexing)
---------------------------------
+Usage inside text (indexing)
+----------------------------
 
-You can replace text with variables on functions. Use the ``${variable_name}``
-syntax on your argument to insert variables on them:
+You can insert variables to text. Use the ``${variable_name}``
+syntax on your text to insert variables on them:
 
 ::
 
-    var name = "my name";
-    var age = 20;
-
-    say_hello("Hello, ${name}");
-    find_age("${age}"); !# NOTE: even this is necessary!
+    var name = "Diego";
+    var greeting = "Hello, ${name}!";
 
 .. _variable-types-guide:
 
