@@ -302,6 +302,8 @@ Parser version: {__version__}
             # get the "command"
             try:
                 self.script = [input("> ")]
+                if len(self.script[0].strip()) < 1:
+                    continue
             except EOFError:
                 sys.exit(0)
             except KeyboardInterrupt:
@@ -310,8 +312,7 @@ Parser version: {__version__}
             # compile and run
             try:
                 line = self.get_commands()[0]
-                if line.strip() != "":
-                    self.executeline(line)
+                self.executeline(line)
             except messages.error as exc:
                 # someone raised a DiddiParser
                 # error... just don't crash!
