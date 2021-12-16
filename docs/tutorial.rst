@@ -25,30 +25,37 @@ To upgrade it:
 Write your DiddiScript file
 ---------------------------
 
-First of all, you need to write a DiddiScript file (``*.diddi``). You can define variables
-and run functions fastly with this language.
+First of all, you need to write a DiddiScript file (``*.diddi``). You can define instructions
+that run fast with this language.
 
-The most common thing in DiddiScript are functions:
-
-::
-
-    some_function();
-
-Functions can take arguments. Actually, many of them need arguments. They always go quoted:
+You can store data using variables:
 
 ::
 
-    some_function("some arg");
+    var my_var;              !# Null
+    var x = 23.4;            !# Floating numbers
+    var y = 56;              !# Integers
+    var name = "Diego";      !# Text
+    var is_true = False;     !# Booleans
+    var empty_stuff = Null;  !# Null (explicitly)
 
-You can add comments everywhere:
+Also, you can call function, and pass arguments or not:
 
 ::
 
-    !# This comment is a whole line
-    
-    some_function();  !# This is an inline comment
+    function1(my_var);             !# You can pass variables
+    function2(413);                !# Or values
+    function3("My text", my_var);  !# You can pass several arguments
+    function4();                   !# Or no arguments at all!
 
-We have a bunch of special functions, that are available by default:
+You can insert variables into text:
+
+::
+
+    var name = "Diego";
+    var greeting = "Hello, ${name}!";  !# This would become "Hello, Diego!"
+
+Also, there is a bunch of special functions, that conform your toolbox:
 
 ::
 
@@ -56,18 +63,18 @@ We have a bunch of special functions, that are available by default:
     load_extension("my extension");  !# Load a Python file that contains DiddiScript stuff
     chdir("my_folder");              !# Move the current working directory
     print_available_functions();     !# Print all the available functions
-    store_last_value("some_var");    !# If a function returned something, store the value inside "my_var"
+    store_last_value("my_var");      !# If the last function returned something, store it inside "my_var"
 
-Also, it is possible to define variables, and you can insert their contents into function arguments:
+With this knowledge, you can create more complex code, like this:
 
 ::
 
     !# "simpleio" is the most common DiddiScript library. It
     !# is useful for interacting with the user.
     load_module("simpleio");
-    
+
     var name;  !# For now, keep "name" empty
-    
+
     store_input("Name: ");  !# Ask for a name
     store_last_value("name");  !# Store the last value (in this case, whatever returned by store_input) into "name"
     print_text("Hello, ${name}. I am DiddiScript.");  !# Replace "${name}" with the true value of "name"
@@ -91,13 +98,13 @@ And the inputs/outputs will be shown!
     !# "simpleio" is the most common DiddiScript library. It
     !# is useful for interacting with the user.
     load_module("simpleio");
-    
+
     var name;  !# For now, keep "name" empty
-    
+
     store_input("Name: ");  !# Ask for a name
     store_last_value("name");  !# Store the last value (in this case, whatever returned by store_input) into "name"
     print_text("Hello, ${name}. I am DiddiScript.");  !# Replace "${name}" with the true value of "name"
-    
+
     $ diddiparser2 my_diddiscript_file.diddi
     Name: Diego
     Hello, Diego. I am DiddiScript.
@@ -112,7 +119,7 @@ Since it is written in Python, DiddiParser 2 can be used under Python code!
     # These lines of code are equivalent to
     # running "diddiparser2 my_diddiscript_file.diddi"
     from diddiparser2.parser import DiddiParser
-    
+
     script = DiddiParser("my_diddiscript_file.diddi")
     script.runfile()
 
@@ -128,7 +135,7 @@ You can call it via the ``diddiscript-console`` command:
     Welcome to the interactive DiddiParser console.
     Parser version: 1.0.0
     ============================================================
-    
+
     > !# put your commands here!
 
 Going deeper

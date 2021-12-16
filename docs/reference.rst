@@ -97,6 +97,12 @@ some useful variables.
       Execute a line with a function. It can be a tool function, or a loaded
       function.
 
+   .. py:method:: identify_value(self, arg)
+
+      :param str arg: A string that must become a readable value for DiddiParser.
+
+      Identify a value inside a text, and return the correct value.
+
    .. py:method:: parse_string_indexing(self, line)
 
       :param str line: A string.
@@ -154,7 +160,7 @@ functions in your extensions.
 
    Prints a "run error" in red, and stop the executions. This
    function is used when something in the execution failed. In
-   most of the cases, this function is used by libraries.
+   most of the cases, this function is used by libraries and extensions.
 
 .. py:function:: compile_error(msg)
 
