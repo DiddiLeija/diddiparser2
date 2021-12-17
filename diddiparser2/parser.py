@@ -71,7 +71,9 @@ class DiddiParser:
 
     def identify_value(self, value):
         "Identify the true value of a variable."
-        if not isinstance(value, str):
+        if type(value) in (Null, Boolean, Text, Floating, Integer):
+            return value
+        elif not isinstance(value, str):
             # We need strings to modify this
             compile_error(f"fatal: expected string as initial value, but got {value}")
         value = value.strip()
@@ -138,8 +140,8 @@ class DiddiParser:
         "Define a variable."
         line = line.lstrip()[4:-1]
         if "=" not in line:
-            # A single-line variable, default to None
-            EXECUTION_VARIABLES[line.strip()] = None
+            # A single-line variable, default to DSGP 1's Null
+            EXECUTION_VARIABLES[line.strip()] = Null()
             return None  # cut before anything else
         parsed_line = line.split("=")
         name = parsed_line[0].rstrip()
@@ -223,10 +225,10 @@ class DiddiParser:
             func = MODULE_FUNCTIONS[call]
             try:
                 if not self.compile_only:
-                    self.last_value = func(*fixed_args)
+                    self.last_value = self.identify_value(func(*fixed_args))
                 return None
             except Exception:
-                self.last_value = None
+                self.last_value = Null()
         elif call == "cd" or call == "chdir":
             if self.compile_only:
                 return None
@@ -246,7 +248,7 @@ class DiddiParser:
                     locals(),
                     globals(),
                 )
-            self.last_value = None
+            self.last_value = Null()
         elif call == "load_extension":
             # A Python-like import is expected. For
             # example: "module", "pkg.module"
@@ -263,7 +265,7 @@ class DiddiParser:
                     locals(),
                     globals(),
                 )
-            self.last_value = None
+            self.last_value = Null()
         elif call == "print_available_functions":
             # Print the available functions
             if self.compile_only:
@@ -276,9 +278,9 @@ class DiddiParser:
             print("---- Loaded functions ----")
             for item in MODULE_FUNCTIONS:
                 print(f"  {item}")
-            self.last_value = None
+            self.last_value = Null()
         elif call == "store_last_value":
-            EXECUTION_VARIABLES[fixed_args[0]] = self.last_value
+            EXECUTION_VARIABLES[str(fixed_args[0])] = self.last_value
         else:
             compile_error(f"No such function '{call}'")
 
