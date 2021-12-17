@@ -225,7 +225,11 @@ class DiddiParser:
             func = MODULE_FUNCTIONS[call]
             try:
                 if not self.compile_only:
-                    self.last_value = self.identify_value(func(*fixed_args))
+                    value = func(*fixed_args)
+                    if value is not None:
+                        self.last_value = self.identify_value(value)
+                    else:
+                        self.last_value = Null()
                 return None
             except Exception:
                 self.last_value = Null()
