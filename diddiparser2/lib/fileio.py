@@ -5,6 +5,7 @@ FileIO: DiddiScript library for handling files.
 import io
 import os
 
+from diddiparser2.diddiscript_types import Null, Text
 from diddiparser2.messages import run_error, show_warning
 
 DIDDISCRIPT_FUNCTIONS = (
@@ -17,10 +18,10 @@ DIDDISCRIPT_FUNCTIONS = (
 
 class StoredFile:
     "A space to store files."
-    file = None
+    file = Null()
 
     def store(self, stream):
-        self.file = stream.read()
+        self.file = Text(stream.read())
 
 
 STORED_FILE = StoredFile()
@@ -66,7 +67,7 @@ def store_file(path):
 def print_stored(arg):
     if arg:
         show_warning("No arguments were required, but one argument was specified")
-    if not STORED_FILE.file:
+    if not STORED_FILE.file.value:
         run_error("No such file stored")
-    for line in STORED_FILE.file.splitlines():
+    for line in str(STORED_FILE.file).splitlines():
         print(line)

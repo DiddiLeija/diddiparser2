@@ -69,7 +69,7 @@ class DiddiParser:
         self.verbose = verbose
         self.compile_only = compile_only
 
-    def identify_value(self, value):
+    def identify_value(self, value, from_func=False):
         "Identify the true value of a variable."
         if type(value) in (Null, Boolean, Text, Floating, Integer):
             return value
@@ -99,6 +99,15 @@ class DiddiParser:
                 return Integer(value.strip())
             except Exception:
                 # It failed, so we raise an error
+                if from_func:
+                    # This is a workaround to
+                    # https://github.com/DiddiLeija/diddiparser2/issues/43.
+                    # We will return a Text object, but we will warn the user.
+                    show_warning(
+                        f"We could not identify this value returned by a function: {value}. "
+                        "We will convert it to rough text. Please see "
+                        "https://github.com/DiddiLeija/diddiparser2/issues/43 for more details."
+                    )
                 compile_error(f"Could not identify value: {value}")
 
     def get_commands(self):
@@ -227,7 +236,7 @@ class DiddiParser:
                 if not self.compile_only:
                     value = func(*fixed_args)
                     if value is not None:
-                        self.last_value = self.identify_value(value)
+                        self.last_value = self.identify_value(value, from_func=True)
                     else:
                         self.last_value = Null()
                 return None
