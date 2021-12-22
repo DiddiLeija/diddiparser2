@@ -18,7 +18,7 @@ You can return these types in your extensions.
 
    The template type for all the DiddiScript types. Please don't use this type.
 
-   .. py::attribute:: value
+   .. py:attribute:: value
    
       The Python value that is represented by the DiddiScript type. On this template type,
       is is an empty ``object``.
