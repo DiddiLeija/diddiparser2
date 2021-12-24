@@ -49,7 +49,7 @@ def multiplication_operation(*args):
     result = 0
     for arg in args:
         result = result * arg.value
-    return Floating(result)}
+    return Floating(result)
 
 
 def division_operation(*args):
