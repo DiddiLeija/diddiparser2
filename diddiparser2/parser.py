@@ -9,13 +9,9 @@ import sys
 
 from diddiparser2 import messages
 from diddiparser2.diddiscript_types import Boolean, Floating, Integer, Null, Text
-from diddiparser2.diddiscript_types import error as DSError
-from diddiparser2.messages import (
-    compile_error,
-    show_command,
-    show_warning,
-    success_message,
-)
+from diddiparser2.messages import compile_error
+from diddiparser2.messages import error as DSError
+from diddiparser2.messages import show_command, show_warning, success_message
 
 __version__ = "1.0.0"
 
