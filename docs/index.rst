@@ -33,6 +33,7 @@ Table of Contents
   * :ref:`lib-guide`
 
     * :ref:`lib-fileio`
+    * :ref:`lib-math`
     * :ref:`lib-simpleio`
     * :ref:`lib-sqlite`
     * :ref:`lib-subprocessing`

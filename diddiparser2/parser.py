@@ -9,12 +9,9 @@ import sys
 
 from diddiparser2 import messages
 from diddiparser2.diddiscript_types import Boolean, Floating, Integer, Null, Text
-from diddiparser2.messages import (
-    compile_error,
-    show_command,
-    show_warning,
-    success_message,
-)
+from diddiparser2.messages import compile_error
+from diddiparser2.messages import error as DSError
+from diddiparser2.messages import show_command, show_warning, success_message
 
 __version__ = "1.0.0"
 
@@ -240,6 +237,9 @@ class DiddiParser:
                     else:
                         self.last_value = Null()
                 return None
+            except DSError:
+                # we *should* fail here
+                raise
             except Exception:
                 self.last_value = Null()
         elif call == "cd" or call == "chdir":
