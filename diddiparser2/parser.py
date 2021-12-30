@@ -1,5 +1,12 @@
 """
-DiddiScript main parser.
+The DiddiScript main parser. This tool
+is written in Python and distributed as
+a package on PyPI (https://pypi.org).
+
+Its main feature is a CLI tool to run
+DiddiScript files. Also, it has a CLI for
+an interactive console. And it has a
+code editor focused on DiddiScript.
 """
 
 import importlib
