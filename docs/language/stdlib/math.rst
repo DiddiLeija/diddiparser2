@@ -1,4 +1,4 @@
-.. lib-math:
+.. _lib-math:
 
 ``math`` -- Math operations for DiddiScript
 ===========================================
