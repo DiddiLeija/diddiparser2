@@ -6,6 +6,7 @@ from idlelib.textview import view_text
 from diddiparser2 import __doc__ as diddiparser2_doc
 from diddiparser2.editor import __doc__ as editor_doc
 from diddiparser2.messages import error as DSError
+from diddiparser2.messages import success_message
 from diddiparser2.parser import DiddiParser
 from diddiparser2.parser import __doc__ as diddiscript_doc
 
@@ -28,25 +29,27 @@ def is_vardef(line):
     return "var" in line and line.startswith("var ")
 
 
-def compile_diddiscript(text, parse_method):
+def compile_diddiscript(text, parse_method, just_compile=False):
     "Compile DiddiScript using a Text widget."
     try:
-        parser = DiddiParser(
-            text,
-            strategy=parse_method,
-            ignore_suffix=True,
-            compile_only=True,
-            no_initial_compile=True,
-        )
         line_index = 0
-        for line in parser.commands:
+        for line in parse_method(text):
             line_index += 1
-            line = line.split("!#")[0].strip()
-            if len(line) < 1:
-                continue
-            compiled_line = parser.get_commands(parser.script[line_index - 1])
-            parser.executeline(compiled_line[0])
+            parser = DiddiParser(
+                line,
+                strategy=parse_method,
+                ignore_suffix=True,
+                compile_only=just_compile,
+                notify_success=False,
+            )
+            parser.runfile()
+        if not just_compile:
+            success_message()
+        else:
+            success_message("The compilation was succesfull!")
+        print("=" * 60)
     except DSError:
+        print("=" * 60)
         raise Exception(
             f"Error, at line {line_index}: found an undefined name or syntax error."
         )
@@ -101,7 +104,7 @@ class DiddiScriptEditor:
                 "Save": self.save_new,
                 "Open...": self.open_file,
             },
-            "Run...": {"Compile code": self.compile_code},
+            "Run...": {"Compile code": self.compile_code, "Run code": self.run_code},
         }
         self.startsetup()
 
@@ -181,7 +184,25 @@ Error: \"{msg}\" """,
 
         code = str(self.text_entry.get("1.0", "end"))
         try:
-            compile_diddiscript(code, get_lines)
+            compile_diddiscript(code, get_lines, True)
             messagebox.showinfo("Compilation completed", "Everything looks good!")
         except Exception as exc:
             messagebox.showerror("Compilation failed", str(exc))
+
+    def run_code(self):
+        def get_lines(text):
+            return text.splitlines()
+
+        code = str(self.text_entry.get("1.0", "end"))
+        try:
+            compile_diddiscript(code, get_lines, False)
+            messagebox.showinfo(
+                "Process completed", "The execution finished succesfully!"
+            )
+        except Exception as exc:
+            messagebox.showerror(
+                "Process failed",
+                f"""Something went wrong while compiling/running at line {str(exc).split()[3][:-1]}.
+To check for compiling issues (undefined names, syntax errors),
+go to 'Run' > 'Compile code'.""",
+            )

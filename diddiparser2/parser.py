@@ -59,7 +59,7 @@ class DiddiParser:
         ignore_suffix=False,
         verbose=False,
         compile_only=False,
-        no_initial_compile=False,
+        notify_success=True,
     ):
         "Constructor method."
         if not file.endswith(".diddi") and not ignore_suffix:
@@ -70,12 +70,10 @@ class DiddiParser:
                 "code) or add the --ignore-suffix flag to the CLI. "
             )
         self.script = strategy(file)
-        if no_initial_compile:
-            self.commands = self.script
-        else:
-            self.commands = self.get_commands()
+        self.commands = self.get_commands()
         self.verbose = verbose
         self.compile_only = compile_only
+        self.notify_success = notify_success
 
     def identify_value(self, value, from_func=False):
         "Identify the true value of a variable."
@@ -118,12 +116,10 @@ class DiddiParser:
                     )
                 compile_error(f"Could not identify value: {value}")
 
-    def get_commands(self, code=None):
+    def get_commands(self):
         "Get the commands from our script."
         seq = []
-        if code is None:
-            code = self.script
-        for line in code:
+        for line in self.script:
             # remove inline comments
             line = line.split("!#")[0].strip()
             if len(line) > 0:
@@ -140,7 +136,11 @@ class DiddiParser:
                 # print the command introduced
                 self.print_command(line)
             self.executeline(line)
-        success_message()
+        if self.notify_success:
+            if not self.compile_only:
+                success_message()
+            else:
+                success_message("The compilation was succesfull!")
 
     def print_command(self, cmd):
         "By default, we use the fancy `messages.show_command`"

@@ -23,8 +23,10 @@ def show_warning(msg):
     print(Fore.YELLOW + "WARNING: " + msg)
 
 
-def success_message():
-    print(Fore.GREEN + "The execution finished succesfully!")
+def success_message(msg=None):
+    if not msg:
+        msg = "The execution finished succesfully!"
+    print(Fore.GREEN + msg)
 
 
 def show_command(cmd):
