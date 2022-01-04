@@ -59,6 +59,7 @@ class DiddiParser:
         ignore_suffix=False,
         verbose=False,
         compile_only=False,
+        no_initial_compile=False,
     ):
         "Constructor method."
         if not file.endswith(".diddi") and not ignore_suffix:
@@ -69,7 +70,10 @@ class DiddiParser:
                 "code) or add the --ignore-suffix flag to the CLI. "
             )
         self.script = strategy(file)
-        self.commands = self.get_commands()
+        if no_initial_compile:
+            self.commands = self.script
+        else:
+            self.commands = self.get_commands()
         self.verbose = verbose
         self.compile_only = compile_only
 
@@ -114,17 +118,18 @@ class DiddiParser:
                     )
                 compile_error(f"Could not identify value: {value}")
 
-    def get_commands(self):
+    def get_commands(self, code=None):
         "Get the commands from our script."
         seq = []
-        for line in self.script:
+        if code is None:
+            code = self.script
+        for line in code:
             # remove inline comments
             line = line.split("!#")[0].strip()
-            if len(line) < 1:
-                continue
-            if not line.endswith(";"):
-                compile_error("Missing semicolon (;) at the end of the line")
-            seq.append(line)
+            if len(line) > 0:
+                if not line.endswith(";"):
+                    compile_error("Missing semicolon (;) at the end of the line")
+                seq.append(line)
         return seq
 
     def runfile(self):
