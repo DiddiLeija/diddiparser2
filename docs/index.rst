@@ -13,7 +13,7 @@ Table of Contents
 
 * :ref:`quickstart-tutorial`
 * :ref:`cli-guide`
-
+* :ref:`editor-guide`
 * :ref:`api-reference`
 * :ref:`contrib-guide`
 
