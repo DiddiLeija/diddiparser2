@@ -43,6 +43,7 @@ setuptools.setup(
         "console_scripts": [
             "diddiparser2=diddiparser2.cli:main",
             "diddiscript-console=diddiparser2.parser:interactive_console",
+            "diddiscript-editor=diddiparser2.editor.main:main",
         ],
     },
     project_urls={

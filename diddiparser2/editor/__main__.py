@@ -1,4 +1,3 @@
-from diddiparser2.editor.main import DiddiScriptEditor
+from diddiparser2.editor.main import main
 
-app = DiddiScriptEditor()
-app.root.mainloop()
+main()

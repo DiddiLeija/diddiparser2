@@ -68,6 +68,19 @@ def generate_console(session):
     session.run("diddiscript-console")
 
 
+@nox.session(name="generate-editor")
+def generate_editor(session):
+    """
+    Generate a DiddiScript editor with the latest code.
+    It is installed on the Nox's virtualenv and uses the
+    latest DiddiParser2 code. Use it for testing purposes
+    only.
+    """
+    session.install("-e", ".")
+    session.log("Opening the editor...")
+    session.run("diddiscript-editor")
+
+
 @nox.session
 def release(session):
     """

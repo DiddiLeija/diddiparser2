@@ -206,3 +206,12 @@ Error: \"{msg}\" """,
 To check for compiling issues (undefined names, syntax errors),
 go to 'Run' > 'Compile code'.""",
             )
+
+
+def main():
+    editor = DiddiScriptEditor()
+    editor.root.mainloop()
+
+
+if __name__ == "__main__":
+    main()
