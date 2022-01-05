@@ -72,3 +72,15 @@ DiddiParser 2 has provided an interactive console to run command-by-command
     ============================================================
 
     >
+
+``diddiscript-editor`` -- DiddiScript integrated editor
+-------------------------------------------------------
+
+DiddiParser 2 has an integrated editor built with Tk (via the
+``tkinter`` Python module) with special functionalities focused
+on DiddiScript.
+
+It can be activated via the ``diddiscript-editor`` command, or
+using ``python -m diddiparser2.editor``.
+
+See a detailed guide at :ref:`editor-guide`.

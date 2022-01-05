@@ -1,5 +1,12 @@
 """
-DiddiScript main parser.
+The DiddiScript main parser. This tool
+is written in Python and distributed as
+a package on PyPI (https://pypi.org).
+
+Its main feature is a CLI tool to run
+DiddiScript files. Also, it has a CLI for
+an interactive console. And it has a
+code editor focused on DiddiScript.
 """
 
 import importlib
@@ -52,6 +59,7 @@ class DiddiParser:
         ignore_suffix=False,
         verbose=False,
         compile_only=False,
+        notify_success=True,
     ):
         "Constructor method."
         if not file.endswith(".diddi") and not ignore_suffix:
@@ -65,6 +73,7 @@ class DiddiParser:
         self.commands = self.get_commands()
         self.verbose = verbose
         self.compile_only = compile_only
+        self.notify_success = notify_success
 
     def identify_value(self, value, from_func=False):
         "Identify the true value of a variable."
@@ -113,11 +122,10 @@ class DiddiParser:
         for line in self.script:
             # remove inline comments
             line = line.split("!#")[0].strip()
-            if len(line) < 1:
-                continue
-            if not line.endswith(";"):
-                compile_error("Missing semicolon (;) at the end of the line")
-            seq.append(line)
+            if len(line) > 0:
+                if not line.endswith(";"):
+                    compile_error("Missing semicolon (;) at the end of the line")
+                seq.append(line)
         return seq
 
     def runfile(self):
@@ -128,7 +136,11 @@ class DiddiParser:
                 # print the command introduced
                 self.print_command(line)
             self.executeline(line)
-        success_message()
+        if self.notify_success:
+            if not self.compile_only:
+                success_message()
+            else:
+                success_message("The compilation was succesfull!")
 
     def print_command(self, cmd):
         "By default, we use the fancy `messages.show_command`"

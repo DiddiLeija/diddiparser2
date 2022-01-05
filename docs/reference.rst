@@ -19,68 +19,68 @@ You can return these types in your extensions.
    The template type for all the DiddiScript types. Please don't use this type.
 
    .. py:attribute:: value
-   
+
       The Python value that is represented by the DiddiScript type. On this template type,
       is is an empty ``object``.
 
    .. py:method:: __str__(self)
-      
+
       Returns the value, as a string. In most of the cases,
       this method is respected by all the subclasses.
 
 .. py:class:: Integer(DiddiScriptType)
 
    The type that represents integer numbers.
-   
+
    .. py:method:: __init__(self, value_text)
-      
+
       :param value_text: The value to be stored. This becomes :py:attr:`diddiparser2.diddiscript_types.DiddiScriptType.value`.
-      
+
       Constructor method. The value is converted to ``int``.
 
 .. py:class:: Floating(DiddiScriptType)
 
    The type that represents floating numbers.
-   
+
    .. py:method:: __init__(self, value_text)
-      
+
       :param value_text: The value to be stored. This becomes :py:attr:`diddiparser2.diddiscript_types.DiddiScriptType.value`.
-      
+
       Constructor method. The value is converted to ``float``.
 
 .. py:class:: Text(DiddiScriptType)
 
    The type that represents text.
-   
+
    .. py:method:: __init__(self, value_text)
-      
+
       :param value_text: The value to be stored. This becomes :py:attr:`diddiparser2.diddiscript_types.DiddiScriptType.value`.
-      
+
       Constructor method. The value is not converted, since we *always* expect ``value`` to be a string.
 
 .. py:class:: Boolean(DiddiScriptType)
 
    The type that represents booleans.
-   
+
    .. py:method:: __init__(self, value_text)
-      
+
       :param value_text: The value to be stored. This becomes :py:attr:`diddiparser2.diddiscript_types.DiddiScriptType.value`.
-      
+
       Constructor method. It tries to convert the value to ``bool``. If that doesn't work, we convert value to the bool
       resulting from a truthy-falsy comparation (however, this is not needed at all).
 
 .. py:class:: Null(DiddiScriptType)
 
    The type that represents a null value.
-   
+
    .. py:method:: __init__(self, value_text=None)
-      
+
       :param value_text: We only have this to avoid argument issues, but it is ignored.
-      
+
       Constructor method. Actually, ``value_text`` is ignored here, we store ``None`` instead.
-   
+
    .. py:method:: __str__(self)
-   
+
       This method is overriden to return a ``"Null"`` text.
 
 .. py:module:: diddiparser2.parser
@@ -123,7 +123,7 @@ some useful variables.
 
    This class is the main DiddiScript parser.
 
-   .. py:method:: __init__(self, file, ignore_suffix=False, verbose=False, compile_only=False)
+   .. py:method:: __init__(self, file, ignore_suffix=False, verbose=False, compile_only=False, notify_success=True)
 
       :param str file: The DiddiScript file to be parsed.
       :param bool ignore_suffix: If True, tells DiddiParser to ignore the suffix mismatch.
@@ -133,6 +133,8 @@ some useful variables.
                                 compiling (like library loaders and variable definitions),
                                 and will try to find potential errors (unresolved references,
                                 invalid code, etc.).
+      :param bool notify_success: Mostly an internally-used option, to avoid notifying when an
+                                  execution finishes without issues.
 
       The constructor method. It reads the selected filename, and gets the commands via
       :py:meth:`diddiparser2.parser.DiddiParser.get_commands`.
@@ -181,12 +183,12 @@ some useful variables.
       :param bool from_func: This is used internally, to tell this method that the value was returned from a library/extension.
 
       Identify a value inside a text, and return the correct value.
-      
+
       .. note::
-         
+
          When ``from_func`` is True, the method won't fail if no values are found. Instead, it will return a string of the value.
          This is a workaround to one of our current issues with interpreting the values returned by libraries/extensions.
-         
+
          However, this is not a recommended behavior. See `DiddiLeija/diddiparser2#43 <https://github.com/DiddiLeija/diddiparser2/issues/43>`_ for
          more information.
 
@@ -267,7 +269,26 @@ functions in your extensions.
    This function prints a warning in yellow. It does not
    stop the execution.
 
-.. py:function:: success_message()
+.. py:function:: success_message(msg=None)
+
+   :param msg: An optional message. If it's None, a default message is used.
 
    This function is called by the parser to tell the user
    that the execution finished succesfully.
+
+.. py:module:: diddiparser2.editor
+
+``diddiparser2.editor`` -- The DiddiScript editor
+-------------------------------------------------
+
+In most of the cases, the API contained in this subpackage
+is just used internally for the DiddiScript Editor.
+
+The main configurations happen at ``diddiparser2.editor.main``,
+and are imported by ``diddiparser2.editor.__main__`` to use it
+via ``python -m diddiparser2.editor``.
+
+.. seealso::
+
+   :ref:`editor-guide`
+     A complete guide to the editor's GUI and options.

@@ -35,7 +35,7 @@ Forking the GitHub repo
 To get the GitHub repository for development, use Git to clone it:
 
 ::
-    
+
     git clone https://github.com/DiddiLeija/diddiparser2.git
 
 (Also, you can clone from your own fork on GitHub, or use the GitHub.com interface).
@@ -81,6 +81,8 @@ latest code:
 
     nox -s generate-console
 
+And to check your code with the DiddiScript editor:
+
 Contributions to documentation
 ------------------------------
 
@@ -114,6 +116,6 @@ DiddiScript language!
 
     `Search in-progress DSGPs <https://github.com/DiddiLeija/diddiparser2/pulls?q=is%3Apr+is%3Aopen+label%3A%22diddiscript%3A+DSGP%22>`_
       Pull requests of DSGPs that aren't on the official list, and are not ready yet.
-    
+
     `DSGPs Project Board <https://github.com/DiddiLeija/diddiparser2/projects/2>`_
       See the statuses of the DSGPs, according to their PRs.
