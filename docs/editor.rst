@@ -58,8 +58,8 @@ A quick guide to the options of the editor's menu.
 **Run**
   Run DiddiScript stuff. Logs are shown in console.
 
-    **Compile code**
-      Run the DiddiScript code in "compile only" mode.
+  **Compile code**
+    Run the DiddiScript code in "compile only" mode.
 
-    **Run code**
-      Run the DiddiScript code.
+  **Run code**
+    Run the DiddiScript code.
