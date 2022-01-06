@@ -39,7 +39,7 @@ You can store data using variables:
     var is_true = False;     !# Booleans
     var empty_stuff = Null;  !# Null (explicitly)
 
-Also, you can call function, and pass arguments or not:
+Also, you can call functions, and pass arguments or not:
 
 ::
 

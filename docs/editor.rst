@@ -17,6 +17,10 @@ Also, since it's included in the DiddiParser 2 package, it
 can be called with ``python -m diddiparser2.editor``. See
 :py:mod:`diddiparser2.editor` for related information.
 
+On a clone of the `GitHub repository <https://github.com/DiddiLeija/diddiparser2>`_,
+you can also run a Nox session for generating the editor with the
+latest code, via the ``nox -s generate-editor`` command.
+
 Design of the editor
 --------------------
 

@@ -12,6 +12,11 @@ are accessible on DiddiScript via the ``load_module`` function:
 
     function_from_library("...");
 
+.. seealso::
+
+   `Tree of DiddiScript libraries <https://github.com/DiddiLeija/diddiparser2/tree/main/diddiparser2/lib>`_
+     See the source code of the current DiddiScript libraries.
+
 Documented libraries
 --------------------
 
