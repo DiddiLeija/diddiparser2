@@ -29,6 +29,11 @@ contributions in Python code. You can contribute with libraries, parser behavior
 etc. Also, you can contribute to GitHub-specific stuff, and anything
 else living on the repository.
 
+Python version
+^^^^^^^^^^^^^^
+
+You must have Python 3.7+ to use and develop DiddiParser 2.
+
 Forking the GitHub repo
 ^^^^^^^^^^^^^^^^^^^^^^^
 
