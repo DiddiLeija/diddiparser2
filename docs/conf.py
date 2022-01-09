@@ -19,7 +19,7 @@ copyright = "2021, Diego Ramirez"
 # TODO: We should fix this to display the versions.
 #       See https://github.com/DiddiLeija/diddiparser2/pull/62
 #       for the background of the issue.
-# 
+#
 # version = pkg_version
 # release = version
 
