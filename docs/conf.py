@@ -1,6 +1,4 @@
 # Sphinx config file.
-import os
-import sys
 
 # we want some extensions, so we are including them here:
 extensions = [
