@@ -1,6 +1,6 @@
 # Sphinx config file.
-import sys
 import os
+import sys
 
 try:
     import importlib.metadata as metadata
