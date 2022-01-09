@@ -2,10 +2,7 @@
 import os
 import sys
 
-try:
-    import importlib.metadata as metadata
-except ImportError:
-    import importlib_metadata as metadata
+from diddiparser2 import __version__ as pkg_version
 
 sys.path.insert(0, os.path.abspath(".."))
 sys.path.insert(0, os.path.abspath("."))
@@ -26,7 +23,7 @@ project = "DiddiParser2"
 author = "Diego Ramirez"
 copyright = "2021, Diego Ramirez"
 
-version = metadata.version("diddiparser2")
+version = pkg_version
 release = version
 
 # HTML specs
