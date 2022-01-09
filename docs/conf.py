@@ -2,11 +2,6 @@
 import os
 import sys
 
-sys.path.insert(0, os.path.abspath(".."))
-sys.path.insert(0, os.path.abspath("."))
-
-from diddiparser2 import __version__ as pkg_version
-
 # we want some extensions, so we are including them here:
 extensions = [
     # first-party
@@ -23,8 +18,12 @@ project = "DiddiParser2"
 author = "Diego Ramirez"
 copyright = "2021, Diego Ramirez"
 
-version = pkg_version
-release = version
+# TODO: We should fix this to display the versions.
+#       See https://github.com/DiddiLeija/diddiparser2/pull/62
+#       for the background of the issue.
+# 
+# version = pkg_version
+# release = version
 
 # HTML specs
 html_theme = "furo"
