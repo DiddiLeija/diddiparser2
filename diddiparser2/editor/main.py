@@ -33,16 +33,19 @@ def compile_diddiscript(text, parse_method, just_compile=False):
     "Compile DiddiScript using a Text widget."
     try:
         line_index = 0
-        for line in parse_method(text):
+        parser = DiddiParser(
+            text,
+            strategy=parse_method,
+            ignore_suffix=True,
+            compile_only=just_compile,
+            notify_success=False,
+        )
+        # Now we emulate parser.runfile, but
+        # introducing the line count and removing
+        # the success record...
+        for line in parser.commands:
             line_index += 1
-            parser = DiddiParser(
-                line,
-                strategy=parse_method,
-                ignore_suffix=True,
-                compile_only=just_compile,
-                notify_success=False,
-            )
-            parser.runfile()
+            parser.executeline(line)
         if not just_compile:
             success_message()
         else:

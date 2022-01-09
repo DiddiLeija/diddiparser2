@@ -305,7 +305,7 @@ class DiddiParser:
                 print(f"  {item}")
             self.last_value = Null()
         elif call == "store_last_value":
-            EXECUTION_VARIABLES[str(fixed_args[0])] = self.last_value
+            EXECUTION_VARIABLES[str(fixed_args[0])] = self.last_value if self.last_value is not None else Null()
         else:
             compile_error(f"No such function '{call}'")
 
