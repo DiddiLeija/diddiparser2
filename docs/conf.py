@@ -8,6 +8,7 @@ except ImportError:
     import importlib_metadata as metadata
 
 sys.path.insert(0, os.path.abspath(".."))
+sys.path.insert(0, os.path.abspath("."))
 
 # we want some extensions, so we are including them here:
 extensions = [
