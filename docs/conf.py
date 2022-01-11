@@ -14,7 +14,7 @@ extensions = [
 language = "en"
 project = "DiddiParser2"
 author = "Diego Ramirez"
-copyright = "2021, Diego Ramirez"
+copyright = "2021-2022, Diego Ramirez"
 
 # TODO: We should fix this to display the versions.
 #       See https://github.com/DiddiLeija/diddiparser2/pull/62
