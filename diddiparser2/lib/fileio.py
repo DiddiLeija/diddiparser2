@@ -32,12 +32,10 @@ def printfile(path):
     if not os.path.exists(path):
         run_error(f"File '{path}' does not exists")
     try:
-        file = io.open(path)
-        for line in file.readlines():
-            print(line)
+        with io.open(path) as f:
+            print(f.read())
     except Exception as e:
         run_error(f"'{type(e).__name__}: {str(e)}'")
-    del(file)
 
 
 def ensurefile(path):
@@ -45,7 +43,6 @@ def ensurefile(path):
     if os.path.exists(path):
         # The use of os.access is harmless here, because
         # we don't want to use the file by ourselves.
-        # However, a user can get confused when
         if os.access(path, os.X_OK):
             # We can read, write and modify the path.
             print(f"You can access to '{path}'")
