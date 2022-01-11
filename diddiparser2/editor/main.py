@@ -29,7 +29,7 @@ def is_vardef(line):
     return "var" in line and line.startswith("var ")
 
 
-def compile_diddiscript(text, parse_method, just_compile=False):
+def compile_diddiscript(text, parse_method, verbose, just_compile=False):
     "Compile DiddiScript using a Text widget."
     try:
         line_index = 0
@@ -37,6 +37,7 @@ def compile_diddiscript(text, parse_method, just_compile=False):
             text,
             strategy=parse_method,
             ignore_suffix=True,
+            verbose=verbose,
             compile_only=just_compile,
             notify_success=False,
         )
@@ -45,6 +46,8 @@ def compile_diddiscript(text, parse_method, just_compile=False):
         # the success record...
         for line in parser.commands:
             line_index += 1
+            if verbose:
+                parser.print_command(line)
             parser.executeline(line)
         if not just_compile:
             success_message()
@@ -89,6 +92,8 @@ class DiddiScriptEditor:
         self.root = tkinter.Tk()
         self.file = None
         self.file_saved = False
+        self.verbose = False
+        self.ignore_suffix = False
         self.ftypes = [("DiddiScript file", "*.diddi"), ("All types", "*")]
         self.options = {
             "About...": {
@@ -108,6 +113,10 @@ class DiddiScriptEditor:
                 "Open...": self.open_file,
             },
             "Run...": {"Compile code": self.compile_code, "Run code": self.run_code},
+            "Settings": {
+                "Set verbosity mode": self.set_verbosity,
+                "Set suffix ignoring": self.set_suffix_ignoring,
+            },
         }
         self.startsetup()
 
@@ -166,12 +175,20 @@ Error: \"{msg}\" """,
             messagebox.showinfo("No file selected", "You didn't select a file to open.")
             return None
         try:
+            if not to_open.endswith(".diddi") and not self.ignore_suffix:
+                messagebox.showwarning(
+                    "Suffix warning",
+                    """Warning! The selected file does not end with '*.diddi'.
+Maybe you selected the wrong file, and its syntax may not work.
+
+To supress the warning, go to 'Settings' > 'Set verbosity'.""",
+                )
             with open(to_open, "r") as f:
                 chars = f.read()
         except Exception as exc:
             msg = format_exception(exc)
             messagebox.showerror(
-                "Error while saving",
+                "Error while opening",
                 f"""Fatal: Failed to open file {to_open}.
 
 Error: \"{msg}\" """,
@@ -187,7 +204,7 @@ Error: \"{msg}\" """,
 
         code = str(self.text_entry.get("1.0", "end"))
         try:
-            compile_diddiscript(code, get_lines, True)
+            compile_diddiscript(code, get_lines, self.verbose, True)
             messagebox.showinfo("Compilation completed", "Everything looks good!")
         except Exception as exc:
             messagebox.showerror("Compilation failed", str(exc))
@@ -198,7 +215,7 @@ Error: \"{msg}\" """,
 
         code = str(self.text_entry.get("1.0", "end"))
         try:
-            compile_diddiscript(code, get_lines, False)
+            compile_diddiscript(code, get_lines, self.verbose, False)
             messagebox.showinfo(
                 "Process completed", "The execution finished succesfully!"
             )
@@ -208,6 +225,39 @@ Error: \"{msg}\" """,
                 f"""Something went wrong while compiling/running at line {str(exc).split()[3][:-1]}.
 To check for compiling issues (undefined names, syntax errors),
 go to 'Run' > 'Compile code'.""",
+            )
+
+    def set_verbosity(self):
+        entry = messagebox.askyesno(
+            "Set verbosity?",
+            f"""Do you want to run DiddiScript in verbose mode?
+Current setting: {self.verbose}.""",
+        )
+        if entry is True:
+            self.verbose = True
+        elif entry is False:
+            self.verbose = False
+        else:
+            messagebox.showwarning(
+                "Nothing selected",
+                "We could not identify a valid input. " "The setting hasn't changed.",
+            )
+
+    def set_suffix_ignoring(self):
+        entry = messagebox.askyesno(
+            "Set suffix ignoring?",
+            f"""Do you prefer to ignore the file suffix on files?
+If True, this editor won't warn you when a file does not have the '*.diddi' suffix.
+Current setting: {self.ignore_suffix}.""",
+        )
+        if entry is True:
+            self.ignore_suffix = True
+        elif entry is False:
+            self.ignore_suffix = False
+        else:
+            messagebox.showwarning(
+                "Nothing selected",
+                "We could not identify a valid input. " "The setting hasn't changed.",
             )
 
 

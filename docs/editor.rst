@@ -67,3 +67,19 @@ A quick guide to the options of the editor's menu.
 
   **Run code**
     Run the DiddiScript code.
+
+**Settings**
+  Modify settings to customize your experience.
+
+  **Set verbosity**
+    Decide to set verbosity or not.
+
+    If set, the parser will behave on verbose mode.
+    For example, it will echo the functions and notify
+    other events.
+
+  **Set suffix ignoring**
+    Decide to set suffix ignoring or not.
+
+    If set, the editor won't raise a warning if a file to
+    open does not have the DiddiScript suffix (``*.diddi``).
