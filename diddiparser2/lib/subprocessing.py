@@ -14,7 +14,7 @@ def build_command(*args):
     "Build and format a tuple of commands and return a string."
     final = ""
     for pos in range(len(args)):
-        final += arg
+        final += args[pos]
         final += " " if pos != len(args) - 1 else ""
     return final
 
@@ -29,11 +29,11 @@ def run_command(*cmd):
         )
 
 
-def run_python_cmd(*args):
+def run_python_cmd(*cmd):
     "Execute a Python command, as '{python executable} {arguments}'"
     try:
-        subprocess.run([sys.executable] + list(*args))
+        subprocess.run([sys.executable] + list(*cmd))
     except Exception as exc:
         run_error(
-            f"The subprocess '{build_command(*args)}' failed with error: '{str(exc)}' ({type(exc).__name__})"
+            f"The subprocess '{build_command(*cmd)}' failed with error: '{str(exc)}' ({type(exc).__name__})"
         )
