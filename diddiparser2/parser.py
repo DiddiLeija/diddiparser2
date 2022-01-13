@@ -15,7 +15,14 @@ import os
 import sys
 
 from diddiparser2 import messages
-from diddiparser2.diddiscript_types import Boolean, Floating, Integer, Null, Text
+from diddiparser2.diddiscript_types import (
+    Boolean,
+    DiddiScriptType,
+    Floating,
+    Integer,
+    Null,
+    Text,
+)
 from diddiparser2.messages import compile_error
 from diddiparser2.messages import error as DSError
 from diddiparser2.messages import show_command, show_warning, success_message
@@ -28,10 +35,32 @@ TOOL_FUNCTIONS = [
     "print_available_functions",
     "chdir",
     "cd",
-    "store_last_value",
 ]
 MODULE_FUNCTIONS = dict()
-EXECUTION_VARIABLES = dict()
+
+
+class ForbiddenType(DiddiScriptType):
+    """
+    A private class, that reserves a variable unless it is used internally.
+    We created this class to forbid some variables.
+    """
+
+    def __init__(self, name, reason=None):
+        self.name = name
+        self.reason = reason
+
+    def crash(self):
+        compile_error(
+            f"The use of {self.name} is a reserved "
+            f"variable name by now (reason: {self.reason})."
+        )
+
+    def __str__(self):
+        self.crash()
+
+
+EXECUTION_VARIABLES = {"_memory": ForbiddenType("_memory", "No memory data yet")}
+RESERVED_NAMES = ("_memory",)
 
 
 def remove_item_from_dict(seq, item):
@@ -50,7 +79,7 @@ class DiddiParser:
     parser.
     """
 
-    last_value = None
+    last_value = Null()
 
     def __init__(
         self,
@@ -159,15 +188,20 @@ class DiddiParser:
         line = line.lstrip()[4:-1]
         if "=" not in line:
             # A single-line variable, default to DSGP 1's Null
+            if line in RESERVED_NAMES:
+                EXECUTION_VARIABLES[line.strip()].crash()
             EXECUTION_VARIABLES[line.strip()] = Null()
+            EXECUTION_VARIABLES["_memory"] = Null()
             return None  # cut before anything else
         parsed_line = line.split("=")
         name = parsed_line[0].rstrip()
         value = parsed_line[1].lstrip()
+        if name in RESERVED_NAMES:
+            EXECUTION_VARIABLES[name].crash()
         if name in TOOL_FUNCTIONS:
             show_warning(
                 f"The variable name '{name}' is overwriting an existing tool "
-                "function. Since now, that function will be unavailable."
+                "function. Since now, that function would be unavailable."
             )
             TOOL_FUNCTIONS.remove(name)
         elif name in MODULE_FUNCTIONS.keys():
@@ -178,6 +212,7 @@ class DiddiParser:
             remove_item_from_dict(MODULE_FUNCTIONS, name)
         value = self.identify_value(value)
         EXECUTION_VARIABLES[name] = value
+        EXECUTION_VARIABLES["_memory"] = value
 
     def parse_string_indexing(self, text):
         """
@@ -248,6 +283,7 @@ class DiddiParser:
                         self.last_value = self.identify_value(value, from_func=True)
                     else:
                         self.last_value = Null()
+                EXECUTION_VARIABLES["_memory"] = self.last_value
                 return None
             except DSError:
                 # we *should* fail here
@@ -273,7 +309,6 @@ class DiddiParser:
                     locals(),
                     globals(),
                 )
-            self.last_value = Null()
         elif call == "load_extension":
             # A Python-like import is expected. For
             # example: "module", "pkg.module"
@@ -290,7 +325,6 @@ class DiddiParser:
                     locals(),
                     globals(),
                 )
-            self.last_value = Null()
         elif call == "print_available_functions":
             # Print the available functions
             if self.compile_only:
@@ -303,11 +337,6 @@ class DiddiParser:
             print("---- Loaded functions ----")
             for item in MODULE_FUNCTIONS:
                 print(f"  {item}")
-            self.last_value = Null()
-        elif call == "store_last_value":
-            EXECUTION_VARIABLES[str(fixed_args[0])] = (
-                self.last_value if self.last_value is not None else Null()
-            )
         else:
             compile_error(f"No such function '{call}'")
 

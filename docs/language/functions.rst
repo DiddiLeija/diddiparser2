@@ -68,10 +68,6 @@ stuff.
   This function prints both the special functions and the loaded
   libraries.
 
-``store_last_value(variable)``
-  Store the last value returned by a function (or Null) on the variable
-  *variable* (with quoted name).
-
 .. seealso::
 
    :ref:`lang-modules`

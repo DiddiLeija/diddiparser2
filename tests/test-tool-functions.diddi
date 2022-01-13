@@ -15,12 +15,3 @@ print_available_functions();
 !# ---- chdir | cd ----
 chdir("tests");
 cd("..");
-
-!# ---- store_last_value ----
-!# (This will also test some DSGP 1 features)
-var result = "?";
-load_module("fileio");
-store_file("tests/sample-test.txt");
-store_last_value("result");
-print_text("Stored text:");
-print_text("${result}");

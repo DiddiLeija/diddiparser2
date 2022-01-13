@@ -36,6 +36,27 @@ syntax on your text to insert variables on them:
     var name = "Diego";
     var greeting = "Hello, ${name}!";
 
+Reserved variables
+------------------
+
+We have reserved a few variable names for some operations. They cannot be modified,
+but you can use them for getting certain data.
+
+``_memory``
+^^^^^^^^^^^
+
+*Introduced in 1.2.0.*
+
+This special variable replaces the old function ``store_last_value()``. At the
+beginning of the execution, it is completely forbidden. But under some events, it
+stores values for it's further usage.
+
+When a variable is created, ``_memory`` becomes the variable content
+generated at that time.
+
+When a function is called, and it returns something, ``_memory`` becomes that
+return value.
+
 .. _variable-types-guide:
 
 List of allowed types
