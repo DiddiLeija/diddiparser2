@@ -45,7 +45,7 @@ but you can use them for getting certain data.
 ``_memory``
 ^^^^^^^^^^^
 
-*Introduced in 1.2.0.*
+*Introduced in 1.1.0.*
 
 This special variable replaces the old function ``store_last_value()``. At the
 beginning of the execution, it is completely forbidden. But under some events, it
