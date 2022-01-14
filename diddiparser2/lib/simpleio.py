@@ -9,7 +9,7 @@ import sys
 from diddiparser2.diddiscript_types import Null, Text
 from diddiparser2.messages import run_error
 
-DIDDISCRIPT_FUNCTIONS = ("program_exit", "print_text", "store_input")
+DIDDISCRIPT_FUNCTIONS = ("program_exit", "print_text", "print_line", "store_input")
 
 
 class TextContainer:
@@ -38,7 +38,12 @@ def program_exit(msg):
 
 
 def print_text(txt):
-    "Print something on the screen, with no color."
+    "Print something on the screen."
+    print(txt, end="")
+
+
+def print_line(txt):
+    "Print something, plus a newline."
     print(txt)
 
 

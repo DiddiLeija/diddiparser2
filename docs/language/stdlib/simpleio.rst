@@ -28,7 +28,13 @@ Functions
 
    :param txt: The text to be printed on the screen.
 
-   Print a simple text on the screen.
+   Print a simple text on the screen, without adding a newline.
+
+.. py:function:: print_line(txt)
+
+   :param txt: The text to be printed on the screen.
+
+   Print a simple text on the screen, with adding a newline.
 
 .. py:function:: store_input(msg)
 
