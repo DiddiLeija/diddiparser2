@@ -55,29 +55,28 @@ You can insert variables into text:
     var name = "Diego";
     var greeting = "Hello, ${name}!";  !# This would become "Hello, Diego!"
 
-Also, there is a bunch of special functions, that conform your toolbox:
+Also, there is a bunch of special functions, that conform your toolbox. To see
+them, run this:
 
 ::
 
-    load_module("some library");     !# Load a standard DiddiScript library
-    load_extension("my extension");  !# Load a Python file that contains DiddiScript stuff
-    chdir("my_folder");              !# Move the current working directory
     print_available_functions();     !# Print all the available functions
-    store_last_value("my_var");      !# If the last function returned something, store it inside "my_var"
 
-With this knowledge, you can create more complex code, like this:
+You can use pre-loaded functions, and use other functions:
 
 ::
 
-    !# "simpleio" is the most common DiddiScript library. It
-    !# is useful for interacting with the user.
-    load_module("simpleio");
+    !# The functions below were loaded by default
+    store_input("Name: ");
+    !# The special '_memory' represents the last value. In this case, the obtained input:
+    print_line("Hello, ${_memory}. I am DiddiScript");
 
-    var name;  !# For now, keep "name" empty
+    load_module("math");  !# This will load the 'math' library
 
-    store_input("Name: ");  !# Ask for a name
-    store_last_value("name");  !# Store the last value (in this case, whatever returned by store_input) into "name"
-    print_text("Hello, ${name}. I am DiddiScript.");  !# Replace "${name}" with the true value of "name"
+    !# Something added by 'math'
+    sum_operation(1, 1);  !# 1 + 1
+
+    print_line("1 + 1: ${_memory}");
 
 Execute your file
 -----------------
@@ -94,20 +93,10 @@ And the inputs/outputs will be shown!
 
 ::
 
-    $ cat my_diddiscript_file.diddi
-    !# "simpleio" is the most common DiddiScript library. It
-    !# is useful for interacting with the user.
-    load_module("simpleio");
-
-    var name;  !# For now, keep "name" empty
-
-    store_input("Name: ");  !# Ask for a name
-    store_last_value("name");  !# Store the last value (in this case, whatever returned by store_input) into "name"
-    print_text("Hello, ${name}. I am DiddiScript.");  !# Replace "${name}" with the true value of "name"
-
     $ diddiparser2 my_diddiscript_file.diddi
     Name: Diego
     Hello, Diego. I am DiddiScript.
+    1 + 1: 2
 
 Lower-level usage
 ^^^^^^^^^^^^^^^^^
