@@ -113,7 +113,7 @@ DiddiScript language!
 
 .. seealso::
 
-    `DSGP 0 <https://github.com/DiddiLeija/diddiparser2/blob/main/dsgp/dsgp-0.md>`_
+    `DSGP 0 <https://github.com/DiddiLeija/diddiparser2/blob/main/dsgp/dsgp-000.md>`_
       This DSGP describes the scheme that all the DSGPs should follow.
 
     `Tree of DSGPs <https://github.com/DiddiLeija/diddiparser2/tree/main/dsgp/>`_

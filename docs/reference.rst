@@ -11,7 +11,7 @@ This document explains the internal API of DiddiParser 2
 ---------------------------------------------------------------
 
 This Python module stores all the DiddiScript types (written in
-Python) defined by `DSGP 1 <https://github.com/DiddiLeija/diddiparser2/blob/main/dsgp/dsgp-1.md>`_.
+Python) defined by `DSGP 1 <https://github.com/DiddiLeija/diddiparser2/blob/main/dsgp/dsgp-001.md>`_.
 You can return these types in your extensions.
 
 .. py:class:: DiddiScriptType
@@ -165,7 +165,7 @@ some useful variables.
 
       .. seealso::
 
-         `DSGP 1 <https://github.com/DiddiLeija/diddiparser2/blob/main/dsgp/dsgp-1.md>`_
+         `DSGP 1 <https://github.com/DiddiLeija/diddiparser2/blob/main/dsgp/dsgp-001.md>`_
            Read the DSGP that specifies the variable standards, and is used by
            this method.
 
@@ -200,7 +200,7 @@ some useful variables.
 
       .. seealso::
 
-         `DSGP 1 <https://github.com/DiddiLeija/diddiparser2/blob/main/dsgp/dsgp-1.md>`_
+         `DSGP 1 <https://github.com/DiddiLeija/diddiparser2/blob/main/dsgp/dsgp-001.md>`_
            Read the DSGP that specifies the variable indexing with strings,
            and is used by this method.
 
