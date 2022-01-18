@@ -18,20 +18,13 @@ DIDDISCRIPT_FUNCTIONS = (
     "load_extension",
     "print_available_functions",
 )
-TOOL_FUNCTIONS = [
-    "load_module",
-    "load_extension",
-    "print_available_functions",
-    "chdir",
-    "cd",
-]
 MODULE_FUNCTIONS = dict()
 
 
 # A "cd" function
 def cd(arg):
     os.chdir(str(arg))
-    return str(arg)
+    return arg
 
 
 # "load_module"
@@ -66,9 +59,6 @@ def load_extension(*args):
 def print_available_functions(arg):
     if arg:
         show_warning("This function is not currently accepting arguments.")
-    print("---- Special functions ----")
-    for item in TOOL_FUNCTIONS:
-        print(f"  {item}")
     print("---- Loaded functions ----")
     for item in MODULE_FUNCTIONS:
         print(f"  {item}")

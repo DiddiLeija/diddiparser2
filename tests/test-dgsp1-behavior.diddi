@@ -1,7 +1,5 @@
 !# Test the DSGP 1 specs, applied by DiddiParser 2.
 
-load_module("simpleio");  !# library used for output
-
 !# ---- TEST 1: VARIABLE DEFINITION ----
 
 var int_type = 100;           !# Integer type
@@ -12,7 +10,7 @@ var null_type = Null;         !# Null type
 
 !# ---- TEST 2: VARIABLE FORMATTING ON TEXT ----
 
-print_text("Integer type: ${int_type}");
-print_text("Floating type: ${float_type}");
-print_text("Boolean type: ${bool_type}");
-print_text("Null type: ${null_type}");
+print_line("Integer type: ${int_type}");
+print_line("Floating type: ${float_type}");
+print_line("Boolean type: ${bool_type}");
+print_line("Null type: ${null_type}");

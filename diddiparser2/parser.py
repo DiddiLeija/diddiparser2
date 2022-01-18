@@ -53,16 +53,6 @@ EXECUTION_VARIABLES = {"_memory": ForbiddenType("_memory", "No memory data yet")
 RESERVED_NAMES = ("_memory",)
 
 
-def remove_item_from_dict(seq, item):
-    "Remove `item` from dictionary `seq`."
-    copy = dict()
-    for k, v in seq.items():
-        if k == item:
-            continue
-        copy[k] = v
-    return copy
-
-
 class DiddiParser:
     """
     Main class of the DiddiScript
@@ -195,18 +185,6 @@ class DiddiParser:
         value = parsed_line[1].lstrip()
         if name in RESERVED_NAMES:
             EXECUTION_VARIABLES[name].crash()
-        if name in _builtin.TOOL_FUNCTIONS:
-            show_warning(
-                f"The variable name '{name}' is overwriting an existing tool "
-                "function. Since now, that function would be unavailable."
-            )
-            _builtin.TOOL_FUNCTIONS.remove(name)
-        elif name in _builtin.MODULE_FUNCTIONS.keys():
-            show_warning(
-                f"You are overwriting a function named '{name}' with a variable. "
-                "Now, that function is unavailable."
-            )
-            remove_item_from_dict(_builtin.MODULE_FUNCTIONS, name)
         value = self.identify_value(value)
         EXECUTION_VARIABLES[name] = value
         EXECUTION_VARIABLES["_memory"] = value
