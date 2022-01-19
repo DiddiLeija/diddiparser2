@@ -8,9 +8,6 @@ used by DiddiParser 2.
 
 * :ref:`lang-comments`
 * :ref:`lang-functions`
-
-  * :ref:`tool-functions`
-
 * :ref:`lang-variables`
 
 .. seealso::
