@@ -18,7 +18,8 @@ Contents
 
    :param arg: The path where to move.
 
-   Change the current working directory to *arg*.
+   Change the current working directory to *arg*. It returns a :ref:`type-text`
+   of the new current working directory.
 
 .. py:function:: print_available_functions(arg)
 

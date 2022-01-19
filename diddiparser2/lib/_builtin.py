@@ -5,6 +5,7 @@ A builtin DiddiScript module, to provide libraries by default.
 import importlib
 import os
 
+from diddiparser2.diddiscript_types import Text
 from diddiparser2.lib import simpleio
 from diddiparser2.messages import show_warning
 
@@ -24,7 +25,7 @@ MODULE_FUNCTIONS = dict()
 # A "cd" function
 def cd(arg):
     os.chdir(str(arg))
-    return arg
+    return Text(os.getcwd())
 
 
 # "load_module"
