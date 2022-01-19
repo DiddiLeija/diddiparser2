@@ -3,7 +3,7 @@ import time
 
 import nox
 
-nox.options.sessions = ["format-and-lint"]
+nox.options.sessions = ["format-and-lint", "tests"]
 
 
 @nox.session
