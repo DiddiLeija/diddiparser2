@@ -23,15 +23,11 @@ Table of Contents
 
   * :ref:`lang-comments`
   * :ref:`lang-functions`
-
-    * :ref:`tool-functions`
-
-  * :ref:`lang-modules`
-  * :ref:`lang-extensions`
   * :ref:`lang-variables`
 
   * :ref:`lib-guide`
 
+    * :ref:`lib-builtin`
     * :ref:`lib-fileio`
     * :ref:`lib-math`
     * :ref:`lib-simpleio`

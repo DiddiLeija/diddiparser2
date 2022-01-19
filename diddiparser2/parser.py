@@ -9,9 +9,7 @@ an interactive console. And it has a
 code editor focused on DiddiScript.
 """
 
-import importlib
 import io
-import os
 import sys
 
 from diddiparser2 import messages
@@ -23,20 +21,12 @@ from diddiparser2.diddiscript_types import (
     Null,
     Text,
 )
+from diddiparser2.lib import _builtin
 from diddiparser2.messages import compile_error
 from diddiparser2.messages import error as DSError
 from diddiparser2.messages import show_command, show_warning, success_message
 
 __version__ = "1.1.0"
-
-TOOL_FUNCTIONS = [
-    "load_module",
-    "load_extension",
-    "print_available_functions",
-    "chdir",
-    "cd",
-]
-MODULE_FUNCTIONS = dict()
 
 
 class ForbiddenType(DiddiScriptType):
@@ -61,16 +51,6 @@ class ForbiddenType(DiddiScriptType):
 
 EXECUTION_VARIABLES = {"_memory": ForbiddenType("_memory", "No memory data yet")}
 RESERVED_NAMES = ("_memory",)
-
-
-def remove_item_from_dict(seq, item):
-    "Remove `item` from dictionary `seq`."
-    copy = dict()
-    for k, v in seq.items():
-        if k == item:
-            continue
-        copy[k] = v
-    return copy
 
 
 class DiddiParser:
@@ -103,6 +83,7 @@ class DiddiParser:
         self.verbose = verbose
         self.compile_only = compile_only
         self.notify_success = notify_success
+        self.load_builtins()
 
     def identify_value(self, value, from_func=False):
         "Identify the true value of a variable."
@@ -157,6 +138,12 @@ class DiddiParser:
                 seq.append(line)
         return seq
 
+    def load_builtins(self):
+        "Load the _builtin module for DiddiScript."
+        if self.verbose:
+            self.print_command("Loading the '_builtin' module...")
+        _builtin.load_module("_builtin")
+
     def runfile(self):
         "Run the parsed file."
         for line in self.commands:
@@ -198,18 +185,6 @@ class DiddiParser:
         value = parsed_line[1].lstrip()
         if name in RESERVED_NAMES:
             EXECUTION_VARIABLES[name].crash()
-        if name in TOOL_FUNCTIONS:
-            show_warning(
-                f"The variable name '{name}' is overwriting an existing tool "
-                "function. Since now, that function would be unavailable."
-            )
-            TOOL_FUNCTIONS.remove(name)
-        elif name in MODULE_FUNCTIONS.keys():
-            show_warning(
-                f"You are overwriting a function named '{name}' with a variable. "
-                "Now, that function is unavailable."
-            )
-            remove_item_from_dict(MODULE_FUNCTIONS, name)
         value = self.identify_value(value)
         EXECUTION_VARIABLES[name] = value
         EXECUTION_VARIABLES["_memory"] = value
@@ -274,8 +249,8 @@ class DiddiParser:
             if arg != "":
                 arg = self.resolve_value_or_variable(arg)
                 fixed_args.append(arg)
-        if call in MODULE_FUNCTIONS.keys():
-            func = MODULE_FUNCTIONS[call]
+        if call in _builtin.MODULE_FUNCTIONS.keys():
+            func = _builtin.MODULE_FUNCTIONS[call]
             try:
                 if not self.compile_only:
                     value = func(*fixed_args)
@@ -290,53 +265,6 @@ class DiddiParser:
                 raise
             except Exception:
                 self.last_value = Null()
-        elif call == "cd" or call == "chdir":
-            if self.compile_only:
-                return None
-            os.chdir(str(fixed_args[0]))
-            self.last_value = fixed_args[0]
-        elif call == "load_module":
-            mod = importlib.import_module(f"diddiparser2.lib.{fixed_args[0]}")
-            mod_list = mod.DIDDISCRIPT_FUNCTIONS
-            for item in mod_list:
-                if item in TOOL_FUNCTIONS:
-                    show_warning(
-                        f"The '{item}' special function is being overridden. "
-                        "This may cause issues, or even make the parser to be useless."
-                    )
-                exec(
-                    f"from diddiparser2.lib.{fixed_args[0]} import {item} as element; MODULE_FUNCTIONS['{item}'] = element",
-                    locals(),
-                    globals(),
-                )
-        elif call == "load_extension":
-            # A Python-like import is expected. For
-            # example: "module", "pkg.module"
-            ext = importlib.import_module(f"{fixed_args[0]}")
-            ext_list = ext.DIDDISCRIPT_FUNCTIONS
-            for item in ext_list:
-                if item in TOOL_FUNCTIONS:
-                    show_warning(
-                        f"The '{item}' special function is being overridden. "
-                        "This may cause issues, or even make the parser to be useless."
-                    )
-                exec(
-                    f"from {fixed_args[0]} import {item} as element; MODULE_FUNCTIONS['{item}'] = element",
-                    locals(),
-                    globals(),
-                )
-        elif call == "print_available_functions":
-            # Print the available functions
-            if self.compile_only:
-                return None
-            if arg:
-                show_warning("This function is not currently accepting arguments.")
-            print("---- Special functions ----")
-            for item in TOOL_FUNCTIONS:
-                print(f"  {item}")
-            print("---- Loaded functions ----")
-            for item in MODULE_FUNCTIONS:
-                print(f"  {item}")
         else:
             compile_error(f"No such function '{call}'")
 
@@ -352,6 +280,7 @@ Parser version: {__version__}
     def __init__(self):
         self.compile_only = False
         self.verbose = False
+        self.load_builtins()
 
     def loop(self):
         "Generate an interactive console."

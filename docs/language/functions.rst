@@ -41,37 +41,4 @@ be values or variables.
 Special functions *(tool functions)*
 ------------------------------------
 
-We have saved special functions, to handle and load DiddiScript
-stuff.
-
-.. warning::
-
-   If you load or create a function that replaces one of the special functions
-   listed here, you will probably harm the functionality of the parser, because
-   the original functions will be overwritten.
-
-``cd(path)`` | ``chdir(path)``
-  Change the current working directory (*cwd*), if possible.
-
-``load_module(module)``
-  This function loads functions from the DiddiScript standard
-  library, for its usage on the code. If a new function has the
-  same name than an existing function, the old function will be
-  overwritten and replaced by the new one.
-
-``load_extension(extension)``
-  This function loads functions from a custom Python file. Its
-  rules are the same than those related to ``load_module``, with a
-  few other specific rules.
-
-``print_available_functions()``
-  This function prints both the special functions and the loaded
-  libraries.
-
-.. seealso::
-
-   :ref:`lang-modules`
-     A detailed description of ``load_module``.
-
-   :ref:`lang-extensions`
-     A detailed description of ``load_extension``.
+This has moved into :ref:`lib-builtin`.

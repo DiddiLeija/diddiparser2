@@ -97,21 +97,6 @@ some useful variables.
 
    A string that represents the parser's version.
 
-.. py:data:: TOOL_FUNCTIONS
-
-   :type: tuple
-   :value: ("cd", "chdir", "load_module", "load_extension", "print_available_functions", "store_last_value")
-
-   A tuple of special DiddiScript functions.
-
-.. py:data:: MODULE_FUNCTIONS
-
-   :type: dict
-   :value: {}
-
-   A ``name: callable`` dictionary of loaded modules and extensions.
-   It works to define the function name, and its interpretation.
-
 .. py:data:: EXECUTION_VARIABLES
 
    :type: dict
@@ -174,8 +159,7 @@ some useful variables.
       :param str line: A line of DiddiScript code.
       :raises diddiparser2.messages.error: If the execution fails.
 
-      Execute a line with a function. It can be a tool function, or a loaded
-      function.
+      Execute a line with a function.
 
    .. py:method:: identify_value(self, arg, from_func=False)
 

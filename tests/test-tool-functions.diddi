@@ -2,8 +2,7 @@
 
 !# ---- load_module ----
 
-load_module("simpleio");
-print_text("We can load functions!");
+print_line("We can load functions!");
 
 !# ---- load_extension ----
 load_extension("tests.my_extension");
