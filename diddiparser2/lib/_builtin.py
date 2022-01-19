@@ -20,6 +20,7 @@ DIDDISCRIPT_FUNCTIONS = (
     "print_available_functions",
 )
 MODULE_FUNCTIONS = dict()
+FUNCTIONS_ORIGINS = dict()
 
 
 # A "cd" function
@@ -28,9 +29,18 @@ def cd(arg):
     return Text(os.getcwd())
 
 
+# The "chdir" alias
+chdir = cd
+# Stuff imported from simpleio
+print_text = simpleio.print_text
+print_line = simpleio.print_line
+store_input = simpleio.store_input
+
+
 # "load_module"
 def load_module(*args):
     for arg in args:
+        arg = str(arg)
         mod = importlib.import_module(f"diddiparser2.lib.{arg}")
         mod_list = mod.DIDDISCRIPT_FUNCTIONS
         for item in mod_list:
@@ -39,6 +49,7 @@ def load_module(*args):
                 locals(),
                 globals(),
             )
+            FUNCTIONS_ORIGINS[item] = ("module", arg)
 
 
 # "load_extension"
@@ -46,6 +57,7 @@ def load_extension(*args):
     for arg in args:
         # A Python-like import is expected. For
         # example: "module", "pkg.module"
+        arg = str(arg)
         ext = importlib.import_module(f"{arg}")
         ext_list = ext.DIDDISCRIPT_FUNCTIONS
         for item in ext_list:
@@ -54,20 +66,14 @@ def load_extension(*args):
                 locals(),
                 globals(),
             )
+            FUNCTIONS_ORIGINS[item] = ("extension", arg)
 
 
 # "print_available_functions"
-def print_available_functions(arg):
+def print_available_functions(arg=None):
     if arg:
         show_warning("This function is not currently accepting arguments.")
-    print("---- Loaded functions ----")
+    print_line("---- Loaded functions ----")
     for item in MODULE_FUNCTIONS:
-        print(f"  {item}")
-
-
-# The "chdir" alias
-chdir = cd
-# Stuff imported from simpleio
-print_text = simpleio.print_text
-print_line = simpleio.print_line
-store_input = simpleio.store_input
+        kind, name = FUNCTIONS_ORIGINS[item]
+        print_line(f"  {item} (loaded from {kind} '{name}')")

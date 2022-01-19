@@ -25,7 +25,7 @@ Contents
 
    :param arg: A mandatory argument. This function won't use it at all.
 
-   Print the available functions.
+   Print the available functions, and their origin.
 
 .. _lang-modules:
 
