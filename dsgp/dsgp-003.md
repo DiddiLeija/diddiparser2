@@ -1,4 +1,4 @@
-## DSGP 3 -- The Ultimate extensions guide
+# DSGP 3 -- The Ultimate extensions guide
 
 | Author        | Author email         | Status   |
 |---------------|----------------------|----------|

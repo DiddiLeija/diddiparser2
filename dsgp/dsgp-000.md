@@ -19,7 +19,7 @@ proposing an important change to the Diddiscript grammar.
 
 A DSGP _should not_ be focused in proposing new libraries. Those
 changes should be covered in an issue at the parser's repository.
-For example, in the [DiddiParser 2 GitHub Issues page][1]. 
+For example, in the [DiddiParser 2 GitHub Issues page][1].
 
 It is recommended to add examples to a DSGP, to explain how does the
 proposed grammar will affect the DiddiScript behavior. Also, if it takes
@@ -82,7 +82,7 @@ This is a template of a DSGP. The author of future DSGPs can use this template t
 write the document. Replace the `{...}` spaces with the required information:
 
 ```markdown
-## DSGP {number of the DSGP} -- {title}
+# DSGP {number of the DSGP} -- {title}
 
 | Author        | Author email         | Status   |
 |---------------|----------------------|----------|

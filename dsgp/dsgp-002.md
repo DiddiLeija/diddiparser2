@@ -1,4 +1,4 @@
-## DSGP 2 -- Improvements to the argument syntax
+# DSGP 2 -- Improvements to the argument syntax
 
 | Author        | Author email         | Status   |
 |---------------|----------------------|----------|
