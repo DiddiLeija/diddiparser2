@@ -28,6 +28,20 @@ You can return these types in your extensions.
       Returns the value, as a string. In most of the cases,
       this method is respected by all the subclasses.
 
+   .. py:method:: __int__(self)
+
+      Returns the value as a Python integer. If a ``ValueError``
+      is raised, we raise our own exception.
+
+    .. py:method:: __float__(self)
+
+       Returns the value as a Python float. If a ``ValueError``
+       is raised, we raise our own exception.
+
+    .. py:method:: __bool__(self)
+
+       Returns the value as a Python bool.
+
 .. py:class:: Integer(DiddiScriptType)
 
    The type that represents integer numbers.
@@ -38,6 +52,10 @@ You can return these types in your extensions.
 
       Constructor method. The value is converted to ``int``.
 
+   .. py:method:: __int__(self)
+
+      Instead of trying to convert to ``int``, we just return the value.
+
 .. py:class:: Floating(DiddiScriptType)
 
    The type that represents floating numbers.
@@ -47,6 +65,10 @@ You can return these types in your extensions.
       :param value_text: The value to be stored. This becomes :py:attr:`diddiparser2.diddiscript_types.DiddiScriptType.value`.
 
       Constructor method. The value is converted to ``float``.
+
+   .. py:method:: __float__(self)
+
+      Instead of trying to convert to ``float``, we just return the value.
 
 .. py:class:: Text(DiddiScriptType)
 
@@ -68,6 +90,10 @@ You can return these types in your extensions.
 
       Constructor method. It tries to convert the value to ``bool``. If that doesn't work, we convert value to the bool
       resulting from a truthy-falsy comparation (however, this is not needed at all).
+
+    .. py:method:: __bool__(self)
+
+       Instead of trying to convert to ``bool``, we just return the value.
 
 .. py:class:: Null(DiddiScriptType)
 
