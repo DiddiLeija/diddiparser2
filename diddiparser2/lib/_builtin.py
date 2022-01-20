@@ -7,7 +7,7 @@ import os
 
 from diddiparser2.diddiscript_types import Text
 from diddiparser2.lib import simpleio
-from diddiparser2.messages import show_warning
+from diddiparser2.messages import run_error, show_warning
 
 DIDDISCRIPT_FUNCTIONS = (
     "chdir",
@@ -24,8 +24,11 @@ FUNCTIONS_ORIGINS = dict()
 
 
 # A "cd" function
-def cd(arg):
-    os.chdir(str(arg))
+def cd(arg=None):
+    if isinstance(arg, Text):
+        os.chdir(str(arg))
+    elif arg is not None:
+        run_error(f"Unexpected parameter to change cwd: {arg}")
     return Text(os.getcwd())
 
 
