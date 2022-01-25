@@ -1,0 +1,16 @@
+load_module("math");
+
+sum_operation(1.5, 1.5);
+print_line("1.5 + 1.5: ${_memory}");
+
+subtraction_operation(3, 1.5);
+print_line("3 - 1.5: ${_memory}");
+
+multiplication_operation(5, 5);
+print_line("5 * 5: ${_memory}");
+
+division_operation(25, 5.0);
+print_line("25 / 5: ${_memory}");
+
+power(2, 3);
+print_line("2 ^ 3: ${_memory}");

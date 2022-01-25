@@ -1,0 +1,4 @@
+load_module("subprocessing");
+
+run_command("pip", "--version");
+run_python_cmd("--version");

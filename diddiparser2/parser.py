@@ -212,6 +212,7 @@ class DiddiParser:
         This resolves between direct values or variables
         using the DSGP 2 specification.
         """
+        arg = arg.strip()
         if arg in EXECUTION_VARIABLES.keys():
             return EXECUTION_VARIABLES[arg]
         return self.identify_value(arg)

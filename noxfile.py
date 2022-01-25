@@ -53,7 +53,10 @@ def tests(session):
     session.log("Starting tests. See the logs to analyze.")
     for file in os.listdir("tests"):
         if file.endswith(".diddi"):
-            session.run("diddiparser2", f"tests/{file}")
+            if session.posargs:
+                session.run("diddiparser2", f"tests/{file}", *session.posargs)
+            else:
+                session.run("diddiparser2", f"tests/{file}")
             time.sleep(1)
 
 

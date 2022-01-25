@@ -1,0 +1,17 @@
+!# Test the DSGP 3 example of writing,
+!# loading and using extensions.
+!#
+!# This is a copy of the extension example found at
+!# DSGP 3 (with small modifications). Whenever the
+!# original example is modified, this file should be
+!# updated too.
+
+load_module("simpleio");
+load_extension("tests.dsgp_3_example");  !# This loads the "tests/dsgp_3_example.py" file
+
+var some_text = "dummy text";
+var number = 1;
+
+my_func(some_text);
+print_line("=====");
+my_func2(number, some_text, True, Null, 0);
