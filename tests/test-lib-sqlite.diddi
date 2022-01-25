@@ -1,0 +1,4 @@
+!# TODO: We should improve the SQLite library before trying to
+!#       add a corresponding test.
+
+!# load_module("sqlite");
