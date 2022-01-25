@@ -1,0 +1,11 @@
+load_module("simpleio");
+
+print_text("One text... ");
+print_text("that doesn't matter\n");
+
+print_line("Another text that doesn't matter");
+
+!# store_input("Please say something: ");
+!# print_line(_memory);
+
+program_exit("Bye!");
