@@ -1,6 +1,9 @@
-!# Test all of the tool functions.
+!# Test the _builtin stuff, that used to
+!# be the tool functions.
 
 !# ---- load_module ----
+load_module("simpleio");
+load_module("_builtin");
 
 print_line("We can load functions!");
 
