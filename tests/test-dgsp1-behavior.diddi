@@ -12,5 +12,6 @@ var null_type = Null;         !# Null type
 
 print_line("Integer type: ${int_type}");
 print_line("Floating type: ${float_type}");
+print_line("Text type: ${text_type}");
 print_line("Boolean type: ${bool_type}");
 print_line("Null type: ${null_type}");
