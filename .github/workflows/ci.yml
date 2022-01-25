@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ main ]
 
+env:
+  # This can make the outputs colorful
+  FORCE_COLOR: "1"
+
 jobs:
   build:
 
