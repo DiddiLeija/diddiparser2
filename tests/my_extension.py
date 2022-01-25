@@ -1,5 +1,5 @@
 """
-Test extensions file.
+Test extension file.
 """
 
 DIDDISCRIPT_FUNCTIONS = ["my_func"]
