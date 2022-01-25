@@ -6,7 +6,7 @@ SimpleIO: Common Python I/O interactions
 
 import sys
 
-from diddiparser2.diddiscript_types import Text
+from diddiparser2.diddiscript_types import Floating, Integer, Text
 from diddiparser2.messages import run_error
 
 DIDDISCRIPT_FUNCTIONS = ("program_exit", "print_text", "print_line", "store_input")
@@ -15,7 +15,10 @@ DIDDISCRIPT_FUNCTIONS = ("program_exit", "print_text", "print_line", "store_inpu
 def program_exit(msg):
     "Exit (via sys.exit) with a message or an exit code."
     try:
-        msg = int(msg)
+        if isinstance(msg, Floating) or isinstance(msg, Integer):
+            msg = int(msg)
+        else:
+            msg = str(msg)
     except Exception:
         pass
     sys.exit(msg)
