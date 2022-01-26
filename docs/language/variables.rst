@@ -101,7 +101,7 @@ Floating
 ^^^^^^^^
 
 Decimal numbers, like ``12.34``. In math operations, they are compatible
-with :ref:`type-integer`.
+with the :ref:`type-integer` type.
 
 .. _type-integer:
 
@@ -109,4 +109,4 @@ Integer
 ^^^^^^^
 
 Natural numbers like ``1234``. In math operations, they are compatible with
-:ref:`type-floating`.
+the :ref:`type-floating` type.
