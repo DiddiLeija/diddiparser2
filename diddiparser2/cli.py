@@ -8,7 +8,7 @@ from diddiparser2.parser import __version__ as parser_version
 
 def get_parser():
     parser = argparse.ArgumentParser(prog=__name__)
-    parser.add_argument("--version", action="version", version=parser_version)
+    parser.add_argument("-V", "--version", action="version", version=parser_version)
     parser.add_argument("file", nargs="?", metavar="FILE")
     parser.add_argument(
         "--ignore-suffix",
