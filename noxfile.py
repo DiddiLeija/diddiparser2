@@ -38,10 +38,7 @@ def format_and_lint(session):
     """
     session.log("Running formatters...")
     session.install("--upgrade", "nox")
-    session.log("Formatting...")
-    session.run("nox", "-s", "format")
-    session.log("Running linters...")
-    session.run("nox", "-s", "lint")
+    session.run("nox", "-s", "format", "lint")
     session.log("It seems like everything succeeded!")
 
 
