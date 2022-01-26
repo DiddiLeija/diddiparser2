@@ -57,6 +57,15 @@ generated at that time.
 When a function is called, and it returns something, ``_memory`` becomes that
 return value.
 
+``_endl``
+^^^^^^^^^
+
+*Introduced in 1.1.0.*
+
+This variable represents a newline (``"\n"``). We introduced it because adding
+a ``"\n"`` directly becomes ``"\\n"``, so it does not represent a newline. But
+using ``_endl`` provides this functionality.
+
 .. _variable-types-guide:
 
 List of allowed types

@@ -1,7 +1,7 @@
 load_module("simpleio");
 
 print_text("One text... ");
-print_line("that doesn't matter");
+print_text("that doesn't matter${_endl}");
 
 print_line("Another text that doesn't matter");
 

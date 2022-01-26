@@ -49,8 +49,11 @@ class ForbiddenType(DiddiScriptType):
         self.crash()
 
 
-EXECUTION_VARIABLES = {"_memory": ForbiddenType("_memory", "No memory data yet")}
-RESERVED_NAMES = ("_memory",)
+EXECUTION_VARIABLES = {
+    "_memory": ForbiddenType("_memory", "No memory data yet"),
+    "_endl": "\n",
+}
+RESERVED_NAMES = ("_memory", "_endl")
 
 
 class DiddiParser:
