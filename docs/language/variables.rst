@@ -29,12 +29,14 @@ Usage inside text (indexing)
 ----------------------------
 
 You can insert variables to text. Use the ``${variable_name}``
-syntax on your text to insert variables on them:
+syntax on a :ref:`type-text` variable to insert variables on its content:
 
 ::
 
     var name = "Diego";
     var greeting = "Hello, ${name}!";
+
+    some_function("A line of text ${_endl} and another line!");
 
 Reserved variables
 ------------------
@@ -84,25 +86,27 @@ Text
 ^^^^
 
 A string of Unicode (most of the times UTF-8 encoded) characters.
-They go quoted (with ``""`` or ``''``) in most of the code.
+They go quoted (with ``""`` or ``''``) in the code.
 
 .. _type-bool:
 
-Booleans
-^^^^^^^^
+Boolean
+^^^^^^^
 
 ``True`` or ``False``.
 
 .. _type-floating:
 
-Floating numbers
-^^^^^^^^^^^^^^^^
+Floating
+^^^^^^^^
 
-Decimal numbers, like ``12.34``.
+Decimal numbers, like ``12.34``. In math operations, they are compatible
+with :ref:`type-integer`.
 
 .. _type-integer:
 
-Integers
-^^^^^^^^
+Integer
+^^^^^^^
 
-Natural numbers like ``123``.
+Natural numbers like ``1234``. In math operations, they are compatible with
+:ref:`type-floating`.
