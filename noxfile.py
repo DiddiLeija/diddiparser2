@@ -1,4 +1,5 @@
 import os
+import sys
 import time
 
 import nox
@@ -91,12 +92,8 @@ def release(session):
     """
     # install deps
     session.install("-r", "release-requirements.txt")
-    # install the source on editable mode to catch a "build error"
-    # before publishing
-    session.log("Installing on the virtualenv to test compatibility...")
-    session.install("-e", ".")
-    # if this hasn't failed, we can just go ahead and
     # build the distributions, and then release
+    py_command = "python3" if sys.platform != "win32" else "py"
     session.log("Done. Now, we will cut and publish a release...")
-    session.run("setup.py", "sdist", "bdist_wheel")
+    session.run(py_command, "-m", "build")
     session.run("python", "-m", "twine", "upload", "dist/*")
