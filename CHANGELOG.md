@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.0.post1
+
+This is a post release that fixes a mistake with `build`, that broke version 1.1.0. See
+https://github.com/DiddiLeija/diddiparser2/issues/74 for more information.
+
 ## 1.1.0
 
 **Syntax / breaking changes**
