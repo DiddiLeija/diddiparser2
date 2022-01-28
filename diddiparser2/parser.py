@@ -267,8 +267,8 @@ class DiddiParser:
             except DSError:
                 # we *should* fail here
                 raise
-            except Exception:
-                self.last_value = Null()
+            except Exception as exc:
+                run_error(f"{str(exc)} ({type(exc).__name__})")
         else:
             compile_error(f"No such function '{call}'")
 
