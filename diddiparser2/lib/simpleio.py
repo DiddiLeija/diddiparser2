@@ -7,7 +7,7 @@ SimpleIO: Common Python I/O interactions
 import sys
 
 from diddiparser2.diddiscript_types import Floating, Integer, Text
-from diddiparser2.messages import run_error
+from diddiparser2.messages import run_error, show_warning
 
 DIDDISCRIPT_FUNCTIONS = ("program_exit", "print_text", "print_line", "store_input")
 
@@ -41,3 +41,8 @@ def store_input(msg):
     except KeyboardInterrupt:
         run_error("Input request was interrupted by user!")
     return Text(text)
+
+
+def warning(msg):
+    "Show a warning."
+    show_warning(str(msg))

@@ -43,3 +43,10 @@ Functions
    Store an input, prompted with message *msg*. The input
    will keep safe until requested, or called for storage in
    a variable.
+
+.. py:function:: warning(msg)
+
+   :param msg: The message to show.
+
+   Shows a warning using
+   :py:function:`diddiparser2.messages.show_warning`.

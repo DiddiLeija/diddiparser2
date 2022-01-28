@@ -65,3 +65,8 @@ Contents
 
    A shortcut for ``simpleio.store_input``. See its reference
    `here <https://diddiparser2.readthedocs.io/en/latest/language/stdlib/simpleio.html#store_input>`_.
+
+.. py:function:: warning(arg)
+
+   A shortcut for ``simpleio.warning``. See its reference
+   `here <https://diddiparser2.readthedocs.io/en/latest/language/stdlib/simpleio.html#warning>`_.

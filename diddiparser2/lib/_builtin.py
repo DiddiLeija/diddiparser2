@@ -18,6 +18,7 @@ DIDDISCRIPT_FUNCTIONS = (
     "load_module",
     "load_extension",
     "print_available_functions",
+    "warning",
 )
 MODULE_FUNCTIONS = dict()
 FUNCTIONS_ORIGINS = dict()
@@ -38,6 +39,7 @@ chdir = cd
 print_text = simpleio.print_text
 print_line = simpleio.print_line
 store_input = simpleio.store_input
+warning = simpleio.warning
 
 
 # "load_module"
