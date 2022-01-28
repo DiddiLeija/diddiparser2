@@ -8,6 +8,14 @@ DiddiScript parser, and the language itself.
 
 If you are new here, you can start by reading the :ref:`quickstart-tutorial`.
 
+.. seealso::
+
+   `DiddiParser2 GitHub repository <https://github.com/DiddiLeija/diddiparser2>`_
+     The GitHub repository for this project.
+
+   `Changelog <https://github.com/DiddiLeija/diddiparser2/blob/main/CHANGELOG.md>`_
+     See the changelog per version.
+
 Table of Contents
 -----------------
 
@@ -33,8 +41,3 @@ Table of Contents
     * :ref:`lib-simpleio`
     * :ref:`lib-sqlite`
     * :ref:`lib-subprocessing`
-
-.. seealso::
-
-   `DiddiParser2 GitHub repository <https://github.com/DiddiLeija/diddiparser2>`_
-     The GitHub repository for this project.
