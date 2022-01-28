@@ -25,6 +25,9 @@ To define a variable, type the keyword ``var``, then the variable name. If
 you want to preset the value, type ``=`` and then a valid value to store. If you
 don't preset a value, a default :ref:`type-null` will be stored.
 
+*New in version 1.2.0*: Now you can store the value of an existing variable
+when defining it. For example: ``var stored_value = _memory``.
+
 Usage inside text (indexing)
 ----------------------------
 

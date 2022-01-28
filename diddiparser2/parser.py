@@ -188,7 +188,7 @@ class DiddiParser:
         value = parsed_line[1].lstrip()
         if name in RESERVED_NAMES:
             EXECUTION_VARIABLES[name].crash()
-        value = self.identify_value(value)
+        value = self.resolve_value_or_variable(value)
         EXECUTION_VARIABLES[name] = value
         EXECUTION_VARIABLES["_memory"] = value
 
