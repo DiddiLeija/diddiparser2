@@ -17,7 +17,7 @@ class DiddiScriptType:
     def __int__(self):
         try:
             return int(self.value)
-        except ValueError:
+        except (ValueError, TypeError):
             run_error(
                 f"Error: Could not return int from type: {type(self.value).__name__}"
             )
@@ -25,7 +25,7 @@ class DiddiScriptType:
     def __float__(self):
         try:
             return float(self.value)
-        except ValueError:
+        except (ValueError, TypeError):
             run_error(
                 f"Error: Could not return float from type: {type(self.value).__name__}"
             )
