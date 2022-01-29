@@ -13,6 +13,15 @@ This special module is loaded on the parser's initialization.
 Contents
 --------
 
+Replacements for the *tool functions*
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+At version 1.0.0, we used to have something called *tool functions*,
+a bunch of static "functions" that were available everywhere, anytime.
+But since version 1.1.0, we decided to move those functions into this
+library. That way, you can both replace these functions with functions
+from other libraries, and load them again by loading ``_builtin``.
+
 .. py:function:: cd(arg)
                 chdir(arg)
 
@@ -51,22 +60,25 @@ Contents
        `DSGP 3 <https://github.com/DiddiLeija/diddiparser2/blob/main/dsgp/dsgp-003.md>`_
          The DSGP that provides a guide for extensions.
 
+Stuff loaded from the ``simpleio`` library
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The following functions are taken from the ``simpleio``
+library. The reference for the original functions can be
+found at :ref:`lib-simpleio`.
+
 .. py:function:: print_text(arg)
 
-   A shortcut for ``simpleio.print_text``. See its reference
-   `here <https://diddiparser2.readthedocs.io/en/latest/language/stdlib/simpleio.html#print_text>`_.
+   A shortcut for ``simpleio.print_text``.
 
 .. py:function:: print_line(arg)
 
-   A shortcut for ``simpleio.print_line``. See its reference
-   `here <https://diddiparser2.readthedocs.io/en/latest/language/stdlib/simpleio.html#print_line>`_.
+   A shortcut for ``simpleio.print_line``.
 
 .. py:function:: store_input(arg)
 
-   A shortcut for ``simpleio.store_input``. See its reference
-   `here <https://diddiparser2.readthedocs.io/en/latest/language/stdlib/simpleio.html#store_input>`_.
+   A shortcut for ``simpleio.store_input``.
 
 .. py:function:: warning(arg)
 
-   A shortcut for ``simpleio.warning``. See its reference
-   `here <https://diddiparser2.readthedocs.io/en/latest/language/stdlib/simpleio.html#warning>`_.
+   A shortcut for ``simpleio.warning``.
