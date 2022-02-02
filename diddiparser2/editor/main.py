@@ -13,12 +13,8 @@ from diddiparser2.parser import __doc__ as diddiscript_doc
 
 def format_exception(exc):
     if isinstance(exc, TclError):
-        msg = f"Tcl Error: {str(exc)}"
-    elif not hasattr(type(exc), "__name__"):
-        msg = str(exc)
-    else:
-        msg = f"{type(exc.__name__)}: {str(exc)}"
-    return msg
+        return f"Tcl Error: {str(exc)}"
+    return f"{type(exc).__name__}: {str(exc)}"
 
 
 def is_func(line):
