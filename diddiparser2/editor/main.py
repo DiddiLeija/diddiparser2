@@ -5,6 +5,7 @@ from idlelib.textview import view_text
 
 from diddiparser2 import __doc__ as diddiparser2_doc
 from diddiparser2.editor import __doc__ as editor_doc
+from diddiparser2.editor import formatter
 from diddiparser2.messages import error as DSError
 from diddiparser2.messages import success_message
 from diddiparser2.parser import DiddiParser
@@ -112,7 +113,10 @@ class DiddiScriptEditor:
             "Settings": {
                 "Set verbosity mode": self.set_verbosity,
                 "Set suffix ignoring": self.set_suffix_ignoring,
-                "Set theme": self.set_theme,
+            },
+            "Themes": {
+                "Load themes from JSON file": self.json_theme,
+                "See all the themes": self.show_themes,
             },
         }
         self.startsetup()
@@ -257,8 +261,14 @@ Current setting: {self.ignore_suffix}.""",
                 "We could not identify a valid input. The setting hasn't changed.",
             )
 
-    def set_theme(self):
-        pass
+    def json_theme(self):
+        file = filedialog.askopenfilename(
+            parent=self.root, filetypes=[("JSON", "*.json"), ("All types", "*")]
+        )
+        formatter.load_json_theme(file)
+
+    def show_themes(self):
+        view_text(self.root, "Available themes", formatter.format_themes())
 
 
 def main():
