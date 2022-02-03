@@ -112,6 +112,7 @@ class DiddiScriptEditor:
             "Settings": {
                 "Set verbosity mode": self.set_verbosity,
                 "Set suffix ignoring": self.set_suffix_ignoring,
+                "Set theme": self.set_theme,
             },
         }
         self.startsetup()
@@ -236,7 +237,7 @@ Current setting: {self.verbose}.""",
         else:
             messagebox.showwarning(
                 "Nothing selected",
-                "We could not identify a valid input. " "The setting hasn't changed.",
+                "We could not identify a valid input. The setting hasn't changed.",
             )
 
     def set_suffix_ignoring(self):
@@ -253,8 +254,11 @@ Current setting: {self.ignore_suffix}.""",
         else:
             messagebox.showwarning(
                 "Nothing selected",
-                "We could not identify a valid input. " "The setting hasn't changed.",
+                "We could not identify a valid input. The setting hasn't changed.",
             )
+
+    def set_theme(self):
+        pass
 
 
 def main():
