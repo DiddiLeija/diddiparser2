@@ -131,12 +131,10 @@ class DiddiScriptEditor:
         "Generate an initial interface, and work on it."
         self.set_title()
         self.editor_frame = tkinter.Frame(self.root)
-        # NOTE: We used grid() for personal reasons. We
-        #       should try to move over to pack().
-        self.editor_frame.grid()
+        self.editor_frame.pack(expand=True)
         self.menu = generate_menu(self.root, self.options)
-        self.text_entry = scrolledtext.ScrolledText(self.root)
-        self.text_entry.grid(row=0, column=0, sticky="ew")
+        self.text_entry = scrolledtext.ScrolledText(self.editor_frame)
+        self.text_entry.pack(expand=True)
 
     def save_file(self, save_new=True):
         if save_new:
