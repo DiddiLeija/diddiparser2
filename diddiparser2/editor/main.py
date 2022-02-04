@@ -1,5 +1,5 @@
 import tkinter
-from tkinter import TclError, filedialog, messagebox
+from tkinter import TclError, filedialog, messagebox, scrolledtext
 
 from idlelib.textview import view_text
 
@@ -135,7 +135,7 @@ class DiddiScriptEditor:
         #       should try to move over to pack().
         self.editor_frame.grid()
         self.menu = generate_menu(self.root, self.options)
-        self.text_entry = tkinter.Text(self.root)
+        self.text_entry = scrolledtext.ScrolledText(self.root)
         self.text_entry.grid(row=0, column=0, sticky="ew")
 
     def save_file(self, save_new=True):
