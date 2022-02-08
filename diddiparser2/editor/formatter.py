@@ -9,7 +9,16 @@ the idlelib) might not experiment changes.
 import json
 from tkinter import messagebox
 
-THEMES = dict()
+THEMES = {
+    "Dark DiddiScript": {
+        "description": "The default DiddiScript theme (dark)",
+        "background": "black",
+    },
+    "Light DiddiScript": {
+        "description": "The default DiddiScript theme (light)",
+        "background": "white",
+    },
+}
 
 
 def load_json_theme(file):
@@ -32,15 +41,16 @@ def load_one(data):
     try:
         name = data["name"]
         description = data.get("description", "None")
+        bg = data["background"]
         if not messagebox.askyesno(
             f"Load '{name}'?",
             f"Do you want to load the '{name}' theme? "
             "If another theme has the same name, it will be overwritten.",
         ):
             return None
-        THEMES[name] = {"description": description}
+        THEMES[name] = {"description": description, "background": bg}
     except KeyError:
-        messagebox.showerror("Could not load from JSON", "Some keys are missing.")
+        messagebox.showerror("Could not load theme", "Some keys are missing.")
 
 
 def load_many(data):
@@ -54,5 +64,20 @@ def format_themes():
         return "(Nothing to show)"
     for k, v in THEMES.items():
         txt += f"{k}\n{'=' * 10}\n"
-        txt += f"Description: {v['description']}\n\n"
+        txt += f"Description: {v['description']}\n"
+        txt += f"Background color: '{v['background']}'\n"
+        txt += "\n"
     return txt
+
+
+def format_text(text_obj, selected_theme):
+    try:
+        if selected_theme not in THEMES.keys():
+            raise Exception(
+                f"The theme '{selected_theme}' is not registered."
+                " If you are sure it is already registered, please report this as a bug."
+            )
+        theme_to_apply = THEMES[selected_theme]
+        text_obj.config(background=theme_to_apply["background"])
+    except Exception as exc:
+        messagebox.showerror("Error while applying font", str(exc))

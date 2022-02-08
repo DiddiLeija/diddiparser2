@@ -64,20 +64,18 @@ def generate_menu(root, options):
     a list of dictionaries with options.
     """
     main_menu = tkinter.Menu(root)
-    for name in options:
-        # BUG: It seems like the `options` cannot be
-        #      unpacked by .values(). Not sure why,
-        #      but in the meantime, there's a
-        #      workaround below:
-        option = options[name]
+    for name, option in options.items():
         child_menu = tkinter.Menu(main_menu, tearoff=0)
-        for label in option:
-            # BUG: It seems like `option` cannot be
-            #      unpacked by .values(). Not sure why,
-            #      but in the meantime, there's a
-            #      workaround below:
-            command = option[label]
-            child_menu.add_command(label=label, command=command)
+        for label, command in option.items():
+            if not isinstance(command, dict):
+                child_menu.add_command(label=label, command=command)
+            else:
+                # Multiple options are inside, it's time to
+                # generate a sub-menu.
+                submenu = tkinter.Menu(child_menu, tearoff=0)
+                for sub_label, sub_cmd in command.items():
+                    submenu.add_command(label=sub_label, command=sub_cmd)
+                child_menu.add_cascade(label=label, menu=submenu)
         main_menu.add_cascade(label=name, menu=child_menu)
     root.config(menu=main_menu)
 
@@ -117,9 +115,12 @@ class DiddiScriptEditor:
             "Themes": {
                 "Load themes from JSON file": self.json_theme,
                 "See all the themes": self.show_themes,
+                "Set theme": dict(),  # This will be replaced below by the available stuff
             },
         }
+        self.refresh_themes_menu()
         self.startsetup()
+        # self.set_theme("Light DiddiScript")
 
     def set_title(self):
         "Format and set the title of the Tk root."
@@ -261,12 +262,21 @@ Current setting: {self.ignore_suffix}.""",
 
     def json_theme(self):
         file = filedialog.askopenfilename(
-            parent=self.root, filetypes=[("JSON", "*.json"), ("All types", "*")]
+            parent=self.root, filetypes=[("JSON file", "*.json"), ("All types", "*")]
         )
         formatter.load_json_theme(file)
+        self.refresh_themes_menu()
 
     def show_themes(self):
         view_text(self.root, "Available themes", formatter.format_themes())
+
+    def set_theme(self, name):
+        formatter.format_text(self.text_entry, name)
+
+    def refresh_themes_menu(self):
+        for key in formatter.THEMES.keys():
+            self.options["Themes"]["Set theme"][key] = lambda: self.set_theme(key)
+        self.menu = generate_menu(self.root, self.options)
 
 
 def main():
