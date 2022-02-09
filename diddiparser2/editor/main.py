@@ -74,13 +74,7 @@ def generate_menu(root, options):
                 # generate a sub-menu.
                 submenu = tkinter.Menu(child_menu, tearoff=0)
                 for sub_label, sub_cmd in command.items():
-                    if isinstance(sub_cmd, tuple):
-                        func = sub_cmd[0]
-                        submenu.add_command(
-                            label=sub_label, command=lambda: func(sub_cmd[1])
-                        )
-                    else:
-                        submenu.add_command(label=sub_label, command=sub_cmd)
+                    submenu.add_command(label=sub_label, command=sub_cmd)
                 child_menu.add_cascade(label=label, menu=submenu)
         main_menu.add_cascade(label=name, menu=child_menu)
     root.config(menu=main_menu)

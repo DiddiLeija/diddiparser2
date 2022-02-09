@@ -12,7 +12,7 @@ from tkinter import messagebox
 THEMES = {
     "Dark DiddiScript": {
         "description": "The default DiddiScript theme (dark)",
-        "background": "black",
+        "background": "#031F28",
         "regular-text": "whitesmoke",
     },
     "Light DiddiScript": {
