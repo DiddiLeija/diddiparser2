@@ -3,18 +3,17 @@
 The DiddiScript Editor Guide
 ============================
 
-This editor, built with the Python tools ``tkinter``
-and ``idlelib``, is a Tk app focused in the DiddiScript
-language.
+This editor, built with the Python standard tools ``tkinter``
+and ``idlelib``, is a Tk app focused in the DiddiScript language.
 
 Commands to activate the editor
 -------------------------------
 
 The easiest way is the ``diddiscript-editor`` command,
-included in the DiddiParser 2 Python package.
+included with the DiddiParser 2 Python package.
 
 Also, since it's included in the DiddiParser 2 package, it
-can be called with ``python -m diddiparser2.editor``. See
+can be called with Python, via ``python -m diddiparser2.editor``. See
 :py:mod:`diddiparser2.editor` for related information.
 
 On a clone of the `GitHub repository <https://github.com/DiddiLeija/diddiparser2>`_,
@@ -25,7 +24,8 @@ Design of the editor
 --------------------
 
 The editor is pretty simple: it is a text widget, with a
-menu that provides all the necessary options (see below).
+menu that provides all the necessary options (see their options
+below).
 
 Editor's options and tools
 --------------------------
@@ -83,3 +83,72 @@ A quick guide to the options of the editor's menu.
 
     If set, the editor won't raise a warning if a file to
     open does not have the DiddiScript suffix (``*.diddi``).
+
+**Themes**
+  Modify the themes (see below for detailed reference).
+
+  **Load themes from a JSON file**
+    Load custom themes from a JSON file (see the
+    "Load customized themes" section below). It will ask each
+    time it finds a valid theme on the file. If you accept, the
+    theme will be registered.
+
+  **See all the themes**
+    In a separate window, show all the themes and their information.
+
+  **Set theme**
+    This menu will display a child menu, with all the available
+    themes to select and apply.
+
+Themes
+------
+
+*New in version 1.2.0.*
+
+You can customize the DiddiScript editor using themes. By default,
+we have provided you these themes:
+
+* Light DiddiScript: A simple light theme.
+
+* Dark DiddiScript: A dark light theme.
+
+Load customized themes
+^^^^^^^^^^^^^^^^^^^^^^
+
+We support customized themes loaded from a JSON file. The
+"Load themes from a JSON file" option from the editor will
+let you select a JSON file, and try to load themes from it.
+
+The format of the JSON, to be accepted, is a dictionary or
+a list of dictionaries, where each dictionary represents a
+"theme". The dictionaries should have this keys:
+
+* ``name``: A text with the theme's name. It will be used everywhere.
+
+* ``description``: An optional text with a description of the theme.
+* ``background``: The color of the theme's background.
+  Examples: ``red``, ``#cfd3d7``.
+
+Here we have a few examples of accepted JSON files:
+
+.. code-block:: json
+
+    {
+      "name" : "My theme",
+      "description" : "A personal theme.",
+      "background" : "#ffffff"
+    }
+
+.. code-block:: json
+
+    [
+      {
+        "name" : "One theme",
+        "background" : "whitesmoke"
+      },
+      {
+        "name" : "Another theme",
+        "description" : "A theme different to 'One theme'.",
+        "background" : "black"
+      }
+    ]
