@@ -110,7 +110,7 @@ we have provided you these themes:
 
 * Light DiddiScript: A simple light theme.
 
-* Dark DiddiScript: A dark light theme.
+* Dark DiddiScript: A simple dark theme.
 
 Load customized themes
 ^^^^^^^^^^^^^^^^^^^^^^
