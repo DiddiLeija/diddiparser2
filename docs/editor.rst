@@ -127,7 +127,9 @@ a list of dictionaries, where each dictionary represents a
 
 * ``description``: An optional text with a description of the theme.
 * ``background``: The color of the theme's background.
-  Examples: ``red``, ``#cfd3d7``.
+* ``regular-text``: The foreground of regular text.
+
+Examples of valid colors: ``red``, ``#cfd3d7``.
 
 Here we have a few examples of accepted JSON files:
 
@@ -136,7 +138,8 @@ Here we have a few examples of accepted JSON files:
     {
       "name" : "My theme",
       "description" : "A personal theme.",
-      "background" : "#ffffff"
+      "background" : "#ffffff",
+      "foreground" : "green"
     }
 
 .. code-block:: json
@@ -144,11 +147,13 @@ Here we have a few examples of accepted JSON files:
     [
       {
         "name" : "One theme",
-        "background" : "whitesmoke"
+        "background" : "whitesmoke",
+        "regular-text" : "gray"
       },
       {
         "name" : "Another theme",
         "description" : "A theme different to 'One theme'.",
-        "background" : "black"
+        "background" : "black",
+        "regular-text" : "white",
       }
     ]

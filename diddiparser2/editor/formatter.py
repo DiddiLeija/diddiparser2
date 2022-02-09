@@ -13,10 +13,12 @@ THEMES = {
     "Dark DiddiScript": {
         "description": "The default DiddiScript theme (dark)",
         "background": "black",
+        "regular-text": "whitesmoke",
     },
     "Light DiddiScript": {
         "description": "The default DiddiScript theme (light)",
         "background": "white",
+        "regular-text": "black",
     },
 }
 
@@ -42,15 +44,22 @@ def load_one(data):
         name = data["name"]
         description = data.get("description", "None")
         bg = data["background"]
+        reg = data["regular-text"]
         if not messagebox.askyesno(
             f"Load '{name}'?",
             f"Do you want to load the '{name}' theme? "
             "If another theme has the same name, it will be overwritten.",
         ):
             return None
-        THEMES[name] = {"description": description, "background": bg}
-    except KeyError:
-        messagebox.showerror("Could not load theme", "Some keys are missing.")
+        THEMES[name] = {
+            "description": description,
+            "background": bg,
+            "regular-text": reg,
+        }
+    except KeyError as exc:
+        messagebox.showerror(
+            "Could not load theme", f"Some keys are missing: '{str(exc)}'"
+        )
 
 
 def load_many(data):
@@ -66,6 +75,7 @@ def format_themes():
         txt += f"{k}\n{'=' * 10}\n"
         txt += f"Description: {v['description']}\n"
         txt += f"Background color: '{v['background']}'\n"
+        txt += f"Regular text color: '{v['regular-text']}'\n"
         txt += "\n"
     return txt
 
@@ -78,6 +88,9 @@ def format_text(text_obj, selected_theme):
                 " If you are sure it is already registered, please report this as a bug."
             )
         theme_to_apply = THEMES[selected_theme]
-        text_obj.config(background=theme_to_apply["background"])
+        text_obj.config(
+            background=theme_to_apply["background"],
+            foreground=theme_to_apply["regular-text"],
+        )
     except Exception as exc:
         messagebox.showerror("Error while applying font", str(exc))

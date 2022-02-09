@@ -74,7 +74,13 @@ def generate_menu(root, options):
                 # generate a sub-menu.
                 submenu = tkinter.Menu(child_menu, tearoff=0)
                 for sub_label, sub_cmd in command.items():
-                    submenu.add_command(label=sub_label, command=sub_cmd)
+                    if isinstance(sub_cmd, tuple):
+                        func = sub_cmd[0]
+                        submenu.add_command(
+                            label=sub_label, command=lambda: func(sub_cmd[1])
+                        )
+                    else:
+                        submenu.add_command(label=sub_label, command=sub_cmd)
                 child_menu.add_cascade(label=label, menu=submenu)
         main_menu.add_cascade(label=name, menu=child_menu)
     root.config(menu=main_menu)
@@ -120,7 +126,7 @@ class DiddiScriptEditor:
         }
         self.refresh_themes_menu()
         self.startsetup()
-        # self.set_theme("Light DiddiScript")
+        self.set_theme("Light DiddiScript")
 
     def set_title(self):
         "Format and set the title of the Tk root."
@@ -275,7 +281,8 @@ Current setting: {self.ignore_suffix}.""",
 
     def refresh_themes_menu(self):
         for key in formatter.THEMES.keys():
-            self.options["Themes"]["Set theme"][key] = lambda: self.set_theme(key)
+            # func = lambda: self.set_theme(key)
+            self.options["Themes"]["Set theme"][key] = (self.set_theme, key)
         self.menu = generate_menu(self.root, self.options)
 
 
