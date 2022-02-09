@@ -121,10 +121,13 @@ class DiddiScriptEditor:
             "Themes": {
                 "Load themes from JSON file": self.json_theme,
                 "See all the themes": self.show_themes,
-                "Set theme": dict(),  # This will be replaced below by the available stuff
+                "Set theme": {
+                    "Light DiddiScript": lambda: self.set_theme("Light DiddiScript"),
+                    "Dark DiddiScript": lambda: self.set_theme("Dark DiddiScript"),
+                },  # More stuff may be added soon
             },
         }
-        self.refresh_themes_menu()
+        # self.refresh_themes_menu()
         self.startsetup()
         self.set_theme("Light DiddiScript")
 
@@ -282,7 +285,8 @@ Current setting: {self.ignore_suffix}.""",
     def refresh_themes_menu(self):
         for key in formatter.THEMES.keys():
             # func = lambda: self.set_theme(key)
-            self.options["Themes"]["Set theme"][key] = (self.set_theme, key)
+            if key not in self.options["Themes"]["Set theme"].keys():
+                self.options["Themes"]["Set theme"][key] = lambda: self.set_theme(key)
         self.menu = generate_menu(self.root, self.options)
 
 

@@ -48,14 +48,15 @@ def load_one(data):
         if not messagebox.askyesno(
             f"Load '{name}'?",
             f"Do you want to load the '{name}' theme? "
-            "If another theme has the same name, it will be overwritten.",
+            "If another theme has the same name, ithis theme may be ignored.",
         ):
             return None
-        THEMES[name] = {
-            "description": description,
-            "background": bg,
-            "regular-text": reg,
-        }
+        if name not in THEMES.keys():
+            THEMES[name] = {
+                "description": description,
+                "background": bg,
+                "regular-text": reg,
+            }
     except KeyError as exc:
         messagebox.showerror(
             "Could not load theme", f"Some keys are missing: '{str(exc)}'"
