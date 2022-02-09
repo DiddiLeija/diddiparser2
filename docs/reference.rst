@@ -302,3 +302,22 @@ via ``python -m diddiparser2.editor``.
 
    :ref:`editor-guide`
      A complete guide to the editor's GUI and options.
+
+Here's a small description of each component of this subpackage:
+
+``diddiparser2.editor.__init__``
+  The init file. It only contains a docstring.
+
+``diddiparser2.editor.__main__``
+  This enables the use of ``python -m diddiparser2.editor``, to do the
+  same than the ``diddiscript-editor`` command.
+
+``diddiparser2.editor.formatter``
+  This is the responsible of the "themes stuff". Here, the theme
+  colorization is made, the themes are stored, and themes are loaded
+  from JSON files.
+
+``diddiparser2.editor.main``
+  This is where the GUI building, setup, and running is done. It
+  generates a ``DiddiScriptEditor`` class, which contains a functional
+  editor with Tk.

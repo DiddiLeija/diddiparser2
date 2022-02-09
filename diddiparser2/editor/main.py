@@ -1,10 +1,11 @@
 import tkinter
-from tkinter import TclError, filedialog, messagebox
+from tkinter import TclError, filedialog, messagebox, scrolledtext
 
 from idlelib.textview import view_text
 
 from diddiparser2 import __doc__ as diddiparser2_doc
 from diddiparser2.editor import __doc__ as editor_doc
+from diddiparser2.editor import formatter
 from diddiparser2.messages import error as DSError
 from diddiparser2.messages import success_message
 from diddiparser2.parser import DiddiParser
@@ -63,20 +64,18 @@ def generate_menu(root, options):
     a list of dictionaries with options.
     """
     main_menu = tkinter.Menu(root)
-    for name in options:
-        # BUG: It seems like the `options` cannot be
-        #      unpacked by .values(). Not sure why,
-        #      but in the meantime, there's a
-        #      workaround below:
-        option = options[name]
+    for name, option in options.items():
         child_menu = tkinter.Menu(main_menu, tearoff=0)
-        for label in option:
-            # BUG: It seems like `option` cannot be
-            #      unpacked by .values(). Not sure why,
-            #      but in the meantime, there's a
-            #      workaround below:
-            command = option[label]
-            child_menu.add_command(label=label, command=command)
+        for label, command in option.items():
+            if not isinstance(command, dict):
+                child_menu.add_command(label=label, command=command)
+            else:
+                # Multiple options are inside, it's time to
+                # generate a sub-menu.
+                submenu = tkinter.Menu(child_menu, tearoff=0)
+                for sub_label, sub_cmd in command.items():
+                    submenu.add_command(label=sub_label, command=sub_cmd)
+                child_menu.add_cascade(label=label, menu=submenu)
         main_menu.add_cascade(label=name, menu=child_menu)
     root.config(menu=main_menu)
 
@@ -113,8 +112,18 @@ class DiddiScriptEditor:
                 "Set verbosity mode": self.set_verbosity,
                 "Set suffix ignoring": self.set_suffix_ignoring,
             },
+            "Themes": {
+                "Load themes from JSON file": self.json_theme,
+                "See all the themes": self.show_themes,
+                "Set theme": {
+                    # Some basic themes below, but others may join the list
+                    "Light DiddiScript": lambda: self.set_theme("Light DiddiScript"),
+                    "Dark DiddiScript": lambda: self.set_theme("Dark DiddiScript"),
+                },
+            },
         }
         self.startsetup()
+        self.set_theme("Light DiddiScript")
 
     def set_title(self):
         "Format and set the title of the Tk root."
@@ -126,12 +135,10 @@ class DiddiScriptEditor:
         "Generate an initial interface, and work on it."
         self.set_title()
         self.editor_frame = tkinter.Frame(self.root)
-        # NOTE: We used grid() for personal reasons. We
-        #       should try to move over to pack().
-        self.editor_frame.grid()
+        self.editor_frame.pack(expand=True)
         self.menu = generate_menu(self.root, self.options)
-        self.text_entry = tkinter.Text(self.root)
-        self.text_entry.grid(row=0, column=0, sticky="ew")
+        self.text_entry = scrolledtext.ScrolledText(self.editor_frame)
+        self.text_entry.pack(expand=True)
 
     def save_file(self, save_new=True):
         if save_new:
@@ -236,7 +243,7 @@ Current setting: {self.verbose}.""",
         else:
             messagebox.showwarning(
                 "Nothing selected",
-                "We could not identify a valid input. " "The setting hasn't changed.",
+                "We could not identify a valid input. The setting hasn't changed.",
             )
 
     def set_suffix_ignoring(self):
@@ -253,8 +260,35 @@ Current setting: {self.ignore_suffix}.""",
         else:
             messagebox.showwarning(
                 "Nothing selected",
-                "We could not identify a valid input. " "The setting hasn't changed.",
+                "We could not identify a valid input. The setting hasn't changed.",
             )
+
+    def json_theme(self):
+        file = filedialog.askopenfilename(
+            parent=self.root, filetypes=[("JSON file", "*.json"), ("All types", "*")]
+        )
+        formatter.load_json_theme(file, self.refresh_themes_menu)
+
+    def show_themes(self):
+        view_text(self.root, "Available themes", formatter.format_themes())
+
+    def set_theme(self, name):
+        formatter.format_text(self.text_entry, name)
+
+    def refresh_themes_menu(self, name=None):
+        if name is None:
+            # This might be some kind of "legacy way"
+            # to update everything, though it was given me
+            # several issues, so I replaced it with another
+            # strategy, which resolves the issue.
+            for key in formatter.THEMES.keys():
+                if key not in self.options["Themes"]["Set theme"].keys():
+                    self.options["Themes"]["Set theme"][key] = lambda: self.set_theme(
+                        key
+                    )
+        else:
+            self.options["Themes"]["Set theme"][name] = lambda: self.set_theme(name)
+        self.menu = generate_menu(self.root, self.options)
 
 
 def main():
