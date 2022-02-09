@@ -122,12 +122,12 @@ class DiddiScriptEditor:
                 "Load themes from JSON file": self.json_theme,
                 "See all the themes": self.show_themes,
                 "Set theme": {
+                    # Some basic themes below, but others may join the list
                     "Light DiddiScript": lambda: self.set_theme("Light DiddiScript"),
                     "Dark DiddiScript": lambda: self.set_theme("Dark DiddiScript"),
-                },  # More stuff may be added soon
+                },
             },
         }
-        # self.refresh_themes_menu()
         self.startsetup()
         self.set_theme("Light DiddiScript")
 
@@ -273,8 +273,7 @@ Current setting: {self.ignore_suffix}.""",
         file = filedialog.askopenfilename(
             parent=self.root, filetypes=[("JSON file", "*.json"), ("All types", "*")]
         )
-        formatter.load_json_theme(file)
-        self.refresh_themes_menu()
+        formatter.load_json_theme(file, self.refresh_themes_menu)
 
     def show_themes(self):
         view_text(self.root, "Available themes", formatter.format_themes())
@@ -282,11 +281,19 @@ Current setting: {self.ignore_suffix}.""",
     def set_theme(self, name):
         formatter.format_text(self.text_entry, name)
 
-    def refresh_themes_menu(self):
-        for key in formatter.THEMES.keys():
-            # func = lambda: self.set_theme(key)
-            if key not in self.options["Themes"]["Set theme"].keys():
-                self.options["Themes"]["Set theme"][key] = lambda: self.set_theme(key)
+    def refresh_themes_menu(self, name=None):
+        if name is None:
+            # This might be some kind of "legacy way"
+            # to update everything, though it was given me
+            # several issues, so I replaced it with another
+            # strategy, which resolves the issue.
+            for key in formatter.THEMES.keys():
+                if key not in self.options["Themes"]["Set theme"].keys():
+                    self.options["Themes"]["Set theme"][key] = lambda: self.set_theme(
+                        key
+                    )
+        else:
+            self.options["Themes"]["Set theme"][name] = lambda: self.set_theme(name)
         self.menu = generate_menu(self.root, self.options)
 
 

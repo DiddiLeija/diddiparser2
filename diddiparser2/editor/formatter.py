@@ -23,7 +23,7 @@ THEMES = {
 }
 
 
-def load_json_theme(file):
+def load_json_theme(file, callback):
     """
     Load the themes from a JSON file.
     """
@@ -32,14 +32,14 @@ def load_json_theme(file):
     with open(file, "r") as f:
         data = json.loads(f.read())
     if isinstance(data, list):
-        load_many(data)
+        load_many(data, callback)
     elif isinstance(data, dict):
-        load_one(data)
+        load_one(data, callback)
     else:
         messagebox.showerror("Could not load from JSON", "Invalid format.")
 
 
-def load_one(data):
+def load_one(data, callback):
     try:
         name = data["name"]
         description = data.get("description", "None")
@@ -57,15 +57,22 @@ def load_one(data):
                 "background": bg,
                 "regular-text": reg,
             }
+            callback(name)
+        else:
+            messagebox.showwarning(
+                "Theme ignored",
+                f"The theme '{name}' is"
+                " already registered, and it has been ignored.",
+            )
     except KeyError as exc:
         messagebox.showerror(
             "Could not load theme", f"Some keys are missing: '{str(exc)}'"
         )
 
 
-def load_many(data):
+def load_many(data, callback):
     for d in data:
-        load_one(d)
+        load_one(d, callback)
 
 
 def format_themes():
