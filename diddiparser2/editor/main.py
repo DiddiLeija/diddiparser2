@@ -152,7 +152,9 @@ class DiddiScriptEditor:
             return None
         try:
             with open(to_save, "w") as f:
-                f.write(str(self.text_entry.get("1.0", "end")) + "\n")
+                code_to_save = str(self.text_entry.get("1.0", "end")) + "\n"
+                code_to_save = code_to_save.rstrip() + "\n"
+                f.write(code_to_save)
         except Exception as exc:
             msg = format_exception(exc)
             messagebox.showerror(
