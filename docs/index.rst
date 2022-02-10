@@ -19,6 +19,21 @@ If you are new here, you can start by reading the :ref:`quickstart-tutorial`.
    `License <https://github.com/DiddiLeija/diddiparser2/blob/main/LICENSE.txt>`_
      This project is licensed under the MIT license. See that license at GitHub.
 
+Introduction
+------------
+
+DiddiScript is a language made to be easy to extend and enough powerful to help
+your workflows. DiddiParser 2 is the current parser for this language, written
+with pure Python and packaged as open source. To get the parser, you can use Pip:
+
+::
+
+    python -m pip install diddiparser2
+
+Also, this package provides more than a rough parser CLI. It also provides a console
+(which is some kind of a REPL), an editor GUI, a standard library for DiddiScript, and
+even an implementation for Python.
+
 Table of Contents
 -----------------
 
