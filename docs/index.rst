@@ -15,6 +15,9 @@ If you are new here, you can start by reading the :ref:`quickstart-tutorial`.
 
    `Changelog <https://github.com/DiddiLeija/diddiparser2/blob/main/CHANGELOG.md>`_
      See the changelog per version.
+   
+   `License <https://github.com/DiddiLeija/diddiparser2/blob/main/LICENSE.txt>`_
+     This project is licensed under the MIT license. See that license at GitHub.
 
 Table of Contents
 -----------------
