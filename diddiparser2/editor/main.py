@@ -103,6 +103,7 @@ class DiddiScriptEditor:
                 ),
             },
             "File...": {
+                "New file": self.new_file,
                 "Save As...": self.save_file,
                 "Save": self.save_new,
                 "Open...": self.open_file,
@@ -201,6 +202,44 @@ Error: \"{msg}\" """,
         self.file = to_open
         self.text_entry.delete("1.0", "end")
         self.text_entry.insert("1.0", chars)
+        self.set_title()
+
+    def new_file(self):
+        if len(self.text_entry.get("1.0", "end").strip()) > 0:
+            # Something is in the Text widget, so we may wanna
+            # save it. Anyway, we have to ask.
+            decision = messagebox.askyesnocancel(
+                "Want to save the file?",
+                "If you haven't saved yet, "
+                "the moment is now. "
+                "To save, press 'Yes'. "
+                "To avoid saving, press 'No'. "
+                "To cancel, just press 'Cancel'.",
+            )
+        else:
+            # Seems like there's no reason to deal with
+            # "save or not save" dilemmas, just set "decision"
+            # to False. Maybe the newlines added will die after that,
+            # though.
+            #
+            # NOTE: Should we set "decision" to None instead
+            #       of False?
+            decision = False
+        # According to the user's input, move around
+        if decision is True:
+            # Save and open new
+            self.save_new()
+            self.file = None
+            self.text_entry.delete("1.0", "end")
+        elif decision is False:
+            # Don't save, and open new
+            self.file = None
+            self.text_entry.delete("1.0", "end")
+        else:
+            # Don't do anything. Also, skip the
+            # title manipulation below.
+            return None
+        # Since the "file" information might have changed.
         self.set_title()
 
     def compile_code(self):

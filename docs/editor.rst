@@ -49,6 +49,13 @@ A quick guide to the options of the editor's menu.
 **File**
   Modify or manage the file stuff.
 
+  **New file**
+    Clear the text entry, as an empty file.
+
+    If the editor has something more than spaces or newlines,
+    it will ask you to select an option: save ("Yes"),
+    don't save ("No") or cancel ("Cancel").
+
   **Save As...**
     Open a "Save As" dialog, and save the current contents.
 
