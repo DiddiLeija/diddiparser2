@@ -50,3 +50,11 @@ Functions
 
    Shows a warning using
    :py:function:`diddiparser2.messages.show_warning`.
+
+.. py:function:: wait(amount)
+
+   :param amount: The amount of time to wait.
+
+   Stop the program for *amount* time using the Python ``time.sleep``.
+   Accepted DiddiScript types: :ref:`type-floating`,
+   :ref:`type-integer`.

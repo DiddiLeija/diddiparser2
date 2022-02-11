@@ -1,11 +1,23 @@
 load_module("simpleio");
 
 print_text("One text... ");
+wait(1);
 print_text("that doesn't matter${_endl}");
 
 print_line("Another text that doesn't matter");
 
+!# NOTE: Skipped "store_input", because we usually
+!#       run these tests with CI, so it's not possible
+!#       to run the steps.
+!#
 !# store_input("Please say something: ");
 !# print_line(_memory);
 
+warning("A test warning here");
+
+!# NOTE: "program_exit()" will skip the "successfully finished"
+!#       message, because it uses the Python "sys.exit" before
+!#       we can send that message. If the exit
+!#       message disappears, it means this function
+!#       is working as expected.
 program_exit(0);
