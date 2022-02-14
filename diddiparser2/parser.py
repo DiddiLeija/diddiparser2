@@ -26,7 +26,7 @@ from diddiparser2.messages import compile_error
 from diddiparser2.messages import error as DSError
 from diddiparser2.messages import run_error, show_command, show_warning, success_message
 
-__version__ = "1.1.0"
+__version__ = "1.2.0"
 
 
 class ForbiddenType(DiddiScriptType):
