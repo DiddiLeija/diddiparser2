@@ -3,8 +3,20 @@ SQLite: Interact with SQLite databases.
 """
 
 import sqlite3
+import warnings
 
 from diddiparser2.messages import run_error, show_warning
+
+# TODO: We have to fix the SQLite functions, return types,
+#       polish some possible failures, and update the tests.
+#       By now, we send a warning.
+# NOTE: The warning will be only shown out of the execution,
+#       because it seems like "importlib.import_module" (used
+#       in the main parser) would supress the output.
+warnings.warn(
+  "This library ('sqlite') is in development, and its API and usage is not stable. Use it under your own risk.",
+  stacklevel=2,
+)
 
 DIDDISCRIPT_FUNCTIONS = (
   "open_database",

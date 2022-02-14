@@ -7,6 +7,17 @@ This library provides an interface to the
 `sqlite3 Python module <https://docs.python.org/3/library/sqlite3.html>`_.
 With this, you can open databases, and execute SQL commands on it.
 
+.. warning::
+
+   This library is in development, and its API and usage is not stable.
+   Use it under your own risk. Proofs of this are:
+
+   * A ``warnings.warn`` at the beginning of the Python module
+     (unfortunately, the warning is suppressed by ``importlib``
+     while loading the module)
+
+   * A warning in the development tests
+
 Functions
 ---------
 
