@@ -3,6 +3,8 @@
 ``_builtin`` -- Convenience functions
 =====================================
 
+*Added in 1.1.0*.
+
 This special module is loaded on the parser's initialization.
 
 .. note::

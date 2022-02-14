@@ -27,6 +27,8 @@ Functions
 
    :param cmd: The arguments passed to Python.
 
+   *New since 1.1.0.*
+
    Run the ``python`` command with arguments *cmd*. It
    uses `sys.executable <https://docs.python.org/3/library/sys.html#sys.executable>`_
    to run things.

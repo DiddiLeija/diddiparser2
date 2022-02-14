@@ -34,6 +34,8 @@ Functions
 
    :param txt: The text to be printed on the screen.
 
+   *New since 1.1.0.*
+
    Print a simple text on the screen, with adding a newline.
 
 .. py:function:: store_input(msg)
@@ -48,12 +50,16 @@ Functions
 
    :param msg: The message to show.
 
+   *New since 1.2.0.*
+
    Shows a warning using
    :py:function:`diddiparser2.messages.show_warning`.
 
 .. py:function:: wait(amount)
 
    :param amount: The amount of time to wait.
+
+   *New since 1.2.0.*
 
    Stop the program for *amount* time using the Python ``time.sleep``.
    Accepted DiddiScript types: :ref:`type-floating`,
