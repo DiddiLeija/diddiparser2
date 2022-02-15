@@ -59,3 +59,7 @@ Table of Contents
     * :ref:`lib-simpleio`
     * :ref:`lib-sqlite`
     * :ref:`lib-subprocessing`
+
+* :ref:`appendix-index`
+
+  * :ref:`anatomy`
