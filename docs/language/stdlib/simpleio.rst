@@ -24,15 +24,17 @@ Functions
    Exit with a message, or an exit code. That way, you can
    exit by yourself.
 
-.. py:function:: print_text(txt)
+.. py:function:: print_text(*txt)
 
    :param txt: The text to be printed on the screen.
+               Multiple arguments are allowed.
 
    Print a simple text on the screen, without adding a newline.
 
-.. py:function:: print_line(txt)
+.. py:function:: print_line(*txt)
 
    :param txt: The text to be printed on the screen.
+               Multiple arguments are allowed.
 
    *New since 1.1.0.*
 

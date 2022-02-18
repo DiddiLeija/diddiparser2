@@ -25,14 +25,14 @@ def program_exit(msg):
     sys.exit(msg)
 
 
-def print_text(txt):
+def print_text(*txt):
     "Print something on the screen."
-    print(txt, end="")
+    print(*txt, end="")
 
 
-def print_line(txt):
+def print_line(*txt):
     "Print something, plus a newline."
-    print(txt)
+    print(*txt)
 
 
 def store_input(msg):
