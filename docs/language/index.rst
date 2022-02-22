@@ -6,11 +6,11 @@ The DiddiScript language reference
 This section specifies the DiddiScript grammar, defined and
 used by DiddiParser 2.
 
-* :ref:`lang-comments`
-* :ref:`lang-functions`
-* :ref:`lang-variables`
+* :doc:`comments`
+* :doc:`functions`
+* :doc:`variables`
 
 .. seealso::
 
-   :ref:`lib-guide`
+   :doc:`lib-guide`
      See the reference of the DiddiScript standard library.
