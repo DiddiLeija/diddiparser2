@@ -12,5 +12,5 @@ used by DiddiParser 2.
 
 .. seealso::
 
-   :doc:`lib-guide`
+   :doc:`stdlib/index`
      See the reference of the DiddiScript standard library.
