@@ -63,3 +63,4 @@ Table of Contents
 * :ref:`appendix-index`
 
   * :ref:`anatomy`
+  * :doc:`appendix/diddiscript-language`
