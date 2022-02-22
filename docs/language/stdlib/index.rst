@@ -20,7 +20,7 @@ are accessible on DiddiScript via the ``load_module`` function:
 Documented libraries
 --------------------
 
-* :doc:`builtin`
+* :doc:`_builtin`
 * :doc:`fileio`
 * :doc:`math`
 * :doc:`simpleio`
