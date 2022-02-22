@@ -83,4 +83,4 @@ on DiddiScript.
 It can be activated via the ``diddiscript-editor`` command, or
 using ``python -m diddiparser2.editor``.
 
-See a detailed guide at :ref:`editor-guide`.
+See a detailed guide at :doc:`editor`.

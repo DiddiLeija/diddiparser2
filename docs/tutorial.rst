@@ -134,6 +134,6 @@ Going deeper
 
 But if you want to learn more, you can read more in this documentation:
 
-* **Do you want to master the DiddiScript language?** Read :ref:`lang-guide`.
-* **Do you want to learn the parser internals, or how to use the CLI?** Dive into :ref:`cli-guide` or :ref:`api-reference`.
-* **Are you interested in the future of the project?** Go to :ref:`contrib-guide`.
+* **Do you want to master the DiddiScript language?** Read :doc:`language/index`.
+* **Do you want to learn the parser internals, or how to use the CLI?** Dive into :doc:`cli` or :doc:`reference`.
+* **Are you interested in the future of the project?** Go to :doc:`contrib`.

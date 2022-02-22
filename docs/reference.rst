@@ -300,7 +300,7 @@ via ``python -m diddiparser2.editor``.
 
 .. seealso::
 
-   :ref:`editor-guide`
+   :doc:`editor`
      A complete guide to the editor's GUI and options.
 
 Here's a small description of each component of this subpackage:

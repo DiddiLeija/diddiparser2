@@ -67,7 +67,7 @@ Stuff loaded from the ``simpleio`` library
 
 The following functions are taken from the ``simpleio``
 library. The reference for the original functions can be
-found at :ref:`lib-simpleio`.
+found at :doc:`simpleio`.
 
 .. py:function:: print_text(arg)
 

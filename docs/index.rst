@@ -6,7 +6,7 @@ DiddiParser 2 documentation
 Welcome! This documentation explains the functions of the
 DiddiScript parser, and the language itself.
 
-If you are new here, you can start by reading the :ref:`quickstart-tutorial`.
+If you are new here, you can start by reading the :doc:`tutorial`.
 
 .. seealso::
 
@@ -15,7 +15,7 @@ If you are new here, you can start by reading the :ref:`quickstart-tutorial`.
 
    `Changelog <https://github.com/DiddiLeija/diddiparser2/blob/main/CHANGELOG.md>`_
      See the changelog per version.
-   
+
    `License <https://github.com/DiddiLeija/diddiparser2/blob/main/LICENSE.txt>`_
      This project is licensed under the MIT license. See that license at GitHub.
 
@@ -37,29 +37,30 @@ even an implementation for Python.
 Table of Contents
 -----------------
 
-* :ref:`quickstart-tutorial`
-* :ref:`cli-guide`
-* :ref:`editor-guide`
-* :ref:`api-reference`
-* :ref:`contrib-guide`
+* :doc:`tutorial`
+* :doc:`cli`
+* :doc:`editor`
+* :doc:`reference`
+* :doc:`contrib`
 
   * :ref:`dsgp-guide`
 
-* :ref:`lang-guide`
+* :doc:`language/index`
 
-  * :ref:`lang-comments`
-  * :ref:`lang-functions`
-  * :ref:`lang-variables`
+  * :doc:`language/comments`
+  * :doc:`language/functions`
+  * :doc:`language/variables`
 
-  * :ref:`lib-guide`
+  * :doc:`language/stdlib/index`
 
-    * :ref:`lib-builtin`
-    * :ref:`lib-fileio`
-    * :ref:`lib-math`
-    * :ref:`lib-simpleio`
-    * :ref:`lib-sqlite`
-    * :ref:`lib-subprocessing`
+    * :doc:`language/stdlib/_builtin`
+    * :doc:`language/stdlib/fileio`
+    * :doc:`language/stdlib/math`
+    * :doc:`language/stdlib/simpleio`
+    * :doc:`language/stdlib/sqlite`
+    * :doc:`language/stdlib/subprocessing`
 
-* :ref:`appendix-index`
+* :doc:`appendix/index`
 
-  * :ref:`anatomy`
+  * :doc:`appendix/source-anatomy`
+  * :doc:`appendix/diddiscript-language`
