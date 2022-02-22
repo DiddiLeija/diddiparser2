@@ -62,5 +62,5 @@ Table of Contents
 
 * :doc:`appendix/index`
 
-  * :doc:`appendix/anatomy`
+  * :doc:`appendix/source-anatomy`
   * :doc:`appendix/diddiscript-language`
