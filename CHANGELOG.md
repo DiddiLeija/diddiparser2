@@ -1,5 +1,41 @@
 # Changelog
 
+## 1.2.0
+
+**Syntax / breaking changes**
+
+- When created, variables can store the value of other existing variables.
+
+**Libraries**
+
+- Modified and added stuff to the `simpleio` library:
+  - Added `warning()`, to show warning messages.
+  - Added `wait()`, to stop the execution for a lapse of time.
+  - Enabled multiple arguments at `print_line()` and `print_text()`.
+- Warn about the `sqlite` unstable status
+
+**New features**
+
+- The DiddiScript Python types (`diddiparser2.diddiscript_types`) have improved type conversors (`int()`, `float()`)
+- The DiddiScript editor now has the option to set and load themes for colorizing the editor's interface. Added a "New file" option.
+
+**Bug fixes**
+
+- Sometimes, the parser ignored legitimate errors from DiddiScript functions, and stored a `Null` as the last value. Now it fails on legitimate errors.
+- Fixed small issues with the editor. For example, removed the addition of newlines when saving. 
+
+**Documentation**
+
+We heavily reworked the docs.
+
+- Replaced most of the `:ref:` references with `:doc:` references
+- Refined the library docs
+- Add an appendix session for less-relevant topics.
+
+**Other changes**
+
+- Updated dependencies
+
 ## 1.1.0.post1
 
 This is a post release that fixes a mistake with `build`, that broke version 1.1.0. See
