@@ -3,6 +3,8 @@
 [![Documentation Status](https://readthedocs.org/projects/diddiparser2/badge/?version=latest)](https://diddiparser2.readthedocs.io/en/latest/?badge=latest)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/G2G3AL6D6)
+
 The DiddiScript parser, written in Python.
 
 ## Installation
