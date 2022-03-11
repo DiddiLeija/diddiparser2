@@ -3,20 +3,9 @@ SQLite: Interact with SQLite databases.
 """
 
 import sqlite3
-import warnings
 
+from diddiparser2.diddiscript_types import Boolean, Floating, Integer, Null, Text
 from diddiparser2.messages import run_error, show_warning
-
-# TODO: We have to fix the SQLite functions, return types,
-#       polish some possible failures, and update the tests.
-#       By now, we send a warning.
-# NOTE: The warning will be only shown out of the execution,
-#       because it seems like "importlib.import_module" (used
-#       in the main parser) would supress the output.
-warnings.warn(
-  "This library ('sqlite') is in development, and its API and usage is not stable. Use it under your own risk.",
-  stacklevel=2,
-)
 
 DIDDISCRIPT_FUNCTIONS = (
   "open_database",
@@ -24,6 +13,22 @@ DIDDISCRIPT_FUNCTIONS = (
   "commit_changes",
   "execute_sql",
 )
+
+
+def _convert_py_to_diddi(data):
+    "Convert the DiddiScript value 'data' into a Python standardized value."
+    if isinstance(data, Null):
+        return None
+    elif isinstance(data, Text):
+        return str(data)
+    elif isinstance(data, Integer):
+        return int(data)
+    elif isinstance(data, Floating):
+        return float(data)
+    elif isinstance(data, Boolean):
+        return bool(data)
+    else:
+        run_error(f"Unrecognized type to convert: {type(data).__name__}")
 
 
 class DatabaseStorage:
@@ -55,9 +60,25 @@ class DatabaseStorage:
         self.connection = sqlite3.connect(path)
         self.cursor = self.connection.cursor()
 
-    def execute_command(self, cmd):
+    def execute_command(self, *cmd_and_args):
         "Execute an SQL command."
-        self.cursor.execute(cmd)
+        # First of all, break the args
+        # into cmd + optional args.
+        # Currently, args are only supported
+        # in qmark style, no named style yet.
+        args = []
+        for arg in cmd_and_args:
+            args.append(_convert_py_to_diddi(arg))
+        args = tuple(args)
+        cmd = args[0]
+        if len(args) > 1:
+            # there are args over there
+            args = args[1:]
+        else:
+            # no args, so there's no need to
+            # work on this.
+            args = tuple()
+        self.cursor.execute(cmd, args)
         self.last_fetch = self.cursor.fetchone()[0]
         self.all_fetches = self.cursor.fetchall()
 
@@ -67,7 +88,10 @@ DATABASE_STORAGE = DatabaseStorage()
 
 def open_database(path):
     "Open an SQLite database."
-    DATABASE_STORAGE.connect_with_db(path)
+    if not isinstance(path, Text):
+        run_error(f"Expected a Text object as 'path', but got type '{type(path).__name__}'.")
+    DATABASE_STORAGE.connect_with_db(str(path))
+    return Null()
 
 
 def close_database(arg):
@@ -75,6 +99,7 @@ def close_database(arg):
     if not arg:
         show_warning("No such args expected on this function")
     DATABASE_STORAGE.clear_database()
+    return Null()
 
 
 def commit_changes(arg):
@@ -82,14 +107,15 @@ def commit_changes(arg):
     if not arg:
         show_warning("No such args expected on this function")
     DATABASE_STORAGE.connection.commit()
+    return Null()
 
 
-def execute_sql(cmd):
+def execute_sql(*args):
     "Execute an SQL command."
     try:
-        DATABASE_STORAGE.execute_command(cmd)
+        DATABASE_STORAGE.execute_command(*args)
     except Exception as exc:
         run_error(
           "The SQLite database connection raised the "
-          f"error: {str(exc)} ({type(exc).__name__})"
+          f"following error: {str(exc)} ({type(exc).__name__})"
         )
