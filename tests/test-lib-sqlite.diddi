@@ -1,6 +1,8 @@
 !# TODO: We should improve the SQLite library before trying to
 !#       add a corresponding test.
 
-!# load_module("sqlite");
+load_module("sqlite");
 
-warning("This test is currently empty, since the SQLite DiddiScript library needs to be improved.");
+open_database(":memory:");  !# It should be possible to open this
+execute_sql("CREATE TABLE IF NOT EXISTS TestTable (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, val INTEGER)");
+execute_sql("INSERT INTO TestTable (val) VALUES (123)");
