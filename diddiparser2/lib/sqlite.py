@@ -79,7 +79,11 @@ class DatabaseStorage:
             # work on this.
             args = tuple()
         self.cursor.execute(cmd, args)
-        self.last_fetch = self.cursor.fetchone()[0]
+        fetch = self.cursor.fetchone()
+        if fetch is not None:
+            self.last_fetch = fetch[0]
+        else:
+            self.last_fetch = fetch
         self.all_fetches = self.cursor.fetchall()
 
 
