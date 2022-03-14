@@ -7,17 +7,6 @@ This library provides an interface to the
 `sqlite3 Python module <https://docs.python.org/3/library/sqlite3.html>`_.
 With this, you can open databases, and execute SQL commands on it.
 
-.. warning::
-
-   This library is in development, and its API and usage is not stable.
-   Use it under your own risk. Proofs of this are:
-
-   * A ``warnings.warn`` at the beginning of the Python module
-     (unfortunately, the warning is suppressed by ``importlib``
-     while loading the module)
-
-   * A warning in the development tests
-
 Functions
 ---------
 
@@ -35,6 +24,9 @@ Functions
       a database in the memory.
 
    .. warning::
+
+      At this moment, this library can only open connections to
+      one single database at the same time.
 
       If you open a database, while you have another connection
       with unsaved changes, the changes will be lost, and the previous
@@ -65,3 +57,9 @@ Functions
    Run a single line of SQL commands, that are passed to the cursor. The
    changes will wait for a ``commit_changes()`` call to save the changes
    caused by the command.
+
+   .. warning::
+
+      Only one command per function call is allowed. If you try to run many
+      commands in a single call, the Python SQLite library might raise a
+      warning.
