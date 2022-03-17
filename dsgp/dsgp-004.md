@@ -46,8 +46,80 @@ flow" is the following:
 - Split all the semicolons (`;`) to identify the steps. This will run on every place where steps are identified.
 - Run the remaining lines, according to how does the step look like.
 
-[^1]: When we talk about a "release", we're actually talking about the releases of [DiddiParser 2](https://github.com/DiddiLeija/diddiparser2),
+### Pros and cons of the new parser
+
+**Pros**
+
+  - It is much easier to extend the accepted syntax, because it is less strict with the lines thing.
+  - It is now possible to have multiple instructions living in the same line.
+
+**Cons**
+
+  - The adoption of this new spec might represent a major refactoring to the current official parser, [DiddiParser 2][1].
+  - The parser will become more complex. Probably, the main parsing module (`diddiparser2.parser`) would have to break
+    into more modules, so the code keeps readable.
+
+## New stuff from this new parser [^4]
+
+### Statements
+
+Statements will be the basis of the DiddiScript flow control. The specification of statements can be used by future DSGPs
+to define conditionals, loops, and much more. Since the code is not checked per line, it is now possible to do this.
+
+```
+statement (parameters) {
+    list_of_steps();
+}
+```
+
+The above block is the basic syntax for the program flow controls. It has the statement name (by now, only lowercase
+names are accepted). In most of the cases, the statement will need a parameter (probably a boolean for making decisions,
+or some data to iterate). The list of nested steps should be inside two curly braces. The statement won't need a semicolon
+at the end.
+
+Nested statements are supported:
+
+```
+statement_1 (parameters) {
+    some_steps();
+    statement_2 (parameters) {
+        statement_3 (parameters) {
+            one_step();
+        }
+        another_step();
+    }
+}
+```
+
+Indentation is not required (that's why we have the curly braces). The following statements below are OK:
+
+```
+statement (parameters) {
+    list_of_steps();
+}
+
+statement (parameters) {
+list_of_steps();
+}
+```
+
+### Multiple instructions per line
+
+With the old parser, doing this:
+
+```
+step_1(); step_2();
+```
+
+Will raise an error like `No such function 'step_1(); step_2'`, or another weird message. However, with the new parser,
+`step_1()` and `step_2()` are not treated as the same. Indentation won't be a problem now, too.
+
+[^1]: When we talk about a "release", we're actually talking about the releases of [DiddiParser 2][1],
       which is currently the official DiddiScript parser.
 [^2]: In case this DSGP is dropped or something like that, there's a less-fancy alternative: remove the semicolon usage. However, it won't fix
       the current issue with the limited syntax.
 [^3]: This DSGP will define the "statements syntax". However, it will be just a sketch, so other DSGPs can model recognized statements.
+[^4]: This includes the new features added by this DSGP. However, due to the flexibility of the new specification, this DSGP won't be opposed to
+      future modifications and new additions.
+
+[1]: https://github.com/DiddiLeija/diddiparser2
