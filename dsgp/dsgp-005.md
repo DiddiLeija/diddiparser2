@@ -35,6 +35,23 @@ else {
 }
 ```
 
+Since it is a set of dependent statements, they should combine to achieve certain goals.
+The following marked combinations are allowed. Unmarked combinations are considered syntax errors:
+
+- [x] `if`
+- [x] `if` / `else`
+- [x] `if` / multiple `elseif`s
+- [x] `if` / multiple `elseif`s / `else`
+- [ ] multiple `elseif`s
+- [ ] `else`
+- [ ] multiple `elseif`s / else
+- [ ] `if` / statements different than `if/elseif/else` / `else`
+- [ ] statements different than `if/elseif/else` / `else`
+- [ ] statements different than `if/elseif/else` / `elseif`
+
+First of all, there should be one `if` (no orphan `elseif` or `else` blocks are allowed).
+There shuld be one `else` block (or none). An infinite number of `elseif` blocks are allowed.
+
 ## FAQ
 
 ### Why this DSGP depends in [DSGP 4][2]?
