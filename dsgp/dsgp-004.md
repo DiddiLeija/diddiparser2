@@ -77,6 +77,15 @@ names are accepted). In most of the cases, the statement will need a parameter (
 or some data to iterate). The list of nested steps should be inside two curly braces. The statement won't need a semicolon
 at the end.
 
+In some cases, a statement doesn't need parameters to work. This DSGP accepts those cases, and provide the
+following syntax:
+
+```
+statement {
+    list_of_steps();
+}
+```
+
 Nested statements are supported:
 
 ```
