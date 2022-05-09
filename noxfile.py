@@ -88,7 +88,8 @@ def generate_editor(session):
 def release(session):
     """
     Just for maintainers: cut a release and publish to PyPI
-    using Setuptools, Wheel and Twine.
+    using Build and Twine. This won't affect the GitHub tags
+    or anything else.
     """
     # install deps
     session.install("-r", "release-requirements.txt")
