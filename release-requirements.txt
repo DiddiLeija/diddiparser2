@@ -4,7 +4,7 @@
 # Python version.
 
 build==0.8.0
-twine==4.0.0
+twine==4.0.1
 wheel==0.37.1
 
 # We defined setuptools >= 42 in the pyproject.toml
