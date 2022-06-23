@@ -3,6 +3,16 @@
 DiddiParser 2 documentation
 ===========================
 
+.. toctree::
+   :hidden:
+   :maxdepth: 2
+   
+   tutorial
+   cli
+   editor
+   reference
+   contrib
+
 Welcome! This documentation explains the functions of the
 DiddiScript parser, and the language itself.
 
