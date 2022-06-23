@@ -12,6 +12,8 @@ DiddiParser 2 documentation
    editor
    reference
    contrib
+   language/index
+   appendix/index
 
 Welcome! This documentation explains the functions of the
 DiddiScript parser, and the language itself.
