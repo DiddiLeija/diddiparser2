@@ -3,6 +3,15 @@
 Standard DiddiScript libraries
 ==============================
 
+.. toctree::
+   
+   _builtin
+   fileio
+   math
+   simpleio
+   sqlite
+   subprocessing
+
 These libraries are stored by DiddiParser 2 (at ``diddiparser2.lib``) and
 are accessible on DiddiScript via the ``load_module`` function:
 
