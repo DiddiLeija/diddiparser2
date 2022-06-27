@@ -3,18 +3,6 @@
 DiddiParser 2 documentation
 ===========================
 
-.. toctree::
-   :hidden:
-   :maxdepth: 2
-   
-   tutorial
-   cli
-   editor
-   reference
-   contrib
-   language/index
-   appendix/index
-
 Welcome! This documentation explains the functions of the
 DiddiScript parser, and the language itself.
 
@@ -49,30 +37,13 @@ even an implementation for Python.
 Table of Contents
 -----------------
 
-* :doc:`tutorial`
-* :doc:`cli`
-* :doc:`editor`
-* :doc:`reference`
-* :doc:`contrib`
-
-  * :ref:`dsgp-guide`
-
-* :doc:`language/index`
-
-  * :doc:`language/comments`
-  * :doc:`language/functions`
-  * :doc:`language/variables`
-
-  * :doc:`language/stdlib/index`
-
-    * :doc:`language/stdlib/_builtin`
-    * :doc:`language/stdlib/fileio`
-    * :doc:`language/stdlib/math`
-    * :doc:`language/stdlib/simpleio`
-    * :doc:`language/stdlib/sqlite`
-    * :doc:`language/stdlib/subprocessing`
-
-* :doc:`appendix/index`
-
-  * :doc:`appendix/source-anatomy`
-  * :doc:`appendix/diddiscript-language`
+.. toctree::
+   :maxdepth: 2
+   
+   tutorial
+   cli
+   editor
+   reference
+   contrib
+   language/index
+   appendix/index
