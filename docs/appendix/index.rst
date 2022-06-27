@@ -4,6 +4,7 @@ Appendix
 ========
 
 .. toctree::
+   :hidden:
    
    diddiscript-language
    source-anatomy
