@@ -99,4 +99,6 @@ Other functions
    :param arg: A text-like path.
 
    This function extends :py:func:`sys.path`, enabling more
-   locations to export extensions.
+   locations to export extensions. It should be used before
+   :py:func:`load_extension`, in case the "extensions file"
+   is not included in :py:func:`sys.path`.
