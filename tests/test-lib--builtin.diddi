@@ -7,7 +7,8 @@ load_module("_builtin");
 
 print_line("We can load functions!");
 
-!# ---- load_extension ----
+!# ---- add_extensions_location + load_extension ----
+add_extensions_location(".");
 load_extension("tests.my_extension");
 my_func("abcdef");
 

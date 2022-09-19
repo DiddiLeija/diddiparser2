@@ -6,6 +6,8 @@
 !# original example is modified, this file should be
 !# updated too.
 
+add_extensions_location(".");  !# This will tell DiddiParser to find extensions here!
+
 load_module("simpleio");
 load_extension("tests.dsgp_3_example");  !# This loads the "tests/dsgp_3_example.py" file
 

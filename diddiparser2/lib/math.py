@@ -7,15 +7,21 @@ import math
 from diddiparser2.diddiscript_types import Floating, Integer
 from diddiparser2.messages import run_error
 
-DIDDISCRIPT_FUNCTIONS = ["sum_operation", "subtraction_operation", "multiplication_operation", "division_operation", "power"]
+DIDDISCRIPT_FUNCTIONS = [
+    "sum_operation",
+    "subtraction_operation",
+    "multiplication_operation",
+    "division_operation",
+    "power",
+]
 
 
 def check_numbers(*args):
     for arg in args:
         if not isinstance(arg, Floating) and not isinstance(arg, Integer):
             run_error(
-              "Expected Floating or Integer DiddiScript types, "
-              f"but got {type(arg).__name__}"
+                "Expected Floating or Integer DiddiScript types, "
+                f"but got {type(arg).__name__}"
             )
 
 

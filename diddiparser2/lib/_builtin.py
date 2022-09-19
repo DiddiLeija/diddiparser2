@@ -4,6 +4,7 @@ A builtin DiddiScript module, to provide libraries by default.
 
 import importlib
 import os
+import sys
 
 from diddiparser2.diddiscript_types import Text
 from diddiparser2.lib import simpleio
@@ -19,6 +20,7 @@ DIDDISCRIPT_FUNCTIONS = (
     "load_extension",
     "print_available_functions",
     "warning",
+    "add_extensions_location",
 )
 MODULE_FUNCTIONS = dict()
 FUNCTIONS_ORIGINS = dict()
@@ -57,6 +59,18 @@ def load_module(*args):
             FUNCTIONS_ORIGINS[item] = ("module", arg)
 
 
+# "add_extensions_location"
+def add_extensions_location(*args):
+    for arg in args:
+        # Add each path-like argument to sys.path...
+        # This function should be used before running
+        # "load_extension", unless the extension's
+        # location is already on PYTHONPATH.
+        arg = str(arg)
+        if os.path.isdir(arg):
+            sys.path.append(arg)
+
+
 # "load_extension"
 def load_extension(*args):
     for arg in args:
@@ -64,7 +78,7 @@ def load_extension(*args):
         # example: "module", "pkg.module"
         arg = str(arg)
         ext = importlib.import_module(f"{arg}")
-        ext_list = ext.DIDDISCRIPT_FUNCTIONS
+        ext_list = ext.DIDDISCRIPT_FUNCTIONS[:]
         for item in ext_list:
             exec(
                 f"from {arg} import {item} as element; MODULE_FUNCTIONS['{item}'] = element",
