@@ -57,6 +57,12 @@ from other libraries, and load them again by loading ``_builtin``.
    can be imported from the current working directory.
    This function loads as many libraries as you request.
 
+   .. note::
+
+      If the "extensions file" directory is not listed by default
+      on :py:data:`sys.path`, use the :py:func:`add_extensions_location`
+      function first (see below).
+
    .. seealso::
 
        `DSGP 3 <https://github.com/DiddiLeija/diddiparser2/blob/main/dsgp/dsgp-003.md>`_
@@ -84,3 +90,15 @@ found at :doc:`simpleio`.
 .. py:function:: warning(arg)
 
    A shortcut for ``simpleio.warning``.
+
+Other functions
+^^^^^^^^^^^^^^^
+
+.. py:function:: add_extensions_location(arg)
+
+   :param arg: A text-like path.
+
+   This function extends :py:func:`sys.path`, enabling more
+   locations to export extensions. It should be used before
+   :py:func:`load_extension`, in case the "extensions file"
+   is not included in :py:func:`sys.path`.

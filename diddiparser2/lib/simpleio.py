@@ -10,7 +10,13 @@ import time
 from diddiparser2.diddiscript_types import Floating, Integer, Text
 from diddiparser2.messages import run_error, show_warning
 
-DIDDISCRIPT_FUNCTIONS = ("program_exit", "print_text", "print_line", "store_input", "wait")
+DIDDISCRIPT_FUNCTIONS = (
+    "program_exit",
+    "print_text",
+    "print_line",
+    "store_input",
+    "wait",
+)
 
 
 def program_exit(msg):
@@ -55,5 +61,7 @@ def wait(amount):
     Both floats and ints are accepted.
     """
     if not isinstance(amount, Floating) and not isinstance(amount, Integer):
-        run_error(f"Expected Floating or Integer types, but got type '{type(amount).__name__}'")
+        run_error(
+            f"Expected Floating or Integer types, but got type '{type(amount).__name__}'"
+        )
     time.sleep(amount.value)

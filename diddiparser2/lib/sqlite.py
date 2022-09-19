@@ -8,10 +8,10 @@ from diddiparser2.diddiscript_types import Boolean, Floating, Integer, Null, Tex
 from diddiparser2.messages import run_error, show_warning
 
 DIDDISCRIPT_FUNCTIONS = (
-  "open_database",
-  "close_database",
-  "commit_changes",
-  "execute_sql",
+    "open_database",
+    "close_database",
+    "commit_changes",
+    "execute_sql",
 )
 
 
@@ -43,8 +43,8 @@ class DatabaseStorage:
         if self.connection.in_transaction:
             # some changes will be lost, warn about it
             show_warning(
-              "You tried to close a database with uncommited changes. "
-              "The changes will be lost."
+                "You tried to close a database with uncommited changes. "
+                "The changes will be lost."
             )
         self.cursor.close()
         self.connection.close()
@@ -93,7 +93,9 @@ DATABASE_STORAGE = DatabaseStorage()
 def open_database(path):
     "Open an SQLite database."
     if not isinstance(path, Text):
-        run_error(f"Expected a Text object as 'path', but got type '{type(path).__name__}'.")
+        run_error(
+            f"Expected a Text object as 'path', but got type '{type(path).__name__}'."
+        )
     DATABASE_STORAGE.connect_with_db(str(path))
     return Null()
 
@@ -120,6 +122,6 @@ def execute_sql(*args):
         DATABASE_STORAGE.execute_command(*args)
     except Exception as exc:
         run_error(
-          "The SQLite database connection raised the "
-          f"following error: {str(exc)} ({type(exc).__name__})"
+            "The SQLite database connection raised the "
+            f"following error: {str(exc)} ({type(exc).__name__})"
         )
