@@ -41,4 +41,4 @@ be values or variables.
 Special functions *(tool functions)*
 ------------------------------------
 
-This has moved into :doc:`stdlib/builtin`.
+This has moved into :doc:`stdlib/_builtin`.
