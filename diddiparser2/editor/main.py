@@ -1,7 +1,6 @@
 import tkinter
-from tkinter import TclError, filedialog, messagebox, scrolledtext
-
 from idlelib.textview import view_text
+from tkinter import TclError, filedialog, messagebox, scrolledtext
 
 from diddiparser2 import __doc__ as diddiparser2_doc
 from diddiparser2.editor import __doc__ as editor_doc
