@@ -66,3 +66,11 @@ Functions
    Stop the program for *amount* time using the Python ``time.sleep``.
    Accepted DiddiScript types: :ref:`type-floating`,
    :ref:`type-integer`.
+
+.. py:function:: err(msg)
+
+   :param msg: The ``Text`` object with the message.
+
+   *New since 2.0.0.*
+
+   Displays a custom error message, like normal runtime errors.

@@ -65,3 +65,10 @@ def wait(amount):
             f"Expected Floating or Integer types, but got type '{type(amount).__name__}'"
         )
     time.sleep(amount.value)
+
+
+def err(msg):
+    "Sends a custom error message."
+    if not isinstance(msg, Text):
+        run_error(f"Expected Text objects, but got type '{type(msg).__name__}'")
+    run_error(f"Error: {str(msg)}")
