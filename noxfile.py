@@ -1,6 +1,5 @@
 import os
 import sys
-import time
 
 import nox
 
@@ -55,7 +54,7 @@ def tests(session):
                 session.run("diddiparser2", f"tests/{file}", *session.posargs)
             else:
                 session.run("diddiparser2", f"tests/{file}")
-            time.sleep(1)
+            # time.sleep(1)
 
 
 @nox.session(name="generate-console")
