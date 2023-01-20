@@ -63,6 +63,7 @@ class DiddiParser:
     """
 
     last_value = Null()
+    smts = []
 
     def __init__(
         self,
@@ -133,13 +134,37 @@ class DiddiParser:
         "Get the commands from our script."
         # TODO: Allow statements!
         seq = []
+        self.stmts = []
+        start, st = 0, False
+        cnt = 0
         for line in self.script:
             # remove inline comments
             line = line.split("!#")[0].strip()
-            if len(line) > 0:
+            if len(line) > 0 and not st:
+                if "{" in line:
+                    # Found a statement?
+                    if "}" in line:
+                        # Single-line statement?
+                        self.stmts.append((cnt, cnt))
+                        continue
+                    # Not a single-line statement, let's
+                    # keep some refs for further use
+                    st = True
+                    start = cnt
+                    continue
                 if not line.endswith(";"):
                     compile_error("Missing semicolon (;) at the end of the line")
                 seq.append(line)
+            elif len(line) > 0:
+                if "}" in line:
+                    # End of statement
+                    self.stmts.append((start, cnt))
+                    st = False
+                    start = 0
+            cnt += 1
+        if st:
+            # Seems like there's a missing "}"?
+            compile_error("Unclosed statement (missing '}')")
         return seq
 
     def load_builtins(self):
