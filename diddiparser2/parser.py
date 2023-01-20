@@ -131,6 +131,7 @@ class DiddiParser:
 
     def get_commands(self):
         "Get the commands from our script."
+        # TODO: Allow statements!
         seq = []
         for line in self.script:
             # remove inline comments
@@ -271,6 +272,12 @@ class DiddiParser:
                 run_error(f"{str(exc)} ({type(exc).__name__})")
         else:
             compile_error(f"No such function '{call}'")
+
+    def execute_stmt(self, line):
+        """
+        A prototype function to parse and run statements.
+        """
+        pass  # TODO: fixme!
 
 
 class InteractiveDiddiParser(DiddiParser):
