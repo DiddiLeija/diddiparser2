@@ -1,0 +1,7 @@
+!# This is the first experiment using
+!# DSGP 4 statements.
+
+test_stmt(){
+    !# Some sort of a statement
+    print_line("Cool");
+}
