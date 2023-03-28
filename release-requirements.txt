@@ -10,4 +10,4 @@ wheel==0.40.0
 # We defined setuptools >= 42 in the pyproject.toml
 # file, but we pinned it here to use the latest when
 # possible.
-setuptools==67.6.0
+setuptools==67.6.1
