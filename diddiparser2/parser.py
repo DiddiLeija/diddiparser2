@@ -12,7 +12,7 @@ code editor focused on DiddiScript.
 import io
 import sys
 
-from diddiparser2 import messages
+from diddiparser2 import messages, parserutils
 from diddiparser2.diddiscript_types import (
     Boolean,
     DiddiScriptType,
@@ -169,19 +169,11 @@ class DiddiParser:
 
     def get_commands_v2(self):
         """
-        A newer proposal of the commands parser, which
+        The next-gen proposal of the commands parser, which
         applies the new DSGP 4 specifications.
         """
-        self.commands = dict()
-        aux = []
-        for line in self.script:
-            # "Remove the inline (!#) comments, and all the empty lines"
-            line = line.split("!#").rstrip()
-            if len(line) > 0:
-                aux.append(line)
-        for line in aux:
-            # "Statements are separated and nested where needed"
-            pass
+        self.commands = {"main": []}
+        starts, ends = parserutils.get_stmts(self.script)
 
     def load_builtins(self):
         "Load the _builtin module for DiddiScript."
