@@ -172,8 +172,23 @@ class DiddiParser:
         The next-gen proposal of the commands parser, which
         applies the new DSGP 4 specifications.
         """
+        # Set up our initial commands tree
         self.commands = {"main": []}
+        # Get the "statement positions" and check if there's an unclosed statement
         starts, ends = parserutils.get_stmts(self.script)
+        if len(starts) > len(ends):
+            messages.compile_error(f"Possible unclosed statement: line {starts[-1][1]}")
+        if len(starts) < len(ends):
+            messages.compile_error(f"Possible unclosed statement: line {ends[-1][1]}")
+        # Remove all the "useless" lines (comments, blank lines)
+        self.script = parserutils.treat_script(self.script)
+        # Now, let's parse the "safer" data
+        # TODO: Fixme! The main changes behing DSGP 4 are below.
+        for lpos in range(len(self.script)):
+            line = self.script[lpos].strip()
+            if not parserutils.findpos(lpos, starts, ends):
+                # The line must belong to the "main" block, so add it
+                self.commands["main"].append(line)
 
     def load_builtins(self):
         "Load the _builtin module for DiddiScript."
