@@ -184,11 +184,20 @@ class DiddiParser:
         self.script = parserutils.treat_script(self.script)
         # Now, let's parse the "safer" data
         # TODO: Fixme! The main changes behing DSGP 4 are below.
+        stmtcnt = 0
         for lpos in range(len(self.script)):
             line = self.script[lpos].strip()
             if not parserutils.findpos(lpos, starts, ends):
                 # The line must belong to the "main" block, so add it
                 self.commands["main"].append(line)
+            elif parserutils.findpos(lpos, starts) and parserutils.findpos(lpos, ends):
+                # The line actually belongs to a single-line statement
+                rubric = line.split("{")[0].rstrip()
+                self.commands[f"{stmtcnt}|{rubric}"] = list()
+                cmds = line.split("{")[0].split("}")[0].split(";")
+                for cmd in cmds:
+                    self.commands[f"{stmtcnt}|{rubric}"].append(cmd.strip() + ";")
+                stmtcnt += 1
 
     def load_builtins(self):
         "Load the _builtin module for DiddiScript."
