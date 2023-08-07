@@ -185,12 +185,18 @@ class DiddiParser:
         # Now, let's parse the "safer" data
         # TODO: Fixme! The main changes behing DSGP 4 are below.
         stmtcnt = 0
+        on_stmt = False
+        rubric = str()
         for lpos in range(len(self.script)):
             line = self.script[lpos].strip()
-            if not parserutils.findpos(lpos, starts, ends):
+            if not parserutils.findpos(lpos, starts, ends) and not on_stmt:
                 # The line must belong to the "main" block, so add it
                 self.commands["main"].append(line)
-            elif parserutils.findpos(lpos, starts) and parserutils.findpos(lpos, ends):
+            elif (
+                parserutils.findpos(lpos, starts)
+                and parserutils.findpos(lpos, ends)
+                and not on_stmt
+            ):
                 # The line actually belongs to a single-line statement
                 rubric = line.split("{")[0].rstrip()
                 self.commands[f"{stmtcnt}|{rubric}"] = list()
@@ -198,6 +204,25 @@ class DiddiParser:
                 for cmd in cmds:
                     self.commands[f"{stmtcnt}|{rubric}"].append(cmd.strip() + ";")
                 stmtcnt += 1
+            elif parserutils.findpos(lpos, starts):
+                # A multi-line statement has started
+                on_stmt = True
+                rubric = line.split("{")[0].rstrip()
+                self.commands[f"{stmtcnt}|{rubric}"] = list()
+                stmtcnt += 1
+            elif on_stmt:
+                # We're on a multi-line statement, and we may add the command lines
+                cmds = line.split(";")
+                for cmd in cmds:
+                    self.commands[f"{stmtcnt}|{rubric}"].append(cmd.strip() + ";")
+            elif parserutils.findpos(lpos, ends):
+                # A multi-line statement has ended
+                on_stmt = False
+            else:
+                # Should we raise an error?
+                messages.compile_error(
+                    "Unexpected error while parsing (may be related to statement compiling)"
+                )
 
     def load_builtins(self):
         "Load the _builtin module for DiddiScript."
