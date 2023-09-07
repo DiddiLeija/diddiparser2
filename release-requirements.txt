@@ -3,7 +3,7 @@
 # it may be useful to run "nox -s release" on a compatible
 # Python version.
 
-build==1.0.0
+build==1.0.3
 twine==4.0.2
 wheel==0.41.2
 
