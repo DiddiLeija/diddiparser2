@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Lock stale threads
-        uses: dessant/lock-threads@v4
+        uses: dessant/lock-threads@v5
         with:
           # Issue specific options
           issue-inactive-days: 30
