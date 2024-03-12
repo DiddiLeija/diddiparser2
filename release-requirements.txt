@@ -3,9 +3,9 @@
 # it may be useful to run "nox -s release" on a compatible
 # Python version.
 
-build==1.0.3
+build==1.1.1
 twine==5.0.0
-wheel==0.42.0
+wheel==0.43.0
 
 # We defined setuptools >= 42 in the pyproject.toml
 # file, but we pinned it here to use the latest when
