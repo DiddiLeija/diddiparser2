@@ -12,7 +12,7 @@ code editor focused on DiddiScript.
 import io
 import sys
 
-from diddiparser2 import messages
+from diddiparser2 import messages, parserutils
 from diddiparser2.diddiscript_types import (
     Boolean,
     DiddiScriptType,
@@ -63,6 +63,7 @@ class DiddiParser:
     """
 
     last_value = Null()
+    smts = []
 
     def __init__(
         self,
@@ -131,15 +132,99 @@ class DiddiParser:
 
     def get_commands(self):
         "Get the commands from our script."
+        # TODO: Allow statements!
         seq = []
+        self.stmts = []
+        start, st = 0, False
+        cnt = 0
         for line in self.script:
             # remove inline comments
             line = line.split("!#")[0].strip()
-            if len(line) > 0:
+            if len(line) > 0 and not st:
+                if "{" in line:
+                    # Found a statement?
+                    if "}" in line:
+                        # Single-line statement?
+                        self.stmts.append((cnt, cnt))
+                        continue
+                    # Not a single-line statement, let's
+                    # keep some refs for further use
+                    st = True
+                    start = cnt
+                    continue
                 if not line.endswith(";"):
                     compile_error("Missing semicolon (;) at the end of the line")
                 seq.append(line)
+            elif len(line) > 0:
+                if "}" in line:
+                    # End of statement
+                    self.stmts.append((start, cnt))
+                    st = False
+                    start = 0
+            cnt += 1
+        if st:
+            # Seems like there's a missing "}"?
+            compile_error("Unclosed statement (missing '}')")
         return seq
+
+    def get_commands_v2(self):
+        """
+        The next-gen proposal of the commands parser, which
+        applies the new DSGP 4 specifications.
+        """
+        # Set up our initial commands tree
+        self.commands = {"main": []}
+        # Get the "statement positions" and check if there's an unclosed statement
+        starts, ends = parserutils.get_stmts(self.script)
+        if len(starts) > len(ends):
+            messages.compile_error(f"Possible unclosed statement: line {starts[-1][1]}")
+        if len(starts) < len(ends):
+            messages.compile_error(f"Possible unclosed statement: line {ends[-1][1]}")
+        # Remove all the "useless" lines (comments, blank lines)
+        self.script = parserutils.treat_script(self.script)
+        # Now, let's parse the "safer" data
+        # TODO: Fixme! The main changes behing DSGP 4 are below.
+        stmtcnt = 0
+        on_stmt = False
+        rubric = str()
+        try:
+            for lpos in range(len(self.script)):
+                line = self.script[lpos].strip()
+                if not parserutils.findpos(lpos, starts, ends) and not on_stmt:
+                    # The line must belong to the "main" block, so add it
+                    self.commands["main"].append(line)
+                elif (
+                    parserutils.findpos(lpos, starts)
+                    and parserutils.findpos(lpos, ends)
+                    and not on_stmt  # TODO: Check if we really need this final condition!
+                ):
+                    # The line actually belongs to a single-line statement
+                    rubric = line.split("{")[0].rstrip()
+                    self.commands[f"{stmtcnt}|{rubric}"] = list()
+                    cmds = line.split("{")[0].split("}")[0].split(";")
+                    for cmd in cmds:
+                        self.commands[f"{stmtcnt}|{rubric}"].append(cmd.strip() + ";")
+                    stmtcnt += 1
+                elif parserutils.findpos(lpos, starts):
+                    # A multi-line statement has started
+                    on_stmt = True
+                    rubric = line.split("{")[0].rstrip()
+                    self.commands[f"{stmtcnt}|{rubric}"] = list()
+                    stmtcnt += 1
+                elif on_stmt:
+                    # We're on a multi-line statement, and we may add the command lines
+                    cmds = line.split(";")
+                    for cmd in cmds:
+                        self.commands[f"{stmtcnt}|{rubric}"].append(cmd.strip() + ";")
+                elif parserutils.findpos(lpos, ends):
+                    # A multi-line statement has ended
+                    on_stmt = False
+        except Exception as exc:
+            # Should we raise an error?
+            messages.compile_error(
+                "Unexpected error while parsing (may be related to statement compiling) "
+                f"(exc type {type(exc).__name__})"
+            )
 
     def load_builtins(self):
         "Load the _builtin module for DiddiScript."
@@ -271,6 +356,12 @@ class DiddiParser:
                 run_error(f"{str(exc)} ({type(exc).__name__})")
         else:
             compile_error(f"No such function '{call}'")
+
+    def execute_stmt(self, line):
+        """
+        A prototype function to parse and run statements.
+        """
+        pass  # TODO: fixme!
 
 
 class InteractiveDiddiParser(DiddiParser):
