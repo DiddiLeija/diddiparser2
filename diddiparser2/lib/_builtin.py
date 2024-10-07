@@ -21,6 +21,7 @@ DIDDISCRIPT_FUNCTIONS = (
     "print_available_functions",
     "warning",
     "add_extensions_location",
+    "err",
 )
 MODULE_FUNCTIONS = dict()
 FUNCTIONS_ORIGINS = dict()
@@ -42,6 +43,7 @@ print_text = simpleio.print_text
 print_line = simpleio.print_line
 store_input = simpleio.store_input
 warning = simpleio.warning
+err = simpleio.err
 
 
 # "load_module"
