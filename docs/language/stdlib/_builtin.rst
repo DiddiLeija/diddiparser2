@@ -91,6 +91,10 @@ found at :doc:`simpleio`.
 
    A shortcut for ``simpleio.warning``.
 
+.. py:function:: err(msg)
+
+   A shortcut for ``simpleio.err``.
+
 Other functions
 ^^^^^^^^^^^^^^^
 
